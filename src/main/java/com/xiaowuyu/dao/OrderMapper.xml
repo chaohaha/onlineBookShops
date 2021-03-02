@@ -7,7 +7,7 @@
 
     <!--新增一个Order-->
     <insert id="addOrder" parameterType="Orders">
-        insert into graduation.orders(order_creat_time,order_totalPrice,order_remark)
+        insert into graduation.orders(order_create_time,order_totalPrice,order_remark)
         values (#{order_creat_time}, #{order_totalPrice}, #{order_remark})
     </insert>
 
