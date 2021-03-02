@@ -18,20 +18,20 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">这什么东西</span>
             </button>
-            <a class="navbar-brand" href="Index.jsp">图书商城</a>
+            <a class="navbar-brand" href="WEB-INF/Home/Index.jsp">图书商城</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="Index.jsp">首页</a></li>
+                <li class="active"><a href="WEB-INF/Home/Index.jsp">首页</a></li>
                 <li><a href="order/allUserOrder">我的订单</a></li>
-                <li><a href="UserInfo.jsp">个人中心</a></li>
-                <li><a href="FriendLink.jsp">友情链接</a></li>
+                <li><a href="WEB-INF/Home/UserInfo.jsp">个人中心</a></li>
+                <li><a href="WEB-INF/Home/FriendLink.jsp">友情链接</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right hidden-sm">
-                <li><a href="Login.jsp">登录</a></li>
-                <li><a href="Register.jsp">注册</a></li>
+                <li><a href="WEB-INF/Home/Login.jsp">登录</a></li>
+                <li><a href="WEB-INF/Home/Register.jsp">注册</a></li>
                 <li>
-                    <a href="Cart.jsp"><span class="glyphicon glyphicon-shopping-cart">购物车</span></a></li>
+                    <a href="WEB-INF/Home/Cart.jsp"><span class="glyphicon glyphicon-shopping-cart">购物车</span></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
