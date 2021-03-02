@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
+/*@RequestMapping("/user")*/
 public class UserController {
 
     @Autowired
@@ -26,11 +26,12 @@ public class UserController {
         return "allUser";
     }
 
+    /*跳转登陆页面*/
     @RequestMapping("/toLogin")
     public String toLogin(Model model, Users users){
         System.out.println(users);
         model.addAttribute("users",users);
-        return "login";
+        return "Login";
     }
 
     @RequestMapping("/login")
@@ -48,9 +49,11 @@ public class UserController {
             return "redirect:/user/toLogin";
         }
     }
-
+    /*跳转注册页面*/
     @RequestMapping("/toRegister")
-    public String toRegister(){return "register";}
+    public String toRegister(){
+        return "Register";
+    }
 
     @RequestMapping("/register")
     public String registerUser(Users users){

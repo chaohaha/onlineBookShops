@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -32,7 +33,7 @@
 </head>
 <body>
 <!-- Static navbar -->
-<div class="navbar navbar-default navbar-static-top" role="navigation">
+<%--<div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -43,7 +44,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="index.jsp">首页</a></li>
-                <li><a href="Order.jsp">我的订单</a></li>
+                <li><a href="order/allUserOrder">我的订单</a></li>
                 <li><a href="UserInfo.jsp">个人中心</a></li>
                 <li><a href="FriendLink.jsp">友情链接</a></li>
             </ul>
@@ -55,7 +56,8 @@
             </ul>
         </div><!--/.nav-collapse -->
     </div>
-</div>
+</div>--%>
+<jsp:include page="WEB-INF/Home/head.jsp"></jsp:include>
 <!--content-->
 <div class="container">
     <div class="jumbotron">
@@ -82,7 +84,7 @@
                 <div class="caption center">
                     <h3>书名</h3>
                     <p><span>价格:</span><span>100.00</span></p>
-                    <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/WEB-INF/Home/BookInfo.jsp">查看详情</a></p>
+                    <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/BookInfo">查看详情</a></p>
                 </div>
             </div>
         </div>

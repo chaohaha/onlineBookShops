@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/orderItem")
+/*@RequestMapping("/orderItem")*/
 public class OrderItemController {
 
     @Autowired
@@ -23,6 +23,17 @@ public class OrderItemController {
         List<OrderItems> list = orderItemService.queryAllOrderItem(oId);
         model.addAttribute("list", list);
         return "OrderDetail";
+    }
+    @RequestMapping("/UserInfo")
+    public String list(/*Model model, int oId*/) {
+        /*List<OrderItems> list = orderItemService.queryAllOrderItem(oId);
+        model.addAttribute("list", list);*/
+        return "UserInfo";
+    }
+    /*首页跳转*/
+    @RequestMapping("/Index")
+    public String Index() {
+        return "redirect:/index.jsp";
     }
 
 }

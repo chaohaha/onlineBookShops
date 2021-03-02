@@ -12,13 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/book")
+/*@RequestMapping("/book")*/
 public class BookController {
 
     @Autowired
     @Qualifier("BookServiceImpl")
     private BookService bookService;
 
+
+    /*书详情信息页面跳转*/
+    @RequestMapping("/BookInfo")
+    public String BookInfo() {
+        return "BookInfo";
+    }
     @RequestMapping("/allBook")
     public String list(Model model) {
         List<Books> list = bookService.queryAllBook();

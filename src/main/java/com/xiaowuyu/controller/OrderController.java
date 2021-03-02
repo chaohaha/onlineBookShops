@@ -14,18 +14,20 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/order")
+/*需要同一个头部，所以去掉*/
+/*@RequestMapping("/order")*/
 public class OrderController {
     @Autowired
     @Qualifier("OrderServiceImpl")
     private OrderService orderService;
 
+    /*需要得到登陆完成的 session 来的到user的id*/
     @RequestMapping("/allUserOrder")
-    public String list(Model model, HttpSession session) {
-        Users users=(Users)session.getAttribute("user");
+    public String list(/*Model model, HttpSession session*/) {
+        /*Users users=(Users)session.getAttribute("user");
         List<Orders> list = orderService.queryAllUserOrder(users.getUser_id());
-        model.addAttribute("list", list);
-        return "allUserOrder";
+        model.addAttribute("list", list);*/
+        return "Order";
     }
 
     @RequestMapping("/toAddOrder")

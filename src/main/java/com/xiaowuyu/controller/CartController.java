@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/cart")
+/*@RequestMapping("/cart")*/
 public class CartController {
 
     @Autowired
@@ -26,13 +26,14 @@ public class CartController {
     @Qualifier("BookServiceImpl")
     private BookService bookService;
 
+    /*跳转购物车 需要session*/
     @RequestMapping("/allCart")
-    public String list(Model model, HttpSession session) {
-        Users users = (Users) session.getAttribute("user");
+    public String list(/*Model model, HttpSession session*/) {
+       /* Users users = (Users) session.getAttribute("user");
         int user_id = users.getUser_id();
         List<Cart> list = cartService.queryAllCart(user_id);
-        model.addAttribute("list", list);
-        return "allCart";
+        model.addAttribute("list", list);*/
+        return "Cart";
     }
 
     @RequestMapping("/toAddCart")
