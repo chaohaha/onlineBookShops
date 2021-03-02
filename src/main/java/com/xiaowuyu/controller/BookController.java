@@ -23,6 +23,7 @@ public class BookController {
     public String list(Model model) {
         List<Books> list = bookService.queryAllBook();
         model.addAttribute("list", list);
+        System.out.println(list);
         return "allBook";
     }
 
