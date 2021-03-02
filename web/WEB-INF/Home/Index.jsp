@@ -32,7 +32,7 @@
 </head>
 <body>
 <!-- Static navbar -->
-<div class="navbar navbar-default navbar-static-top" role="navigation">
+<%--<div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -55,7 +55,8 @@
             </ul>
         </div><!--/.nav-collapse -->
     </div>
-</div>
+</div>--%>
+<jsp:include page="head.jsp"></jsp:include>
 <!--content-->
 <div class="container">
     <div class="jumbotron">
