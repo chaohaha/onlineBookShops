@@ -4,7 +4,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    web/WEB-INF/bootstrap-3.3.4
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-3.3.4/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/Flat-UI-master/dist/css/flat-ui.min.css"/>
     <script src="${pageContext.request.contextPath}/bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
@@ -82,7 +82,7 @@
                 <div class="caption center">
                     <h3>书名</h3>
                     <p><span>价格:</span><span>100.00</span></p>
-                    <p><a class="btn btn-primary btn-block" role="button" href="BookInfo.jsp">查看详情</a></p>
+                    <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/WEB-INF/Home/BookInfo.jsp">查看详情</a></p>
                 </div>
             </div>
         </div>

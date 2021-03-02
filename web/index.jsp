@@ -82,7 +82,7 @@
                 <div class="caption center">
                     <h3>书名</h3>
                     <p><span>价格:</span><span>100.00</span></p>
-                    <p><a class="btn btn-primary btn-block" role="button" href="BookInfo.jsp">查看详情</a></p>
+                    <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/WEB-INF/Home/BookInfo.jsp">查看详情</a></p>
                 </div>
             </div>
         </div>
