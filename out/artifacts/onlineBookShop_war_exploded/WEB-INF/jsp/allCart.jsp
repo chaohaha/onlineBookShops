@@ -62,11 +62,6 @@
                 </c:forEach>
                 </tbody>
 
-                <tr>
-                    <td>合计:</td>
-                    <td>${cart.getTotalPrice()}</td>
-                </tr>
-
             </table>
         </div>
     </div>
