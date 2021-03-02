@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>heima_ssm</groupId>
+  <artifactId>heima_ssm_service</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20201228122749</lastUpdated>
+  </versioning>
+</metadata>

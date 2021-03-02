@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xiaowuyu.dao.CartMapper">
+
+    <select id="queryAllCart" parameterType="int" resultType="cart">
+        select * from cart
+        where user_id=#{user_id}
+    </select>
+
+    <select id="queryCartByCart_id" parameterType="int" resultType="cart">
+        select * from cart
+        where cart_id = #{cart_id}
+    </select>
+
+    <select id="queryCartByUser_idAndBook_id" parameterType="int" resultType="cart">
+        select * from cart
+        where user_id = #{user_id} and book_id = #{book_id}
+    </select>
+
+    <insert id="addCart" parameterType="Cart">
+        insert into graduation.cart(book_id,book_name,user_id,cart_counts,cart_price)
+        values (#{book_id}, #{book_name}, #{user_id}, 1, #{cart_price})
+    </insert>
+
+    <update id="plusCart" parameterType="cart">
+        update cart
+        set cart_counts = cart_counts + 1
+        where book_id = #{book_id}
+    </update>
+
+    <update id="minusCart" parameterType="cart">
+        update cart
+        set cart_counts = cart_counts - 1
+        where book_id = #{book_id}
+    </update>
+
+    <delete id="deleteByCart_id" parameterType="int">
+        delete from cart
+        where cart_id = #{cart_id}
+    </delete>
+
+    <delete id="deleteAll" parameterType="int">
+        delete from cart
+        where user_id = #{user_id}
+    </delete>
+
+</mapper>
