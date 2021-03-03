@@ -54,16 +54,15 @@
     <div class="col-sm-4">
             <img style="width: 100%; height: 500px; display: block;" src=""  data-holder-rendered="true">
             <div class="caption center">
-                <h3>书名</h3>
-                <p>作者</p>
-                <p>出版日期</p>
+                <h3>书名：${book.book_name}</h3>
+                <p>作者：${book.book_author}</p>
                 <p><a class="btn btn-primary btn-block" role="button" href="#">立即购买</a> <a class="btn btn-default btn-block" role="button" href="#">加入购物车</a></p>
             </div>
     </div>
     <div class="col-sm-8">
         <div class="caption">
                 <h3>图书介绍</h3>
-                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                <p>${book.book_details}</p>
 
             </div>
 
