@@ -26,6 +26,9 @@
     <bean id="CartServiceImpl" class="com.xiaowuyu.service.CartServiceImpl">
         <property name="cartMapper" ref="cartMapper"/>
     </bean>
+    <bean id="CateSoryServiceImpl" class="com.xiaowuyu.service.CategoryServiceImpl">
+        <property name="categoryMapper" ref="categoryMapper"/>
+    </bean>
 
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
