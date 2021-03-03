@@ -25,4 +25,8 @@ public interface BookMapper {
 
     //查询全部Book,返回list集合
     List<Books> queryAllBook();
+
+    /*模糊搜索*/
+    @Select("select * from books where book_name like '%${bookName}%'")
+    List<Books> queryBookNmae(String bookName);
 }

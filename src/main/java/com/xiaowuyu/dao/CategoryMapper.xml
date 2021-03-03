@@ -9,4 +9,20 @@
         select * from category
     </select>
 
+    <insert id="categoryAdd" parameterType="Category">
+        insert into category(category_name) values (#{category_name})
+    </insert>
+
+    <delete id="categoryDelete" parameterType="Category">
+        delete from category where category_id=#{category_id}
+    </delete>
+
+    <select id="categoryById" resultType="Category" parameterType="Category">
+        select category_id,category_name from category where category_id=#{category_id}
+    </select>
+
+    <update id="categoryUpdate" parameterType="Category">
+        update category set category_name=#{category_name} where category_id=#{category_id}
+    </update>
+
 </mapper>

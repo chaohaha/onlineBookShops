@@ -21,6 +21,18 @@ public class OrderController {
     @Qualifier("OrderServiceImpl")
     private OrderService orderService;
 
+
+    /*直接购买  购买书*/
+   /* @RequestMapping("/booksBuy")
+    public String booksBuy(Model model, HttpSession session,String id) {
+        session.setAttribute();
+        Users users=(Users)session.getAttribute("user");
+        List<Orders> list = orderService.queryAllUserOrder(users.getUser_id());
+        model.addAttribute("list", list);
+        return "Order";
+    }*/
+
+
     /*需要得到登陆完成的 session 来的到user的id*/
     @RequestMapping("/allUserOrder")
     public String list(/*Model model, HttpSession session*/) {

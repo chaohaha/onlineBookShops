@@ -43,11 +43,11 @@
         </div>
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
-            <form class="form-horizontal caption" method="post" action="#">
+            <form class="form-horizontal caption" method="post" action="${pageContext.request.contextPath}/category/categoryAdd">
                 <div class="form-group">
                     <label for="categoryname" class="col-sm-3 control-label">分类名</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="categoryname" name="categoryname" placeholder="分类名">
+                        <input type="text" class="form-control" id="categoryname" name="category_name" placeholder="分类名">
                     </div>
                 </div>
                 <div class="form-group">

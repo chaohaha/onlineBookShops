@@ -30,6 +30,15 @@
             $('#myTabs a').click(function (e) {
                 $(this).tab('show')
             });
+
+            $('[type="submit"]').click(function () {
+                if ($('#categoryname').val().length!=0){
+                    return true;
+                }
+                alert("不能为空！");
+                return false;
+            })
+
         })
     </script>
 </head>
@@ -43,12 +52,13 @@
         </div>
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
-            <form class="form-horizontal caption" method="post" action="#">
-                <input type="hidden" class="form-control" id="categoryid" name="categoryid" placeholder="分类名">
+            <form class="form-horizontal caption" method="post"
+                  action="${pageContext.request.contextPath}/category/categoryUpdate">
+                <input type="hidden" class="form-control" value="${category.category_id}" id="categoryid" name="category_id" placeholder="分类名">
                 <div class="form-group">
                     <label for="categoryname" class="col-sm-3 control-label">分类名</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="categoryname" name="categoryname" placeholder="分类名">
+                        <input type="text" class="form-control" value="${category.category_name}" id="categoryname" name="category_name" placeholder="分类名">
                     </div>
                 </div>
                 <div class="form-group">

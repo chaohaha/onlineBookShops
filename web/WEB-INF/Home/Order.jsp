@@ -85,6 +85,7 @@
             <div class="col-sm-2 line-center">订单总价</div>
             <div class="col-sm-3 line-center">操作</div>
         </div>
+        <%--<c:forEach items="${list}" var="l">
         <div class="list-group">
             <div class="col-sm-12  list-group-item" >
                 <div class="col-sm-3 line-center" onclick="myClick(1)">ahiudsfhjk-23423-23asd-12</div>
@@ -97,6 +98,8 @@
 
                 </div>
             </div>
+        </c:forEach>--%>
+
             <div class="col-sm-12  list-group-item" >
                 <div class="col-sm-3 line-center" onclick="myClick(2)">ahiudsfhjk-23423-23asd-12</div>
                 <div class="col-sm-2 line-center">未付款</div>

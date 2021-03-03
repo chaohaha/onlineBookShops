@@ -8,4 +8,12 @@ import java.util.List;
 
 public interface CategoryService {
     List<Category> queryAllCartgory();
+
+    int categoryAdd(String category_name);
+
+    int categoryDelete(Category category);
+
+    Category categoryById(Category category);
+
+    int categoryUpdate(Category category);
 }
