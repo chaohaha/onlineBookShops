@@ -1,8 +1,11 @@
 package com.xiaowuyu.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.UserService;
+import com.xiaowuyu.utils.CodeConfig;
 import com.xiaowuyu.utils.Result;
+import com.zhenzi.sms.ZhenziSmsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @Controller
 /*@RequestMapping("/user")*/
@@ -122,5 +128,77 @@ public class UserController {
         model.addAttribute("users",users);
         return "redirect:/user/allUser";
     }
+    // 跳转找回密码页面
+    @RequestMapping("/toRetrieve")
+    public String forgetPassword(){
+        return "retrieve";
+    }
+
+    // 手机号验证
+    @RequestMapping("/sendSms")
+    @ResponseBody
+    public Result sendSms(String mobile,HttpSession httpSession) {
+        System.out.printf(mobile);
+        String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);
+        System.out.print("验证码: " + verifyCode);
+
+        Users users =  userService.QueryUserName(mobile);
+
+        System.out.println(users);
+        if (users ==null){
+            return Result.setError("users","账户不存在");
+        }
+        // 发送短信
+        ZhenziSmsClient client = new ZhenziSmsClient(CodeConfig.apiUrl, CodeConfig.appId, CodeConfig.appSecret);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("templateId", "3881");
+        params.put("number", mobile);
+        String[] templateParams = new String[2];
+        templateParams[0] = verifyCode;
+        templateParams[1] = "5分钟";
+        params.put("templateParams", templateParams);
+        JSONObject json = null;
+        String result = null;
+        try {
+            result = client.send(params);
+            json = JSONObject.parseObject(result);
+            if(json.getIntValue("code") != 0){//发送短信失败
+                return Result.setError("失败");
+            }
+            httpSession.setAttribute("verifyCode",verifyCode);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        httpSession.setAttribute("backUser",users.getUser_name());
+        return Result.setSuccess("成功");
+
+    }
+
+
+    // 找回密码
+    @RequestMapping("/retrievePassword")
+    @ResponseBody
+    public Result retrievePassword(HttpSession httpSession,String userId,String password,String mobile,String verifyCode){
+        String verifyCodeStr =(String)httpSession.getAttribute("verifyCode");
+        int verifyCodes = Integer.parseInt(verifyCodeStr);
+        System.out.println(verifyCodes);
+        int verifyCodes2 = Integer.parseInt(verifyCode);
+        System.out.println(verifyCodes2);
+        if (verifyCodes==verifyCodes2){
+            Integer integer = userService.retrievePassword(mobile,password);
+
+            if (integer!=null){
+                System.out.println("找回成功");
+                return Result.setSuccess("","找回成功");
+            }
+            return Result.setSuccess("","找回失败");
+        }
+
+        System.out.println("验证码错误");
+        return Result.setError("","验证码错误");
+    }
+
+
+
 
 }

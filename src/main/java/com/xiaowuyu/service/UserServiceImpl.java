@@ -26,6 +26,15 @@ public class UserServiceImpl implements UserService{
         return userMapper.updateUser(users);
     }
 
+    public Users QueryUserName(String mobile) {
+        return userMapper.QueryUserName(mobile);
+    }
+
+    public Integer retrievePassword(String mobile, String password) {
+
+        return userMapper.retrievePassword(mobile,password);
+    }
+
     public int updateUserStatus(Users users) {
         return userMapper.updateUserStatus(users);
     }
