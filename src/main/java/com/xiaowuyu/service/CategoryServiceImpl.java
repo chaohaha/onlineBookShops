@@ -24,6 +24,14 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryMapper.categoryDelete(category);
     }
 
+    public Category categoryById(Category category) {
+        return categoryMapper.categoryById(category);
+    }
+
+    public int categoryUpdate(Category category) {
+        return categoryMapper.categoryUpdate(category);
+    }
+
     public void setCategoryMapper(CategoryMapper categoryMapper) {
         this.categoryMapper=categoryMapper;
     }
