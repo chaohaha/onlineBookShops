@@ -4,12 +4,14 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/verification/css/verify.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-3.3.4/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/Flat-UI-master/dist/css/flat-ui.min.css"/>
     <script src="${pageContext.request.contextPath}/Flat-UI-master/dist/js/vendor/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/Flat-UI-master/dist/js/flat-ui.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/verification/js/verify.js" ></script>
+  
     <title></title>
     <style>
         .row{
@@ -20,7 +22,7 @@
 </head>
 <body>
 <!-- Static navbar -->
-<div class="navbar navbar-default navbar-static-top" role="navigation">
+<%--<div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -43,59 +45,120 @@
             </ul>
         </div><!--/.nav-collapse -->
     </div>
-</div>
+</div>--%>
+<jsp:include page="head.jsp"></jsp:include>
 <!--content-->
 <div class="container">
     <div class="row thumbnail center">
         <div class="col-sm-12">
             <h1 class="text-center" style="margin-bottom: 30px">用户登录</h1>
         </div>
-        <div class="col-sm-6">
-            <form class="form-horizontal caption">
+        <div class="col-sm-12">
+            <form class="form-horizontal caption" id="loginForm" action="##">
                 <div class="form-group">
-                    <label for="username" class="col-sm-3 control-label">用户名</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="username" placeholder="用户名">
+                    <label for="username" class="col-sm-4 control-label">用户名</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="user_name" class="form-control" id="username" placeholder="用户名">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="col-sm-3 control-label">密码</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="password" placeholder="密码">
+                    <label for="password" class="col-sm-4 control-label">密 &nbsp&nbsp&nbsp&nbsp码</label>
+                    <div class="col-sm-4">
+                        <input type="password" name="user_pwd" class="form-control" id="password" placeholder="密码">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox">记住我
+                                <input type="checkbox" style="margin-top: 10px">记住密码
                             </label>
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-5">
-                        <button type="submit" class="btn btn-success btn-block">登录</button>
+
+                <div id="mpanel2" >
+                </div>
+                <button type="button" id="check-btn" class="verify-btn">确定</button>
+
+                    <div class="col-sm-offset-4 col-sm-4">
+                        <button type="button" class="btn btn-success btn-block" onclick="submitForm()">登录</button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-sm-6">
-            <div class="caption">
-                <h3>免责声明</h3>
-                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+        <%--  <div class="col-sm-6">
+              <div class="caption">
+                  <h3>免责声明</h3>
+                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 
-            </div>
+              </div>
 
-        </div>
+          </div>--%>
 
     </div>
 </div>
-
-
 <!--footer-->
-<div class="navbar navbar-default navbar-static-bottom">
+<%--<div class="navbar navbar-default navbar-static-bottom">
     版权声明区
-</div>
+</div>--%>
+
 </body>
-</html>
+
+<!--<script type="text/javascript" src="js/verify.min.js" ></script>-->
+
+<script>
+    $('#mpanel2').codeVerify({
+        type : 1,
+        width : '400px',
+        height : '50px',
+        fontSize : '30px',
+        codeLength : 6,
+        btnId : 'check-btn',
+        ready : function() {
+        },
+        success : function() {
+            alert('验证匹配！');
+        },
+        error : function() {
+            alert('验证码不匹配！');
+        }
+    });
+</script>
+
+
+    <script type="text/javascript">
+
+
+
+        function submitForm() {
+
+        $.ajax({
+            type:"post",
+            url:"${pageContext.request.contextPath}/login",
+            data:$('#loginForm').serialize(),
+            datatype:"json",
+            success:function (data) {
+                console.log(data)
+                if (data.code==200){
+                    alert(data.msg)
+                }
+                if(data.code==500){
+                    alert(data.msg)
+                }
+
+                /* if(data==3){
+                     location.href="${pageContext.request.contextPath}/index.jsp"
+                }
+                if(data==4){
+                    location.href="${pageContext.request.contextPath}/mngindex.jsp"
+                }*/
+
+
+            },
+            error:function (data) {
+                alert("系统错误")
+            }
+        })
+    }
+</script>

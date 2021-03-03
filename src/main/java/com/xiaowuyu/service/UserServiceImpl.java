@@ -17,7 +17,10 @@ public class UserServiceImpl implements UserService{
         return userMapper.register(users);
     }
 
-    public Users login(Users users){return userMapper.login(users);}
+    public Users login(Users users){
+        Users user = userMapper.login(users);
+        return user;
+    }
 
     public int updateUser(Users users) {
         return userMapper.updateUser(users);
