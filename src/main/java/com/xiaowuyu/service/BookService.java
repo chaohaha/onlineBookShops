@@ -21,4 +21,7 @@ public interface BookService {
 
     //查询全部Book,返回list集合
     List<Books> queryAllBook();
+
+    /*查询分类*/
+    List<Books> queryBookCategory_id(Integer category_id);
 }

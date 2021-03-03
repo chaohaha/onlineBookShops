@@ -2,6 +2,7 @@ package com.xiaowuyu.dao;
 
 import com.xiaowuyu.pojo.Books;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -17,6 +18,10 @@ public interface BookMapper {
 
     //根据id查询,返回一个Book
     Books queryBookByBook_id(@Param("book_id") int book_id);
+
+    //书分类
+    @Select("select *from books where category_id=#{category_id}")
+    List<Books> queryBookCategory_id(Integer category_id);
 
     //查询全部Book,返回list集合
     List<Books> queryAllBook();
