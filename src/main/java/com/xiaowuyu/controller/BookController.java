@@ -33,7 +33,19 @@ public class BookController {
         model.addAttribute("book",books);
         return "BookInfo";
     }
+
+    /*模糊搜索*/
+    @RequestMapping("/BookS")
+    public String BookNmae(Model model,String BookName) {
+        System.out.println("我是："+BookName);
+        List<Books> list = bookService.queryBookNmae(BookName);
+        model.addAttribute("list",list);
+        List<Category> categoriesList = categoryService.queryAllCartgory();
+        model.addAttribute("clist", categoriesList);
+        return "index";
+    }
     /*书分类*/
+
 
     @RequestMapping("/BookClass")
     public String BookNmae(Model model,int category_id) {

@@ -1,6 +1,7 @@
 package com.xiaowuyu.service;
 
 import com.xiaowuyu.pojo.Books;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -24,4 +25,9 @@ public interface BookService {
 
     /*查询分类*/
     List<Books> queryBookCategory_id(Integer category_id);
+
+
+    /*模糊搜素*/
+
+    List<Books> queryBookNmae(String bookName);
 }
