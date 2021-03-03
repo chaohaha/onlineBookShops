@@ -11,7 +11,7 @@
     <script src="${pageContext.request.contextPath}/bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/Flat-UI-master/dist/js/flat-ui.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/verification/js/verify.js" ></script>
-  
+
     <title></title>
     <style>
         .row{
@@ -67,22 +67,28 @@
                         <input type="password" name="user_pwd" class="form-control" id="password" placeholder="密码">
                     </div>
                 </div>
+                <div class="form-group " >
+                    <label  style="display: inline-block" for="password" class="col-sm-4 control-label">验证码</label>
+                <div id="mpanel2" style="display: inline-block;margin-top: -35px"  class="col-sm-offset-4 col-sm-9 " >
+                </div>
+                   <%-- <button type="button" id="check-btn" class="verify-btn">确定</button>--%>
+                </div>
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" style="margin-top: 10px">记住密码
+                                <a href="#">忘记密码？</a>
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <div id="mpanel2" >
-                </div>
-                <button type="button" id="check-btn" class="verify-btn">确定</button>
+
+
+               <%-- <button type="button" id="check-btn" class="verify-btn">确定</button>--%>
 
                     <div class="col-sm-offset-4 col-sm-4">
-                        <button type="button" class="btn btn-success btn-block" onclick="submitForm()">登录</button>
+                        <button type="button" id="check-btn" style="height: 50px" class="btn btn-success btn-block verify-btn" onclick="submitForm()">登录</button>
                     </div>
                 </div>
             </form>
@@ -108,31 +114,36 @@
 <!--<script type="text/javascript" src="js/verify.min.js" ></script>-->
 
 <script>
-    $('#mpanel2').codeVerify({
-        type : 1,
-        width : '400px',
-        height : '50px',
-        fontSize : '30px',
-        codeLength : 6,
-        btnId : 'check-btn',
-        ready : function() {
-        },
-        success : function() {
-            alert('验证匹配！');
-        },
-        error : function() {
-            alert('验证码不匹配！');
-        }
-    });
+
 </script>
 
 
     <script type="text/javascript">
+        var code=0;
 
+        $('#mpanel2').codeVerify({
+            type : 1,
+            width : '200px',
+            height : '40px',
+            fontSize : '30px',
+            codeLength : 4,
+            btnId : 'check-btn',
+            ready : function() {
+            },
+            success : function() {
+                code=1;
+            },
+            error : function() {
+               code=0;
+            }
+        });
 
 
         function submitForm() {
-
+        if (code==0){
+            alert('验证码错误')
+            return;
+        }
         $.ajax({
             type:"post",
             url:"${pageContext.request.contextPath}/login",

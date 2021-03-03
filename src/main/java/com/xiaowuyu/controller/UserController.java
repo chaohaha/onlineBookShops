@@ -42,7 +42,7 @@ public class UserController {
 
         Users user = userService.login(users);
         model.addAttribute("user",user);
-        System.out.println(user);
+       session.setAttribute("user",user);
         if(user!=null){
             System.out.println("成功");
             session.setAttribute("user",user);
