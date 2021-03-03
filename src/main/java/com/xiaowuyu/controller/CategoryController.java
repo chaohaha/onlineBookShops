@@ -60,4 +60,27 @@ public class CategoryController {
         }
         return "";
     }
+
+    @RequestMapping("categoryById")
+    public ModelAndView categoryById(Category category){
+        System.out.println(category);
+        ModelAndView mv=new ModelAndView();
+        Category category1=categoryService.categoryById(category);
+        mv.addObject("category",category1);
+        mv.setViewName("admin/categoryadmin_update");
+        return mv;
+    }
+
+    /**
+     * 分类修改
+     */
+    @RequestMapping("categoryUpdate")
+    public String categoryUpdate(Category category){
+        int i=categoryService.categoryUpdate(category);
+        if (i>0){
+            return "redirect:categoryAll";
+        }
+        return "";
+    }
+
 }
