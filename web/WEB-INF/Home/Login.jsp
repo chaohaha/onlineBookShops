@@ -113,13 +113,9 @@
 
 <!--<script type="text/javascript" src="js/verify.min.js" ></script>-->
 
-<script>
-
-</script>
-
 
     <script type="text/javascript">
-        var code=0;
+        var code;
 
         $('#mpanel2').codeVerify({
             type : 1,
@@ -131,45 +127,33 @@
             ready : function() {
             },
             success : function() {
-                code=1;
+                $.ajax({
+                    type:"post",
+                    url:"${pageContext.request.contextPath}/login",
+                    data:$('#loginForm').serialize(),
+                    datatype:"json",
+                    success:function (data) {
+                        console.log(data)
+                        if (data.code==200){
+                         location.href="${pageContext.request.contextPath}/index.jsp";
+                        }
+                        if(data.code==500){
+                            alert(data.msg)
+                            location.reload();
+                        }
+                    },
+                    error:function (data) {
+                        alert("系统错误")
+                    }
+                })
             },
             error : function() {
-               code=0;
+               alert("验证码错误")
             }
         });
 
 
-        function submitForm() {
-        if (code==0){
-            alert('验证码错误')
-            return;
-        }
-        $.ajax({
-            type:"post",
-            url:"${pageContext.request.contextPath}/login",
-            data:$('#loginForm').serialize(),
-            datatype:"json",
-            success:function (data) {
-                console.log(data)
-                if (data.code==200){
-                    alert(data.msg)
-                }
-                if(data.code==500){
-                    alert(data.msg)
-                }
-
-                /* if(data==3){
-                     location.href="${pageContext.request.contextPath}/index.jsp"
-                }
-                if(data==4){
-                    location.href="${pageContext.request.contextPath}/mngindex.jsp"
-                }*/
 
 
-            },
-            error:function (data) {
-                alert("系统错误")
-            }
-        })
-    }
+
 </script>

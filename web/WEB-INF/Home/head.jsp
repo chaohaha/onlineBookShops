@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -27,8 +28,15 @@
                 <li><a href="UserInfo">个人中心</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right hidden-sm">
-                <li><a href="toLogin">登录</a></li>
-                <li><a href="toRegister">注册</a></li>
+                <c:if test="${empty user}">
+                    <li><a href="toLogin">登录</a></li>
+                    <li><a href="toRegister">注册</a></li>
+                </c:if>
+                <c:if test="${!empty user}">
+                    <li><a href="#">头像区域</a></li>
+                    <li><a href="#">${user.user_name}</a></li>
+                    <li><a href="${pageContext.request.contextPath}/logout">注销</a></li>
+                </c:if>
                 <li>
                     <a href="allCart"><span class="glyphicon glyphicon-shopping-cart">购物车</span></a></li>
             </ul>

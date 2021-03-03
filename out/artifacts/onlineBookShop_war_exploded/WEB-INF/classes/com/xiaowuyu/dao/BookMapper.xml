@@ -5,6 +5,8 @@
 
 <mapper namespace="com.xiaowuyu.dao.BookMapper">
 
+
+
     <!--增加一个Book-->
     <insert id="addBook" parameterType="Books">
         insert into graduation.books(book_name,book_counts,book_details)
@@ -31,7 +33,7 @@
 
     <!--查询全部Book-->
     <select id="queryAllBook" resultType="Books">
-        SELECT * from graduation.books
+        SELECT * from graduation.books order by book_id desc;
     </select>
 
 </mapper>
