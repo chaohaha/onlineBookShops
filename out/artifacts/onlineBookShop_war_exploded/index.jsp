@@ -24,16 +24,12 @@
         }
     </style>
     <script>
-        $(function(){
-            $('#myTabs a').click(function (e) {
-                $(this).tab('show')
-            });
-        })
+        location.href="Index"
     </script>
 </head>
 <body>
 <script>
-    location.href="Index"
+
 </script>
 </body>
 </html>
