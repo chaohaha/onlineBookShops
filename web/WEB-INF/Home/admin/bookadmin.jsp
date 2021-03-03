@@ -53,25 +53,27 @@
                     </form>
                 </div>
                 <div class="col-sm-12 thumbnail">
-                    <div class="col-sm-3 line-center" style="width: 125px;">编号</div>
-                    <div class="col-sm-2 line-center" style="width: 125px;">书名</div>
-                    <div class="col-sm-2 line-center" style="width: 125px;">分类</div>
-                    <div class="col-sm-2 line-center" style="width: 125px;">单价</div>
-                    <div class="col-sm-2 line-center" style="width: 125px;">库存</div>
-                    <div class="col-sm-2 line-center" style="width: 125px;">图片</div>
-                    <div class="col-sm-2 line-center" style="width: 125px;">状态</div>
+                    <div class="col-sm-3 line-center" style="width: 110px;">编号</div>
+                    <div class="col-sm-2 line-center" style="width: 110px;">书名</div>
+                    <div class="col-sm-2 line-center" style="width: 110px;">分类</div>
+                    <div class="col-sm-2 line-center" style="width: 110px;">单价</div>
+                    <div class="col-sm-2 line-center" style="width: 110px;">库存</div>
+                    <div class="col-sm-2 line-center" style="width: 110px;">销量</div>
+                    <div class="col-sm-2 line-center" style="width: 110px;">图片</div>
+                    <div class="col-sm-2 line-center" style="width: 110px;">状态</div>
                     <div class="col-sm-3 line-center" style="width: 125px;">操作</div>
                 </div>
                 <div class="list-group">
                     <div class="col-sm-12  list-group-item" style="">
-                        <div class="col-sm-3 line-center" onclick="myClick(1)" style="width: 125px;margin-left: -10px;">编号</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-3 line-center" style="width: 140px;">
+                        <div class="col-sm-3 line-center" onclick="myClick(1)" style="width: 110px;margin-left: -10px;">编号</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-3 line-center" style="width: 125px;">
                             <button class="btn btn-danger" style="padding: 5px 5px;">增</button>
                             <button class="btn btn-danger" style="padding: 5px 5px;">删</button>
                             <button class="btn btn-danger" style="padding: 5px 5px;">改</button>
@@ -80,21 +82,18 @@
                 </div>
                 <div class="list-group">
                     <div class="col-sm-12  list-group-item" style="">
-                        <div class="col-sm-3 line-center" onclick="myClick(1)" style="width: 125px;margin-left: -10px;">编号</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">未付款</div>
-                        <div class="col-sm-3 line-center" style="width: 140px;">
-                            <a href="bookadmin_add.html">
-                                <button class="btn btn-danger" style="padding: 5px 5px;">增</button>
-                            </a>
+                        <div class="col-sm-3 line-center" onclick="myClick(1)" style="width: 110px;margin-left: -10px;">编号</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
+                        <div class="col-sm-3 line-center" style="width: 125px;">
+                            <button class="btn btn-danger" style="padding: 5px 5px;">增</button>
                             <button class="btn btn-danger" style="padding: 5px 5px;">删</button>
-                            <a href="bookadmin_add.html">
-                                <button class="btn btn-danger" style="padding: 5px 5px;">改</button>
-                            </a>
+                            <button class="btn btn-danger" style="padding: 5px 5px;">改</button>
                         </div>
                     </div>
                 </div>
