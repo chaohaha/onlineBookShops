@@ -39,7 +39,7 @@
 <div class="container">
     <div class="row thumbnail">
         <div class="col-sm-12">
-            <h3 class="text-center" style="margin-bottom: 30px">分类添加</h3>
+            <h3 class="text-center" style="margin-bottom: 30px">分类修改</h3>
         </div>
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-5">
-                        <button type="submit" class="btn btn-success btn-block">添加</button>
+                        <button type="submit" class="btn btn-success btn-block">修改</button>
                     </div>
                 </div>
             </form>
