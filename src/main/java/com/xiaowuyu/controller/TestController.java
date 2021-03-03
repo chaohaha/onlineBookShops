@@ -11,5 +11,7 @@ public class TestController {
     @RequestMapping("/{page}")
     public String getPages(@PathVariable("page") String page){
         return "admin/"+page;
+//        return page;
     }
+
 }
