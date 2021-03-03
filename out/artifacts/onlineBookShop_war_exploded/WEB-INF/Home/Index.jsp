@@ -59,7 +59,7 @@
                 <div class="caption center">
                     <h3>${l.book_name}</h3>
                     <p><span>价格:</span><span>${l.book_price}</span></p>
-                    <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/BookInfo">查看详情</a></p>
+                    <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/BookInfo?book_id=${l.book_id}">查看详情</a></p>
                 </div>
             </div>
         </div>

@@ -52,6 +52,13 @@ public class UserController {
         return Result.setError("user","账号或密码错误");
 
     }
+    // 注销
+    @RequestMapping("/logout")
+    public String logout(HttpSession httpSession){
+        httpSession.removeAttribute("user");
+        return "Login";
+    }
+
     /*跳转注册页面*/
     @RequestMapping("/toRegister")
     public String toRegister(){

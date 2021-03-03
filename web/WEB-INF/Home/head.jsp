@@ -35,6 +35,7 @@
                 <c:if test="${!empty user}">
                     <li><a href="#">头像区域</a></li>
                     <li><a href="#">${user.user_name}</a></li>
+                    <li><a href="${pageContext.request.contextPath}/logout">注销</a></li>
                 </c:if>
                 <li>
                     <a href="allCart"><span class="glyphicon glyphicon-shopping-cart">购物车</span></a></li>
