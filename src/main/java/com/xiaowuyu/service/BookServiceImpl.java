@@ -37,4 +37,8 @@ public class BookServiceImpl implements BookService {
     public List<Books> queryBookCategory_id(Integer category_id) {
         return bookMapper.queryBookCategory_id(category_id);
     }
+
+    public List<Books> queryBookNmae(String bookName) {
+        return bookMapper.queryBookNmae(bookName);
+    }
 }
