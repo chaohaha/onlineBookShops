@@ -24,7 +24,7 @@
                 <li class="active"><a href="Index.jsp">返回首页</a></li>
                 <li><a href="bookadmin.html">书籍管理</a></li>
                 <li><a href="UserInfo.jsp">订单管理</a></li>
-                <li><a href="FriendLink.jsp">书籍分类管理</a></li>
+                <li><a href="${pageContext.request.contextPath}/category/categoryAll">书籍分类管理</a></li>
                 <li><a href="#">管理用户</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right hidden-sm">
