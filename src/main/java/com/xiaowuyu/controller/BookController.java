@@ -44,9 +44,9 @@ public class BookController {
         model.addAttribute("clist", categoriesList);
         return "index";
     }
+
+
     /*书分类*/
-
-
     @RequestMapping("/BookClass")
     public String BookNmae(Model model,int category_id) {
         System.out.println("我是："+category_id);
