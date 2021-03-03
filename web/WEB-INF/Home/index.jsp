@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="../bootstrap-3.3.4/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../Flat-UI-master/dist/css/flat-ui.min.css"/>
-    <script src="../bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
-    <script src="../bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
-    <script src="../Flat-UI-master/dist/js/flat-ui.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-3.3.4/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/Flat-UI-master/dist/css/flat-ui.min.css"/>
+    <script src="${pageContext.request.contextPath}/bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="${pageContext.request.contextPath}/bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/Flat-UI-master/dist/js/flat-ui.min.js"></script>
     <title></title>
     <style>
        .row{
@@ -38,12 +39,12 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">这什么东西</span>
             </button>
-            <a class="navbar-brand" href="Index.jsp">图书商城</a>
+            <a class="navbar-brand" href="index.jsp">图书商城</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="Index.jsp">首页</a></li>
-                <li><a href="Order.jsp">我的订单</a></li>
+                <li class="active"><a href="index.jsp">首页</a></li>
+                <li><a href="order/allUserOrder">我的订单</a></li>
                 <li><a href="UserInfo.jsp">个人中心</a></li>
                 <li><a href="FriendLink.jsp">友情链接</a></li>
             </ul>
@@ -58,6 +59,7 @@
 </div>--%>
 <jsp:include page="head.jsp"></jsp:include>
 <!--content-->
+
 <div class="container">
     <div class="jumbotron">
         <h1>图书商城</h1>
@@ -83,7 +85,7 @@
                 <div class="caption center">
                     <h3>书名</h3>
                     <p><span>价格:</span><span>100.00</span></p>
-                    <p><a class="btn btn-primary btn-block" role="button" href="BookInfo.jsp">查看详情</a></p>
+                    <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/BookInfo">查看详情</a></p>
                 </div>
             </div>
         </div>
