@@ -12,21 +12,34 @@
 
     <!-- 配置SpringMVC -->
     <!-- 1.开启SpringMVC注解驱动 -->
-    <mvc:annotation-driven />
+
     <!-- 2.静态资源默认servlet配置-->
     <mvc:default-servlet-handler/>
+
+
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg index="0" value="UTF-8"></constructor-arg>
+            </bean>
+        </mvc:message-converters>
+
+    </mvc:annotation-driven>
+
 
     <!-- 3.配置jsp 显示ViewResolver视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="prefix" value="/WEB-INF/Home/" />
         <property name="suffix" value=".jsp" />
     </bean>
 
     <!-- 设置静态资源不过滤 -->
     <mvc:resources location="/bootstrap-3.3.4/" mapping="/css/**"/>
     <mvc:resources location="/Flat-UI-master/" mapping="/img/**"/>
-  <!--  <mvc:resources location="/plugins/" mapping="/plugins/**"/>-->
+    <mvc:resources location="/verification/" mapping="/verification/**"/>
+    <mvc:resources location="/images/" mapping="/images/**"/>
 
     <!-- 4.扫描web相关的bean -->
     <context:component-scan base-package="com.xiaowuyu.controller" />

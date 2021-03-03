@@ -1,7 +1,9 @@
 package com.xiaowuyu.controller;
 
 import com.xiaowuyu.pojo.Books;
+import com.xiaowuyu.pojo.Category;
 import com.xiaowuyu.service.BookService;
+import com.xiaowuyu.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -19,18 +21,52 @@ public class BookController {
     @Qualifier("BookServiceImpl")
     private BookService bookService;
 
+    @Autowired
+    @Qualifier("CateSoryServiceImpl")
+    private CategoryService categoryService;
 
     /*书详情信息页面跳转*/
     @RequestMapping("/BookInfo")
-    public String BookInfo() {
+    public String BookInfo(Model model,Integer book_id) {
+        System.out.println("我是："+book_id);
+        Books books = bookService.queryBookByBook_id(book_id);
+        model.addAttribute("book",books);
         return "BookInfo";
     }
+    /*书分类*/
+
+    @RequestMapping("/BookClass")
+    public String BookNmae(Model model,int category_id) {
+        System.out.println("我是："+category_id);
+        List<Books> list = bookService.queryBookCategory_id(category_id);
+        model.addAttribute("list",list);
+        List<Category> categoriesList = categoryService.queryAllCartgory();
+        model.addAttribute("clist", categoriesList);
+        return "index";
+    }
+
+
+
+
+
+
     @RequestMapping("/allBook")
     public String list(Model model) {
         List<Books> list = bookService.queryAllBook();
         model.addAttribute("list", list);
         System.out.println(list);
         return "allBook";
+    }
+
+    /*查询所有书籍*/
+    /*首页跳转*/
+    @RequestMapping("/Index")
+    public String allBooks(Model model) {
+        List<Books> list = bookService.queryAllBook();
+        List<Category> categoriesList = categoryService.queryAllCartgory();
+        model.addAttribute("list", list);
+        model.addAttribute("clist", categoriesList);
+        return "index";
     }
 
     @RequestMapping("/allGoods")

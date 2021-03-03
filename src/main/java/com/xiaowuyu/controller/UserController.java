@@ -2,11 +2,13 @@ package com.xiaowuyu.controller;
 
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.UserService;
+import com.xiaowuyu.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -29,25 +31,26 @@ public class UserController {
     /*跳转登陆页面*/
     @RequestMapping("/toLogin")
     public String toLogin(Model model, Users users){
-        System.out.println(users);
+
         model.addAttribute("users",users);
         return "Login";
     }
 
     @RequestMapping("/login")
-    public String login(Model model, Users users,HttpSession session){
-        if(userService.login(users) != null){
-            model.addAttribute("user",users);
-            Users user=userService.queryUserByUser_name(users.getUser_name());
-            users.setUser_id(user.getUser_id());
-            model.addAttribute("user",users);
-            session.setAttribute("user",users);
-            System.out.println("登录成功");
-            return "redirect:/book/allGoods";
-        } else{
-            model.addAttribute("error","账号或密码错误");
-            return "redirect:/user/toLogin";
+    @ResponseBody
+    public Result login(Model model, Users users, HttpSession session){
+
+        Users user = userService.login(users);
+        model.addAttribute("user",user);
+       session.setAttribute("user",user);
+        if(user!=null){
+            System.out.println("成功");
+            session.setAttribute("user",user);
+            return Result.setSuccess("user","登录成功");
         }
+        System.out.println("失败");
+        return Result.setError("user","账号或密码错误");
+
     }
     /*跳转注册页面*/
     @RequestMapping("/toRegister")

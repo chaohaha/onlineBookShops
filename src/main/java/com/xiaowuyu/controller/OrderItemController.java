@@ -30,10 +30,6 @@ public class OrderItemController {
         model.addAttribute("list", list);*/
         return "UserInfo";
     }
-    /*首页跳转*/
-    @RequestMapping("/Index")
-    public String Index() {
-        return "redirect:/index.jsp";
-    }
+
 
 }
