@@ -179,7 +179,7 @@
                 data:{mobile:data.mobile},
                 success: function (data) {
                     var code =data.code;
-                    alert(data.code)
+                /*    alert(data.code)*/
                     if(code== "200"){
                         status=1;
                         countdownHandler();

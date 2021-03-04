@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.UserService;
 import com.xiaowuyu.utils.CodeConfig;
-import com.xiaowuyu.utils.Result;
+import com.xiaowuyu.utils.Results;
 import com.zhenzi.sms.ZhenziSmsClient;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -49,7 +49,7 @@ public class UserController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public Result login(Model model, Users users, HttpSession session){
+    public Results login(Model model, Users users, HttpSession session){
 
         Users user = userService.login(users);
         model.addAttribute("user",user);
@@ -57,10 +57,10 @@ public class UserController {
         if(user!=null){
             System.out.println("成功");
             session.setAttribute("user",user);
-            return Result.setSuccess("user","登录成功");
+            return Results.setSuccess("user","登录成功");
         }
         System.out.println("失败");
-        return Result.setError("user","账号或密码错误");
+        return Results.setError("user","账号或密码错误");
 
     }
     // 注销
@@ -137,7 +137,7 @@ public class UserController {
     // 找回密码手机号验证
     @RequestMapping("/sendSms")
     @ResponseBody
-    public Result sendSms(String mobile,HttpSession httpSession) {
+    public Results sendSms(String mobile,HttpSession httpSession) {
         System.out.printf(mobile);
         String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);
         System.out.print("验证码: " + verifyCode);
@@ -146,7 +146,7 @@ public class UserController {
 
         System.out.println(users);
         if (users ==null){
-            return Result.setError("users","账户不存在");
+            return Results.setError("users","账户不存在");
         }
         // 发送短信
         ZhenziSmsClient client = new ZhenziSmsClient(CodeConfig.apiUrl, CodeConfig.appId, CodeConfig.appSecret);
@@ -163,14 +163,14 @@ public class UserController {
             result = client.send(params);
             json = JSONObject.parseObject(result);
             if(json.getIntValue("code") != 0){//发送短信失败
-                return Result.setError("失败");
+                return Results.setError("失败");
             }
             httpSession.setAttribute("verifyCode",verifyCode);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         httpSession.setAttribute("backUser",users.getUser_name());
-        return Result.setSuccess("成功");
+        return Results.setSuccess("成功");
 
     }
 
@@ -178,7 +178,7 @@ public class UserController {
     // 找回密码
     @RequestMapping("/retrievePassword")
     @ResponseBody
-    public Result retrievePassword(HttpSession httpSession,String userId,String password,String mobile,String verifyCode){
+    public Results retrievePassword(HttpSession httpSession,String userId,String password,String mobile,String verifyCode){
         String verifyCodeStr =(String)httpSession.getAttribute("verifyCode");
         int verifyCodes = Integer.parseInt(verifyCodeStr);
         System.out.println(verifyCodes);
@@ -189,19 +189,19 @@ public class UserController {
 
             if (integer!=null){
                 System.out.println("找回成功");
-                return Result.setSuccess("","找回成功");
+                return Results.setSuccess("","找回成功");
             }
-            return Result.setSuccess("","找回失败");
+            return Results.setSuccess("","找回失败");
         }
 
         System.out.println("验证码错误");
-        return Result.setError("","验证码错误");
+        return Results.setError("","验证码错误");
     }
 
     // 注册手机号验证
     @RequestMapping("/sendSmsRegister")
     @ResponseBody
-    public Result sendSmsRegister(String mobile,HttpSession httpSession) {
+    public Results sendSmsRegister(String mobile,HttpSession httpSession) {
         System.out.printf(mobile);
         String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);
         System.out.print("验证码: " + verifyCode);
@@ -210,7 +210,7 @@ public class UserController {
 
         System.out.println(users);
         if (users !=null){
-            return Result.setError("users","手机号已注册");
+            return Results.setError("users","手机号已注册");
         }
         // 发送短信
         ZhenziSmsClient client = new ZhenziSmsClient(CodeConfig.apiUrl, CodeConfig.appId, CodeConfig.appSecret);
@@ -227,24 +227,22 @@ public class UserController {
             result = client.send(params);
             json = JSONObject.parseObject(result);
             if(json.getIntValue("code") != 0){//发送短信失败
-                return Result.setError("失败");
+                return Results.setError("失败");
             }
             httpSession.setAttribute("verifyCodes",verifyCode);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return Result.setSuccess("成功");
+        return Results.setSuccess("成功");
 
     }
 
     // 用户注册
     @RequestMapping("/register")
     @ResponseBody
- /*   public Result registerUser(@RequestParam("user_name") String user_name, String user_pwd, String user_phone
-            , String verifyCode, String user_email, String user_address,@RequestParam("user_image")  MultipartFile uploadFile ){
-*/
-    public Result registerUser(@RequestParam("user_name")String userName, @RequestParam("user_pwd")String password,
+
+    public Results registerUser(@RequestParam("user_name")String userName, @RequestParam("user_pwd")String password,
                                @RequestParam("user_phone")String user_phone,
                                @RequestParam("verifyCode")String verifyCode,
                                @RequestParam("user_email")String user_email,
@@ -276,13 +274,13 @@ public class UserController {
 
         if (i>0){
             request.getSession().setAttribute("photo",fileName);
-            return Result.setSuccess("","注册成功");
+            return Results.setSuccess("","注册成功");
         }
-        return Result.setSuccess("","注册失败");
+        return Results.setSuccess("","注册失败");
         }
 
 
-        return Result.setError("","验证码错误");
+        return Results.setError("","验证码错误");
     }
 
 }

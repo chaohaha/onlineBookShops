@@ -5,7 +5,7 @@ import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Category;
 import com.xiaowuyu.service.BookService;
 import com.xiaowuyu.service.CategoryService;
-import com.xiaowuyu.utils.Result;
+import com.xiaowuyu.utils.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
