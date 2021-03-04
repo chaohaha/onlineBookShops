@@ -18,4 +18,5 @@ public class Books {
     private String book_image;
     private String book_details;
     private String book_type;
+    private Category category;
 }

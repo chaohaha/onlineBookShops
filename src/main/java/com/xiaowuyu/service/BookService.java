@@ -30,4 +30,8 @@ public interface BookService {
     /*模糊搜素*/
 
     List<Books> queryBookNmae(String bookName);
+
+    Books bookByNameOrIdOrcategory(String bookname);
+
+    List<Books> bookAll(Books books);
 }

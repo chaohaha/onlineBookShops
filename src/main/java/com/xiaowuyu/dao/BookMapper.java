@@ -29,4 +29,8 @@ public interface BookMapper {
     /*模糊搜索*/
     @Select("select * from books where book_name like '%${bookName}%'")
     List<Books> queryBookNmae(String bookName);
+
+    Books bookByNameOrIdOrcategory(String bookname);
+
+    List<Books> bookAll(Books books);
 }
