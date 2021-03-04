@@ -30,6 +30,14 @@
             $('#myTabs a').click(function (e) {
                 $(this).tab('show')
             });
+
+            $('[type="submit"]').click(function () {
+                if ($('#categoryname').val().length!=0){
+                    return true;
+                }
+                alert("不能为空！");
+                return false;
+            })
         })
     </script>
 </head>
@@ -43,7 +51,8 @@
         </div>
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
-            <form class="form-horizontal caption" method="post" action="${pageContext.request.contextPath}/category/categoryAdd">
+            <form class="form-horizontal caption" method="post"
+                  action="${pageContext.request.contextPath}/category/categoryAdd">
                 <div class="form-group">
                     <label for="categoryname" class="col-sm-3 control-label">分类名</label>
                     <div class="col-sm-8">

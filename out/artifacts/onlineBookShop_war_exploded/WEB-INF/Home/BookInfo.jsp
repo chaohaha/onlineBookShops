@@ -55,8 +55,9 @@
             <img style="width: 100%; height: 500px; display: block;" src=""  data-holder-rendered="true">
             <div class="caption center">
                 <h3>书名：${book.book_name}</h3>
+
                 <p>作者：${book.book_author}</p>
-                <p><a class="btn btn-primary btn-block" role="button" href="#">立即购买</a> <a class="btn btn-default btn-block" role="button" href="#">加入购物车</a></p>
+                <p><a class="btn btn-primary btn-block" role="button" href="booksBuy?id=${book.book_id}">立即购买</a> <a class="btn btn-default btn-block" role="button" href="#">加入购物车</a></p>
             </div>
     </div>
     <div class="col-sm-8">
@@ -64,7 +65,13 @@
                 <h3>图书介绍</h3>
                 <p>${book.book_details}</p>
 
-            </div>
+        </div>
+        <div class="caption" style="margin-top: 200px">
+
+            <p>书籍库存：${book.book_counts} 本</p>
+            <p>书籍销量：${book.book_sales} 本</p>
+            <h6>书籍单价：<i><font color="red">${book.book_price}</font></i> ￥</h6>
+        </div>
 
     </div>
 

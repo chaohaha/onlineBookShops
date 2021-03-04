@@ -6,18 +6,23 @@ import com.xiaowuyu.service.UserService;
 import com.xiaowuyu.utils.CodeConfig;
 import com.xiaowuyu.utils.Result;
 import com.zhenzi.sms.ZhenziSmsClient;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 /*@RequestMapping("/user")*/
@@ -71,12 +76,7 @@ public class UserController {
         return "Register";
     }
 
-    @RequestMapping("/register")
-    public String registerUser(Users users){
-        System.out.println(users);
-        userService.register(users);
-        return "redirect:/user/toLogin";
-    }
+
 
     @RequestMapping("/toUpdateUser")
     public String toUpdateUser(Model model,int user_id){
@@ -134,7 +134,7 @@ public class UserController {
         return "retrieve";
     }
 
-    // 手机号验证
+    // 找回密码手机号验证
     @RequestMapping("/sendSms")
     @ResponseBody
     public Result sendSms(String mobile,HttpSession httpSession) {
@@ -198,7 +198,91 @@ public class UserController {
         return Result.setError("","验证码错误");
     }
 
+    // 注册手机号验证
+    @RequestMapping("/sendSmsRegister")
+    @ResponseBody
+    public Result sendSmsRegister(String mobile,HttpSession httpSession) {
+        System.out.printf(mobile);
+        String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);
+        System.out.print("验证码: " + verifyCode);
+
+        Users users =  userService.QueryUserName(mobile);
+
+        System.out.println(users);
+        if (users !=null){
+            return Result.setError("users","手机号已注册");
+        }
+        // 发送短信
+        ZhenziSmsClient client = new ZhenziSmsClient(CodeConfig.apiUrl, CodeConfig.appId, CodeConfig.appSecret);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("templateId", "3881");
+        params.put("number", mobile);
+        String[] templateParams = new String[2];
+        templateParams[0] = verifyCode;
+        templateParams[1] = "5分钟";
+        params.put("templateParams", templateParams);
+        JSONObject json = null;
+        String result = null;
+        try {
+            result = client.send(params);
+            json = JSONObject.parseObject(result);
+            if(json.getIntValue("code") != 0){//发送短信失败
+                return Result.setError("失败");
+            }
+            httpSession.setAttribute("verifyCodes",verifyCode);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return Result.setSuccess("成功");
+
+    }
+
+    // 用户注册
+    @RequestMapping("/register")
+    @ResponseBody
+ /*   public Result registerUser(@RequestParam("user_name") String user_name, String user_pwd, String user_phone
+            , String verifyCode, String user_email, String user_address,@RequestParam("user_image")  MultipartFile uploadFile ){
+*/
+    public Result registerUser(@RequestParam("user_name")String userName, @RequestParam("user_pwd")String password,
+                               @RequestParam("user_phone")String user_phone,
+                               @RequestParam("verifyCode")String verifyCode,
+                               @RequestParam("user_email")String user_email,
+                               @RequestParam("user_address")String user_address,
+                               @RequestParam("user_image") MultipartFile uploadFile,
+                               HttpServletRequest request){
+        String path = request.getSession().getServletContext().getRealPath("upload");//获取路径
+        String fileName = uploadFile.getOriginalFilename();//获取上传文件的名字
+        File targetFile = new File(path,fileName);
 
 
+        System.out.println(fileName);
+        if(!targetFile.exists()){
+            targetFile.mkdirs();//是否存在目录，不存在就创建
+        }
+        //保存
+        try {
+            uploadFile.transferTo(targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Users users = new Users(0,userName,password,user_email,user_phone,user_address,1,0);
+        String verifyCodes =(String) request.getSession().getAttribute("verifyCodes");
+        int verifyCode1 = Integer.parseInt(verifyCodes);
+        int verifyCode2 = Integer.parseInt(verifyCode);
+        // 验证码正确则添加到数据库
+        if (verifyCode1==verifyCode2){
+        int i = userService.register(users);
+
+        if (i>0){
+            request.getSession().setAttribute("photo",fileName);
+            return Result.setSuccess("","注册成功");
+        }
+        return Result.setSuccess("","注册失败");
+        }
+
+
+        return Result.setError("","验证码错误");
+    }
 
 }
