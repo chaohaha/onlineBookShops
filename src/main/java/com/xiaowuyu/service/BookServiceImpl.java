@@ -49,4 +49,9 @@ public class BookServiceImpl implements BookService {
     public List<Books> bookAll(Books books) {
         return bookMapper.bookAll(books);
     }
+
+    public int upBook(int books_id,int sl) {
+        int i = bookMapper.upBook(books_id, sl);
+        return i;
+    }
 }
