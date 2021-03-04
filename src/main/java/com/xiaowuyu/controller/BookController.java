@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -121,5 +122,34 @@ public class BookController {
     public String deleteBook(@PathVariable("book_id") int book_id) {
         bookService.deleteBookByBook_id(book_id);
         return "redirect:/book/allBook";
+    }
+
+    /**
+     * 后台查询所以书籍
+     */
+    @RequestMapping("bookAll")
+    public ModelAndView bookAll(){
+        ModelAndView mv = new ModelAndView();
+        List<Books> booksList = bookService.bookAll(null);
+        mv.addObject("bookList",booksList);
+        mv.setViewName("admin/bookadmin");
+        return mv;
+    }
+
+    /**
+     * 后台书籍搜索框模糊查询
+     */
+    @RequestMapping("bookByNameOrIdOrcategory")
+    public ModelAndView bookByNameOrIdOrcategory(String bookname){
+        ModelAndView mv = new ModelAndView();
+        if (bookname==null||bookname==""){
+            mv.setViewName("redirect:bookAll");
+            return mv;
+        }
+        Books books=bookService.bookByNameOrIdOrcategory(bookname);
+        List<Books> booksList = bookService.bookAll(books);
+        mv.addObject("bookList",booksList);
+        mv.setViewName("admin/bookadmin");
+        return mv;
     }
 }
