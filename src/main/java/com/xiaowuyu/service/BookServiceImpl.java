@@ -58,4 +58,17 @@ public class BookServiceImpl implements BookService {
     public int bookAdd(Books books) {
         return bookMapper.bookAdd(books);
     }
+
+    public int bookDelete(int book_id) {
+        return bookMapper.bookDelete(book_id);
+    }
+
+    public String bookAllById(int book_id) {
+        return bookMapper.bookAllById(book_id);
+    }
+
+    public Books bookAllByBID(int book_id) {
+        return bookMapper.bookAllByBID(book_id);
+
+    }
 }

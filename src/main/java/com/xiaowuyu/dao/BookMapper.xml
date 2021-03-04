@@ -63,7 +63,6 @@
                #{book_id.book_id}
            </foreach>
         </if>
-
     </select>
 
     <!--搜索框多字段模糊查询-->
@@ -80,5 +79,21 @@
     <insert id="bookAdd" parameterType="Books">
         insert into books values (0,#{book_name},#{book_author},#{category_id},#{book_price},#{book_counts},0,#{book_image},#{book_details},0)
     </insert>
+
+    <!--删除书籍-->
+    <delete id="bookDelete" parameterType="Books">
+        delete from books where book_id=#{book_id}
+    </delete>
+
+    <!--通过id查询图片地址-->
+    <select id="bookAllById" resultType="string">
+        select book_image from books where book_id=#{book_id}
+    </select>
+
+    <!--通过id查询书籍信息-->
+    <select id="bookAllByBID" resultMap="BooksMap">
+        select b.*,c.* from books b,category c
+        where b.category_id=c.category_id and book_id=#{book_id}
+    </select>
 
 </mapper>
