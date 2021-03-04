@@ -3,6 +3,8 @@ package com.xiaowuyu.dao;
 import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Users;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -33,4 +35,10 @@ public interface UserMapper {
 
     //查询全部用户,返回list集合
     List<Users> queryAllUser();
+    // 找回密码
+    @Update("update users set user_pwd=#{user_pwd} where user_phone=#{user_phone}  ")
+    Integer retrievePassword(@Param("user_phone") String user_phone, @Param("user_pwd")  String user_pwd);
+    // 根据手机号查用户名
+    @Select("select * from users where user_phone=#{user_phone} ")
+    Users QueryUserName(String user_phone);
 }
