@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -31,6 +32,28 @@ public class OrderController {
         model.addAttribute("list", list);
         return "Order";
     }*/
+
+    /**
+     * 提交订单
+     * @return
+     */
+    @RequestMapping("/booksBuy")
+    public String deleteProduct(@RequestParam("ids[]") String[] ids){
+        System.out.println("..."+ids);
+
+        for (String id : ids) {
+            System.out.println(id);
+        }
+        /*Arrays.stream(ids).forEach((id)-> System.out.println(id));
+        for (String id : ids) {
+            System.out.println(id);
+            Integer integer = iProductService.deleteProduct(id);
+            System.out.println(integer);
+        }
+        System.out.println(ids);*/
+
+        return "redirect:/allCart";
+    }
 
 
     /*需要得到登陆完成的 session 来的到user的id*/

@@ -22,4 +22,6 @@ public interface CartService {
     int deleteAll(int user_id);
 
     Cart userAndCart(Cart cart);
+
+    /*Cart CartByCartId(int );*/
 }
