@@ -55,15 +55,19 @@
                     <div class="col-sm-3 line-center"><input type="checkbox" name="${l.book_id}" class="tesi">  ${l.book_name}</div>
                     <div class="col-sm-1 line-center">${l.cart_price}￥</div>
                     <div class="col-sm-4 line-center">
+                        <a href="${pageContext.request.contextPath}/Decrease?books_id=${l.book_id}">
                         <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                         </button>
-                        <input type="text" class="small" value="123"/>
+                        </a>
+                        <input type="text" class="small" value="${l.cart_counts}"/>
+                        <a href="${pageContext.request.contextPath}/Increase?books_id=${l.book_id}">
                         <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </button>
+                        </a>
                     </div>
-                    <div class="col-sm-2 line-center">小计</div>
+                    <div class="col-sm-2 line-center">${l.cart_counts*l.cart_price}￥</div>
                     <div class="col-sm-1 line-center"><button class="btn btn-danger">删除</button></div>
                 </div>
             </c:forEach>
@@ -104,7 +108,7 @@
             $.ajax({
                 type:"post",
                 url:"${pageContext.request.contextPath}/booksBuy",
-                data:ids,
+                data:{"ids":ids},
                 success:function (data) {
                     console.log(data)
                     if (data.code==200){

@@ -32,12 +32,78 @@ public class CartController {
     @RequestMapping("/allCart")
     public String list(Model model, HttpSession session) {
        Users users = (Users) session.getAttribute("user");
+       if (null==users||null==users.getUser_name()){
+           return "redirect:/toLogin";
+       }
         int user_id = users.getUser_id();
         List<Cart> list = cartService.queryAllCart(user_id);
         model.addAttribute("list", list);
         return "Cart";
     }
 
+    /**
+     * 购物车数量增
+     * @return
+     * IncreaseOrDecrease
+     */
+    @RequestMapping("/Increase")
+    public String Increase(Model model, int books_id,HttpSession session) {
+        System.out.println("。。。。。");
+        Cart cart = new Cart();
+        Books books = bookService.queryBookByBook_id(books_id);
+        int book_counts = books.getBook_counts();
+        System.out.println(book_counts);
+        Users users=(Users) session.getAttribute("user");
+        int user_id = users.getUser_id();
+        cart.setBook_id(books_id);
+        cart.setUser_id(user_id);
+        Cart cart1 = cartService.userAndCart(cart);
+        System.out.println(cart1);
+        int cart_counts = cart1.getCart_counts();
+        System.out.println(cart_counts);
+        if (cart1.getCart_counts()<book_counts){
+            int i = cartService.plusCart(cart);
+            if (i>0) {
+                System.out.println("修改成功！");
+            }
+        }else {
+            System.out.println("库存不足！");
+        }
+        return "redirect:/allCart";
+    }
+
+    /**
+     * 购物车数量减
+     * @param model
+     * @param books_id
+     * @return
+     */
+    @RequestMapping("/Decrease")
+    public String Decrease(Model model, int books_id,HttpSession session) {
+        System.out.println("。。。。。");
+        Cart cart = new Cart();
+        Books books = bookService.queryBookByBook_id(books_id);
+        int book_counts = books.getBook_counts();
+        System.out.println(book_counts);
+        Users users=(Users) session.getAttribute("user");
+        int user_id = users.getUser_id();
+        cart.setBook_id(books_id);
+        cart.setUser_id(user_id);
+        Cart cart1 = cartService.userAndCart(cart);
+        System.out.println(cart1);
+        int cart_counts = cart1.getCart_counts();
+        System.out.println(cart_counts);
+        if (cart1.getCart_counts()>1){
+            int i = cartService.minusCart(cart);
+            if (i>0) {
+
+                System.out.println("修改成功！");
+            }
+        }else {
+            System.out.println("数量不能少于一！");
+        }
+        return "redirect:/allCart";
+    }
 
     /*加入购物车*/
     @RequestMapping("/TAddCart")
@@ -66,10 +132,10 @@ public class CartController {
                 System.out.println("已有订单，前往购物车查看");
                 return Result.setSuccess("","已有订单，前往购物车查看");
             }*/
-            int j = bookService.upBook(books.getBook_id(),-1);
+            /*int j = bookService.upBook(books.getBook_id(),-1);
             if (j>0){
                 System.out.println("增减成功");
-            }
+            }*/
             int i = cartService.addCart(cart);
             if (i>0){
                 System.out.println("添加陈功");
