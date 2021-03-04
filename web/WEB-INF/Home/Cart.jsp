@@ -68,7 +68,10 @@
                         </a>
                     </div>
                     <div class="col-sm-2 line-center">${l.cart_counts*l.cart_price}￥</div>
-                    <div class="col-sm-1 line-center"><button class="btn btn-danger">删除</button></div>
+
+                    <a href="${pageContext.request.contextPath}/DeleteCart?cartId=${l.cart_id}" onclick="return confirm('确定删除?');">
+                        <div class="col-sm-1 line-center"><button class="btn btn-danger">删除</button></div>
+                    </a>
                 </div>
             </c:forEach>
         <div class="col-sm-offset-7 col-sm-5" style="padding: 30px;">

@@ -211,4 +211,18 @@ public class CartController {
         return "redirect:/cart/allCart";
     }
 
+    /**
+     * 删除购物车
+     * @return
+     */
+    @RequestMapping("/DeleteCart")
+    public String DeleteCart(int cartId){
+        System.out.println(cartId);
+        int i = cartService.deleteByCart_id(cartId);
+        if (i>0){
+            System.out.println("删除成功");
+        }
+        return "redirect:/allCart";
+    }
+
 }
