@@ -41,4 +41,9 @@ public class BookServiceImpl implements BookService {
     public List<Books> queryBookNmae(String bookName) {
         return bookMapper.queryBookNmae(bookName);
     }
+
+    public int upBook(int books_id,int sl) {
+        int i = bookMapper.upBook(books_id, sl);
+        return i;
+    }
 }

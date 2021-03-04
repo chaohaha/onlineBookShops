@@ -24,6 +24,10 @@ public class Result {
         return new Result(200,msg,data);
     }
 
+    public static Result setSuccess(int code,Object data,String msg){
+
+        return new Result(code,msg,data);
+    }
     public static Result setError(Object data){
 
         return new Result(500,"error",data);
