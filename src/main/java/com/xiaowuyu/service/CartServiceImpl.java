@@ -28,5 +28,11 @@ public class CartServiceImpl implements CartService{
 
     public int deleteByCart_id(int cart_id){return cartMapper.deleteByCart_id(cart_id);};
 
-    public int deleteAll(int user_id){return cartMapper.deleteAll(user_id);};
+    public int deleteAll(int user_id){return cartMapper.deleteAll(user_id);}
+
+    public Cart userAndCart(Cart cart) {
+        return cartMapper.userAndCart(cart);
+    }
+
+    ;
 }

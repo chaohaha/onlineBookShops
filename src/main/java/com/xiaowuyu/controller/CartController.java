@@ -4,12 +4,14 @@ import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Cart;
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.*;
+import com.xiaowuyu.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -28,16 +30,58 @@ public class CartController {
 
     /*跳转购物车 需要session*/
     @RequestMapping("/allCart")
-    public String list(/*Model model, HttpSession session*/) {
-       /* Users users = (Users) session.getAttribute("user");
+    public String list(Model model, HttpSession session) {
+       Users users = (Users) session.getAttribute("user");
         int user_id = users.getUser_id();
         List<Cart> list = cartService.queryAllCart(user_id);
-        model.addAttribute("list", list);*/
+        model.addAttribute("list", list);
         return "Cart";
     }
 
-    @RequestMapping("/toAddCart")
-    public String toAddPaper(Cart cart, int book_id, Model model, HttpSession session) {
+
+    /*加入购物车*/
+    @RequestMapping("/TAddCart")
+    @ResponseBody
+    public Result toAddPaper(Cart cart, int id,HttpSession session) {
+        System.out.println(id);
+        Users users=(Users) session.getAttribute("user");
+        if (null==users||null==users.getUser_pwd()){
+            System.out.println("没登录");
+            return Result.setError("","您还未登陆,跳转登陆页？");
+        }else {
+            Books books=bookService.queryBookByBook_id(id);
+            cart.setBook_id(id);
+            cart.setBook_name(books.getBook_name());
+            cart.setCart_price(books.getBook_price());
+            cart.setUser_id(users.getUser_id());
+            System.out.println(cart);
+            System.out.println(users);
+            Cart cart1 = cartService.userAndCart(cart);
+            if(null!=cart1){
+                cartService.plusCart(cart);
+                System.out.println("没有");
+                return Result.setSuccess(444,"","已有订单，前往购物车查看");
+            }
+            /*if (null==cart1||null==cart1.getBook_name()){
+                System.out.println("已有订单，前往购物车查看");
+                return Result.setSuccess("","已有订单，前往购物车查看");
+            }*/
+            int j = bookService.upBook(books.getBook_id(),-1);
+            if (j>0){
+                System.out.println("增减成功");
+            }
+            int i = cartService.addCart(cart);
+            if (i>0){
+                System.out.println("添加陈功");
+            }
+
+        }
+        return Result.setSuccess("","添加成功！");
+    }
+
+
+    /*@RequestMapping("/toAddCart")
+    public Result toAddPaper(Cart cart, int book_id, Model model, HttpSession session) {
         Books books=bookService.queryBookByBook_id(book_id);
         cart.setBook_id(book_id);
         cart.setBook_name(books.getBook_name());
@@ -46,8 +90,8 @@ public class CartController {
         cart.setUser_id(users.getUser_id());
         model.addAttribute("cart",cart);
         session.setAttribute("cart",cart);
-        return "redirect:/cart/addCart";
-    }
+        return Result.setSuccess();
+    }*/
 
     @RequestMapping("/addCart")
     public String addPaper(Cart cart, HttpSession session) {

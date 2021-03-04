@@ -5,7 +5,8 @@
   Time: 23:09
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>书籍管理</title>
@@ -43,9 +44,9 @@
                     <h3 class="text-center" style="margin-bottom: 30px">书籍管理</h3>
                 </div>
                 <div class="col-sm-12" style="margin-bottom: 10px">
-                    <form action="#" method="post">
+                    <form action="${pageContext.request.contextPath}/bookByNameOrIdOrcategory" method="post">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control" id="" name="" placeholder="书名、分类、编号其中一个来查询">
+                            <input type="text" class="form-control"  name="bookname" placeholder="书名、分类、编号其中一个来查询">
                         </div>
                         <div class="col-lg-1">
                             <button class="btn btn-success">查询</button>
@@ -63,7 +64,30 @@
                     <div class="col-sm-2 line-center" style="width: 110px;">状态</div>
                     <div class="col-sm-3 line-center" style="width: 125px;">操作</div>
                 </div>
-                <div class="list-group">
+                <c:forEach var="b" items="${bookList}">
+                    <div class="list-group">
+                        <div class="col-sm-12  list-group-item" style="">
+                            <div class="col-sm-3 line-center" onclick="myClick(1)" style="width: 110px;margin-left: -10px;">${b.book_id}</div>
+                            <div class="col-sm-2 line-center" style="width: 110px;">${b.book_name}</div>
+                            <div class="col-sm-2 line-center" style="width: 110px;">${b.category.category_name}</div>
+                            <div class="col-sm-2 line-center" style="width: 110px;">${b.book_price}</div>
+                            <div class="col-sm-2 line-center" style="width: 110px;">${b.book_counts}</div>
+                            <div class="col-sm-2 line-center" style="width: 110px;">${b.book_sales}</div>
+                            <div class="col-sm-2 line-center" style="width: 110px;"><img src="" width="20px" height="30px"/></div>
+                            <div class="col-sm-2 line-center" style="width: 110px;">${b.book_type}</div>
+                            <div class="col-sm-3 line-center" style="width: 125px;">
+                                <a href="${pageContext.request.contextPath}/bookAddOne">
+                                    <button class="btn btn-danger" style="padding: 5px 5px;">增</button>
+                                </a>
+                                <button class="btn btn-danger" style="padding: 5px 5px;">删</button>
+                                <button class="btn btn-danger" style="padding: 5px 5px;">改</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+
+                <%--<div class="list-group">
                     <div class="col-sm-12  list-group-item" style="">
                         <div class="col-sm-3 line-center" onclick="myClick(1)" style="width: 110px;margin-left: -10px;">编号</div>
                         <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
@@ -79,24 +103,7 @@
                             <button class="btn btn-danger" style="padding: 5px 5px;">改</button>
                         </div>
                     </div>
-                </div>
-                <div class="list-group">
-                    <div class="col-sm-12  list-group-item" style="">
-                        <div class="col-sm-3 line-center" onclick="myClick(1)" style="width: 110px;margin-left: -10px;">编号</div>
-                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
-                        <div class="col-sm-2 line-center" style="width: 110px;">未付款</div>
-                        <div class="col-sm-3 line-center" style="width: 125px;">
-                            <button class="btn btn-danger" style="padding: 5px 5px;">增</button>
-                            <button class="btn btn-danger" style="padding: 5px 5px;">删</button>
-                            <button class="btn btn-danger" style="padding: 5px 5px;">改</button>
-                        </div>
-                    </div>
-                </div>
+                </div>--%>
                 <nav class="center">
                     <ul class="pagination  pagination-lg">
                         <li>

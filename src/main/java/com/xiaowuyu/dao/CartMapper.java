@@ -2,6 +2,7 @@ package com.xiaowuyu.dao;
 
 import com.xiaowuyu.pojo.Cart;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -21,4 +22,10 @@ public interface CartMapper {
     int deleteByCart_id(@Param("cart_id")int cart_id);
 
     int deleteAll(@Param("user_id")int user_id);
+
+
+    /*查看是否有订单*/
+    @Select("select * from cart where user_id = #{user_id} and book_id = #{book_id}")
+    Cart userAndCart(Cart cart);
+
 }

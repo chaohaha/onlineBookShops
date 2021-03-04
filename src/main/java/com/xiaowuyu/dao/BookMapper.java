@@ -3,6 +3,7 @@ package com.xiaowuyu.dao;
 import com.xiaowuyu.pojo.Books;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -29,4 +30,12 @@ public interface BookMapper {
     /*模糊搜索*/
     @Select("select * from books where book_name like '%${bookName}%'")
     List<Books> queryBookNmae(String bookName);
+
+    Books bookByNameOrIdOrcategory(String bookname);
+
+    List<Books> bookAll(Books books);
+
+    /*修改书籍库存*/
+    @Update("UPDATE books SET book_counts = book_counts + #{sl} where book_id=#{books_id}")
+    int upBook(@Param("books_id") int books_id,@Param("sl")int sl);
 }

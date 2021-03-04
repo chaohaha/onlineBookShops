@@ -1,15 +1,20 @@
 package com.xiaowuyu.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Category;
 import com.xiaowuyu.service.BookService;
 import com.xiaowuyu.service.CategoryService;
+import com.xiaowuyu.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -122,4 +127,57 @@ public class BookController {
         bookService.deleteBookByBook_id(book_id);
         return "redirect:/book/allBook";
     }
+
+    /**
+     * 后台查询所以书籍
+     */
+    @RequestMapping("bookAll")
+    public ModelAndView bookAll(){
+        ModelAndView mv = new ModelAndView();
+        List<Books> booksList = bookService.bookAll(null);
+        mv.addObject("bookList",booksList);
+        mv.setViewName("admin/bookadmin");
+        return mv;
+    }
+
+    /**
+     * 后台书籍搜索框模糊查询
+     */
+    @RequestMapping("bookByNameOrIdOrcategory")
+    public ModelAndView bookByNameOrIdOrcategory(String bookname){
+        ModelAndView mv = new ModelAndView();
+        if (bookname==null||bookname==""){
+            mv.setViewName("redirect:bookAll");
+            return mv;
+        }
+        Books books=bookService.bookByNameOrIdOrcategory(bookname);
+        List<Books> booksList = bookService.bookAll(books);
+        mv.addObject("bookList",booksList);
+        mv.setViewName("admin/bookadmin");
+        return mv;
+    }
+
+    /**
+     * 跳转书籍新增页面加载分类
+     */
+    @RequestMapping("bookAddOne")
+    public ModelAndView bookAddOne(){
+        ModelAndView mv = new ModelAndView();
+        List<Category> categoryList = categoryService.queryAllCartgory();
+        mv.addObject("categoryList",categoryList);
+        mv.setViewName("admin/bookadmin_add");
+        return mv;
+    }
+
+    /**
+     * 书籍新增
+     */
+    @RequestMapping("bookAdd")
+    @ResponseBody
+    public void bookAdd(Books books, @PathVariable("book_image")MultipartFile formdata){
+        System.out.println(books);
+        System.out.println(formdata);
+//        return null;
+    }
+
 }

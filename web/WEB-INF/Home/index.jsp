@@ -53,6 +53,9 @@
             </a>
         </li>
 
+
+
+
     </ul>
     <div class="row">
         <c:forEach  items="${list}" var="l">

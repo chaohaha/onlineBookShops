@@ -4,8 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.xiaowuyu.dao.BookMapper">
-
-
+    <!--多对多关系-->
+    <resultMap id="BooksMap" type="Books">
+        <id property="book_id" column="book_id"></id>
+        <result property="book_author" column="book_author"></result>
+        <result property="book_counts" column="book_counts"></result>
+        <result property="book_details" column="book_details"></result>
+        <result property="book_name" column="book_name"></result>
+        <result property="book_image" column="book_image"></result>
+        <result property="book_price" column="book_price"></result>
+        <result property="book_type" column="book_type"></result>
+        <result property="book_sales" column="book_sales"></result>
+        <result property="category_id" column="category_id"></result>
+        <association property="category" javaType="Category">
+            <id property="category_id" column="category_id"></id>
+            <result property="category_code" column="category_code"></result>
+            <result property="category_level" column="category_level"></result>
+            <result property="category_name" column="category_name"></result>
+            <result property="category_preid" column="category_preid"></result>
+        </association>
+    </resultMap>
 
     <!--增加一个Book-->
     <insert id="addBook" parameterType="Books">
@@ -34,6 +52,25 @@
     <!--查询全部Book-->
     <select id="queryAllBook" resultType="Books">
         SELECT * from graduation.books order by book_id desc;
+    </select>
+
+    <select id="bookAll" resultMap="BooksMap">
+        select b.*,c.* from books b,category c
+        where
+        <if test="category_id!=null and category_id!=''">
+           b.category_id = #{category_id} and
+        </if>
+        b.category_id=c.category_id
+    </select>
+
+    <!--搜索框多字段模糊查询-->
+    <select id="bookByNameOrIdOrcategory" resultMap="BooksMap">
+        select category_id from books
+        where
+        <if test="bookname!=null and bookname!=''">
+            book_id like '%${bookname}%' or book_name like '%${bookname}%'
+            or category_id in (select category_id from category where category_name like '%${bookname}%')
+        </if>
     </select>
 
 </mapper>

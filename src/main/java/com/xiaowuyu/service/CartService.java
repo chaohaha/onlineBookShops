@@ -20,4 +20,6 @@ public interface CartService {
     int deleteByCart_id(int cart_id);
 
     int deleteAll(int user_id);
+
+    Cart userAndCart(Cart cart);
 }
