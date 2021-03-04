@@ -145,6 +145,19 @@ public class CartController {
         return Results.setSuccess("","添加成功！");
     }
 
+    /**
+     * 删除购物车
+     * @return
+     */
+    @RequestMapping("/DeleteCart")
+    public String DeleteCart(int cartId){
+        System.out.println(cartId);
+        int i = cartService.deleteByCart_id(cartId);
+        if (i>0){
+            System.out.println("删除成功");
+        }
+        return "redirect:/allCart";
+    }
 
     /*@RequestMapping("/toAddCart")
     public Results toAddPaper(Cart cart, int book_id, Model model, HttpSession session) {
