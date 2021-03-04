@@ -31,6 +31,10 @@ public interface BookService {
 
     List<Books> queryBookNmae(String bookName);
 
+    Books bookByNameOrIdOrcategory(String bookname);
+
+    List<Books> bookAll(Books books);
+
     /*修改书籍库存*/
     int upBook(int books_id,int sl);
 }

@@ -42,6 +42,14 @@ public class BookServiceImpl implements BookService {
         return bookMapper.queryBookNmae(bookName);
     }
 
+    public Books bookByNameOrIdOrcategory(String bookname) {
+        return bookMapper.bookByNameOrIdOrcategory(bookname);
+    }
+
+    public List<Books> bookAll(Books books) {
+        return bookMapper.bookAll(books);
+    }
+
     public int upBook(int books_id,int sl) {
         int i = bookMapper.upBook(books_id, sl);
         return i;

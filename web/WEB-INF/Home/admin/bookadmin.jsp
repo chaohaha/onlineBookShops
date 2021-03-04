@@ -76,9 +76,12 @@
                             <div class="col-sm-2 line-center" style="width: 110px;"><img src="" width="20px" height="30px"/></div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_type}</div>
                             <div class="col-sm-3 line-center" style="width: 125px;">
-                                <button class="btn btn-danger" style="padding: 5px 5px;">增</button>
+                                <a href="${pageContext.request.contextPath}/bookAddOne">
+                                    <button class="btn btn-danger" style="padding: 5px 5px;">增</button>
+                                </a>
                                 <button class="btn btn-danger" style="padding: 5px 5px;">删</button>
                                 <button class="btn btn-danger" style="padding: 5px 5px;">改</button>
+
                             </div>
                         </div>
                     </div>
