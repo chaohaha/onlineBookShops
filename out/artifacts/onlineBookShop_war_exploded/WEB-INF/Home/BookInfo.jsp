@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -55,8 +56,11 @@
             <img style="width: 100%; height: 500px; display: block;" src=""  data-holder-rendered="true">
             <div class="caption center">
                 <h3>书名：${book.book_name}</h3>
+
                 <p>作者：${book.book_author}</p>
-                <p><a class="btn btn-primary btn-block" role="button" href="#">立即购买</a> <a class="btn btn-default btn-block" role="button" href="#">加入购物车</a></p>
+                <p><a class="btn btn-primary btn-block" role="button" href="booksBuy?id=${book.book_id}">立即购买</a>
+                    <input type="hidden" name="bookId"  value="${book.book_id}">
+                    <a class="btn btn-default btn-block" role="button" <%--href="TAddCart?book_id=${book.book_id}"--%> onclick="TAddCart()">加入购物车</a></p>
             </div>
     </div>
     <div class="col-sm-8">
@@ -64,7 +68,13 @@
                 <h3>图书介绍</h3>
                 <p>${book.book_details}</p>
 
-            </div>
+        </div>
+        <div class="caption" style="margin-top: 200px">
+
+            <p>书籍库存：${book.book_counts} 本</p>
+            <p>书籍销量：${book.book_sales} 本</p>
+            <h6>书籍单价：<i><font color="red">${book.book_price}</font></i> ￥</h6>
+        </div>
 
     </div>
 
@@ -75,4 +85,29 @@
     版权声明区
 </div>
 </body>
+<script type="text/javascript">
+    function TAddCart() {
+        var id=$('[name="bookId"]').val();
+        $.ajax({
+            type:"post",
+            url:"${pageContext.request.contextPath}/TAddCart",
+            data:{id:id},
+            success:function (data) {
+                console.log(data)
+                if (data.code==200){
+                    alert(data.msg)
+                    location.reload();
+                }
+                if(data.code==500){
+                    alert(data.msg)
+                    location.href="${pageContext.request.contextPath}/toLogin";
+                }
+                if (data.code==444){
+                    alert(data.msg)
+                    location.href="${pageContext.request.contextPath}/allCart";
+                }
+            }
+        });
+    }
+</script>
 </html>

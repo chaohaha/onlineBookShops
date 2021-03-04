@@ -27,30 +27,7 @@
 </head>
 <body>
 <!-- Static navbar -->
-<%--<div class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">这什么东西</span>
-            </button>
-            <a class="navbar-brand" href="Index.jsp">图书商城</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="Index.jsp">首页</a></li>
-                <li><a href="Order.jsp">我的订单</a></li>
-                <li><a href="UserInfo.jsp">个人中心</a></li>
-                <li><a href="FriendLink.jsp">友情链接</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right hidden-sm">
-                <li><a href="Login.jsp">登录</a></li>
-                <li><a href="Register.jsp">注册</a></li>
-                <li>
-                    <a href="Cart.jsp"><span class="glyphicon glyphicon-shopping-cart">购物车</span></a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</div>--%>
+
 <jsp:include page="head.jsp"></jsp:include>
 <!--content-->
 <div class="container">
@@ -67,69 +44,27 @@
                 <div class="col-sm-2 line-center">小计</div>
                 <div class="col-sm-1 line-center">操作</div>
             </div>
-            <div class="col-sm-12  list-group-item">
-                <div class="col-sm-1 line-center" style="width: 50px;height: 50px;">
+            <c:forEach items="${list}" var="l">
+                <div class="col-sm-12  list-group-item">
+                    <div class="col-sm-1 line-center" style="width: 50px;height: 50px;">
 
-                    <img src="../Flat-UI-master/dist/img/icons/png/Book.png" style="height: 100%;" alt=""/>
+                        <img src="../Flat-UI-master/dist/img/icons/png/Book.png" style="height: 100%;" alt=""/>
+                    </div>
+                    <div class="col-sm-3 line-center">${l.book_name}</div>
+                    <div class="col-sm-1 line-center">${l.cart_price}￥</div>
+                    <div class="col-sm-4 line-center">
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </button>
+                        <input type="text" class="small" value="123"/>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="col-sm-2 line-center">小计</div>
+                    <div class="col-sm-1 line-center"><button class="btn btn-danger">删除</button></div>
                 </div>
-                <div class="col-sm-3 line-center">书名</div>
-                <div class="col-sm-1 line-center">单价</div>
-                <div class="col-sm-4 line-center">
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                    </button>
-                    <input type="text" class="small" value="123"/>
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    </button>
-                </div>
-                <div class="col-sm-2 line-center">小计</div>
-                <div class="col-sm-1 line-center"><button class="btn btn-danger">删除</button></div>
-            </div>
-            <div class="col-sm-12  list-group-item">
-                <div class="col-sm-1 line-center" style="width: 50px;height: 50px;">
-                    <img src="../Flat-UI-master/dist/img/icons/png/Book.png" style="height: 100%;" alt=""/>
-                </div>
-                <div class="col-sm-3 line-center">书名</div>
-                <div class="col-sm-1 line-center">单价</div>
-                <div class="col-sm-4 line-center">
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                    </button>
-                    <input type="text" class="small" value="123"/>
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    </button>
-                </div>
-                <div class="col-sm-2 line-center">小计</div>
-                <div class="col-sm-1 line-center"><button class="btn btn-danger">删除</button></div>
-            </div>
-            <div class="col-sm-12  list-group-item">
-                <div class="col-sm-1 line-center" style="width: 50px;height: 50px;">
-                    <img src="../Flat-UI-master/dist/img/icons/png/Book.png" style="height: 100%;" alt=""/>
-                </div>
-                <div class="col-sm-3 line-center">书名</div>
-                <div class="col-sm-1 line-center">单价</div>
-                <div class="col-sm-4 line-center">
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                    </button>
-                    <input type="text" class="small" value="123"/>
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    </button>
-                </div>
-                <div class="col-sm-2 line-center">小计</div>
-                <div class="col-sm-1 line-center"><button class="btn btn-danger">删除</button></div>
-            </div>
-
-            <div class="col-sm-12 thumbnail">
-                <div class=" col-sm-offset-4 col-sm-2 text-right">总数：</div>
-                <div class="col-sm-2">342</div>
-                <div class="col-sm-2 text-right">总价：</div>
-                <div class="col-sm-2">342</div>
-            </div>
-        </div>
+            </c:forEach>
         <div class="col-sm-offset-7 col-sm-5" style="padding: 30px;">
             <div class="col-sm-6 btn btn-success btn-block">继续购物</div>
             <div class="col-sm-6  btn btn-success btn-block">提交订单</div>

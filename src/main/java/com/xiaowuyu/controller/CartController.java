@@ -4,7 +4,7 @@ import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Cart;
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.*;
-import com.xiaowuyu.utils.Result;
+import com.xiaowuyu.utils.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -108,12 +108,12 @@ public class CartController {
     /*加入购物车*/
     @RequestMapping("/TAddCart")
     @ResponseBody
-    public Result toAddPaper(Cart cart, int id,HttpSession session) {
+    public Results toAddPaper(Cart cart, int id,HttpSession session) {
         System.out.println(id);
         Users users=(Users) session.getAttribute("user");
         if (null==users||null==users.getUser_pwd()){
             System.out.println("没登录");
-            return Result.setError("","您还未登陆,跳转登陆页？");
+            return Results.setError("","您还未登陆,跳转登陆页？");
         }else {
             Books books=bookService.queryBookByBook_id(id);
             cart.setBook_id(id);
@@ -126,11 +126,11 @@ public class CartController {
             if(null!=cart1){
                 cartService.plusCart(cart);
                 System.out.println("没有");
-                return Result.setSuccess(444,"","已有订单，前往购物车查看");
+                return Results.setSuccess(444,"","已有订单，前往购物车查看");
             }
             /*if (null==cart1||null==cart1.getBook_name()){
                 System.out.println("已有订单，前往购物车查看");
-                return Result.setSuccess("","已有订单，前往购物车查看");
+                return Results.setSuccess("","已有订单，前往购物车查看");
             }*/
             /*int j = bookService.upBook(books.getBook_id(),-1);
             if (j>0){
@@ -142,12 +142,12 @@ public class CartController {
             }
 
         }
-        return Result.setSuccess("","添加成功！");
+        return Results.setSuccess("","添加成功！");
     }
 
 
     /*@RequestMapping("/toAddCart")
-    public Result toAddPaper(Cart cart, int book_id, Model model, HttpSession session) {
+    public Results toAddPaper(Cart cart, int book_id, Model model, HttpSession session) {
         Books books=bookService.queryBookByBook_id(book_id);
         cart.setBook_id(book_id);
         cart.setBook_name(books.getBook_name());
@@ -156,7 +156,7 @@ public class CartController {
         cart.setUser_id(users.getUser_id());
         model.addAttribute("cart",cart);
         session.setAttribute("cart",cart);
-        return Result.setSuccess();
+        return Results.setSuccess();
     }*/
 
     @RequestMapping("/addCart")

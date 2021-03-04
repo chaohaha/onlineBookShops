@@ -41,11 +41,20 @@
         <p>...</p>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a></p>
     </div>
-
     <ul class="nav nav-tabs" id="myTabs">
         <c:forEach items="${clist}" var="c">
             <li class="active"><a href="BookClass?category_id=${c.category_id}" >${c.category_name}</a></li>
         </c:forEach>
+        <li class="active" style="margin-left: 50px">
+            <a><form action="BookS">
+                <th><input type="text" name="BookName"></th>
+                <th><button>搜索</button></th>
+            </form>
+            </a>
+        </li>
+
+
+
 
     </ul>
     <div class="row">

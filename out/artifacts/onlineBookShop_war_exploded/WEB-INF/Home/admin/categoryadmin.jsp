@@ -68,7 +68,9 @@
                                 <button class="btn btn-danger" style="padding: 5px 5px;">新增</button>
                             </a>
                             <button class="btn btn-danger del" style="padding: 5px 5px;">删除</button>
-                            <button class="btn btn-danger" style="padding: 5px 5px;">修改</button>
+                            <a href="${pageContext.request.contextPath}/category/categoryById?category_id=${c.category_id}">
+                                <button class="btn btn-danger" style="padding: 5px 5px;">修改</button>
+                            </a>
                         </div>
                     </div>
                 </div>
