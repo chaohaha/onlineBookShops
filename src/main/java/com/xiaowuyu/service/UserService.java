@@ -32,4 +32,7 @@ public interface UserService {
     //查询全部用户,返回list集合
     List<Users> queryAllUser();
 
+    Integer retrievePassword(String mobile, String password);
+
+    Users QueryUserName(String mobile);
 }

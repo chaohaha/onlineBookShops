@@ -57,9 +57,17 @@
             <form class="form-horizontal caption" id="loginForm" action="##">
                 <div class="form-group">
                     <label for="username" class="col-sm-4 control-label">用户名</label>
-                    <div class="col-sm-4">
-                        <input type="text" name="user_name" class="form-control" id="username" placeholder="用户名">
-                    </div>
+                    <c:if test="${empty backUser}">
+                        <div class="col-sm-4">
+                            <input type="text" name="user_name" class="form-control" id="username" placeholder="用户名">
+                        </div>
+                    </c:if>
+                    <c:if test="${!empty backUser}">
+                        <div class="col-sm-4">
+                            <input type="text" name="user_name" value="${backUser}" class="form-control" id="username" placeholder="用户名">
+                        </div>
+                    </c:if>
+
                 </div>
                 <div class="form-group">
                     <label for="password" class="col-sm-4 control-label">密 &nbsp&nbsp&nbsp&nbsp码</label>
@@ -77,7 +85,7 @@
                     <div class="col-sm-offset-3 col-sm-9">
                         <div class="checkbox">
                             <label>
-                                <a href="#">忘记密码？</a>
+                                <a href="${pageContext.request.contextPath}/toRetrieve">忘记密码？</a>
                             </label>
                         </div>
                     </div>

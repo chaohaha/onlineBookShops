@@ -29,6 +29,8 @@ public class Result {
         return new Result(500,"error",data);
     }
 
+
+
     public static Result setError(Object data, String msg){
 
         return new Result(500,msg,data);
