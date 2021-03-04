@@ -28,4 +28,8 @@ public interface CartMapper {
     @Select("select * from cart where user_id = #{user_id} and book_id = #{book_id}")
     Cart userAndCart(Cart cart);
 
+    /*查看购物车商品数量*//*
+    @Select("select * from cart where user_id = #{user_id} and book_id = #{book_id}")
+    Cart CartByCartId(int books_id);*/
+
 }

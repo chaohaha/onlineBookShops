@@ -8,14 +8,20 @@ import com.xiaowuyu.service.CategoryService;
 import com.xiaowuyu.utils.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -150,7 +156,8 @@ public class BookController {
             mv.setViewName("redirect:bookAll");
             return mv;
         }
-        Books books=bookService.bookByNameOrIdOrcategory(bookname);
+        List<Books> books=bookService.bookByNameOrIdOrcategory(bookname);
+        System.out.println(books.size());
         List<Books> booksList = bookService.bookAll(books);
         mv.addObject("bookList",booksList);
         mv.setViewName("admin/bookadmin");
@@ -174,10 +181,34 @@ public class BookController {
      */
     @RequestMapping("bookAdd")
     @ResponseBody
-    public void bookAdd(Books books, @PathVariable("book_image")MultipartFile formdata){
-        System.out.println(books);
-        System.out.println(formdata);
-//        return null;
+    public Results bookAdd(@RequestParam("book_image")MultipartFile uploadFile, String book_name, String book_author,
+                        String category_id, double book_price, int book_counts, String book_details,
+                        HttpServletRequest request){
+        String path = request.getSession().getServletContext().getRealPath("upload\\book");//获取路径
+        String fileName = uploadFile.getOriginalFilename();//获取上传文件的名字
+        Date d = new Date();
+        long time=d.getTime();
+        //取文件扩展名
+        String ddname=fileName.substring(fileName.lastIndexOf("."));
+        //得到文件名
+        fileName=time+ddname;
+        System.out.println(fileName);
+        File targetFile = new File(path,fileName);
+        if(!targetFile.exists()){
+            targetFile.mkdirs();//是否存在目录，不存在就创建
+        }
+        //保存
+        try {
+            uploadFile.transferTo(targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Books books = new Books(0,book_name,book_author,category_id,book_price,book_counts,0,fileName,book_details,0,null);
+        int i=bookService.bookAdd(books);
+        if(i>0){
+            return Results.setSuccess("","书籍新增成功");
+        }
+        return Results.setSuccess("","书籍新增失败");
     }
 
 }

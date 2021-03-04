@@ -31,10 +31,12 @@ public interface BookService {
 
     List<Books> queryBookNmae(String bookName);
 
-    Books bookByNameOrIdOrcategory(String bookname);
+    List<Books> bookByNameOrIdOrcategory(String bookname);
 
-    List<Books> bookAll(Books books);
+    List<Books> bookAll(List<Books> books);
 
     /*修改书籍库存*/
     int upBook(int books_id,int sl);
+
+    int bookAdd(Books books);
 }

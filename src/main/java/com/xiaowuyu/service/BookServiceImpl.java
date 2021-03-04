@@ -42,16 +42,20 @@ public class BookServiceImpl implements BookService {
         return bookMapper.queryBookNmae(bookName);
     }
 
-    public Books bookByNameOrIdOrcategory(String bookname) {
+    public List<Books> bookByNameOrIdOrcategory(String bookname) {
         return bookMapper.bookByNameOrIdOrcategory(bookname);
     }
 
-    public List<Books> bookAll(Books books) {
+    public List<Books> bookAll(List<Books> books) {
         return bookMapper.bookAll(books);
     }
 
     public int upBook(int books_id,int sl) {
         int i = bookMapper.upBook(books_id, sl);
         return i;
+    }
+
+    public int bookAdd(Books books) {
+        return bookMapper.bookAdd(books);
     }
 }

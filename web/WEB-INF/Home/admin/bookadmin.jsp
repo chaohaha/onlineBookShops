@@ -73,7 +73,7 @@
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_price}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_counts}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_sales}</div>
-                            <div class="col-sm-2 line-center" style="width: 110px;"><img src="" width="20px" height="30px"/></div>
+                            <div class="col-sm-2 line-center" style="width: 110px;"><img src="${pageContext.request.contextPath}/upload/book/${b.book_image}" width="20px" height="30px"/></div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_type}</div>
                             <div class="col-sm-3 line-center" style="width: 125px;">
                                 <a href="${pageContext.request.contextPath}/bookAddOne">
