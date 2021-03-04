@@ -17,4 +17,5 @@ public class Books {
     private int book_sales;
     private String book_image;
     private String book_details;
+    private String book_type;
 }
