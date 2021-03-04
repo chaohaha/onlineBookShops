@@ -62,7 +62,7 @@
                 <div class="form-group">
                     <label for="password" class="col-sm-4 control-label">密码</label>
                     <div class="col-sm-4">
-                        <input type="password" name="user_pwd" class="form-control" id="password" placeholder="密码">
+                        <input type="passwords" name="user_pwd" class="form-control" id="password" placeholder="密码">
                     </div>
                 </div>
                 <div class="form-group">
