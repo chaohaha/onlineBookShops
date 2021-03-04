@@ -31,11 +31,13 @@ public interface BookMapper {
     @Select("select * from books where book_name like '%${bookName}%'")
     List<Books> queryBookNmae(String bookName);
 
-    Books bookByNameOrIdOrcategory(String bookname);
+    List<Books> bookByNameOrIdOrcategory(String bookname);
 
-    List<Books> bookAll(Books books);
+    List<Books> bookAll(@Param("books") List<Books> books);
 
     /*修改书籍库存*/
     @Update("UPDATE books SET book_counts = book_counts + #{sl} where book_id=#{books_id}")
     int upBook(@Param("books_id") int books_id,@Param("sl")int sl);
+
+    int bookAdd(Books books);
 }

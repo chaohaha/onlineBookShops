@@ -56,21 +56,29 @@
 
     <select id="bookAll" resultMap="BooksMap">
         select b.*,c.* from books b,category c
-        where
-        <if test="category_id!=null and category_id!=''">
-           b.category_id = #{category_id} and
+        where b.category_id=c.category_id
+        <if test="books != null and books.size() > 0">
+            and book_id in
+           <foreach collection="books" item="book_id" open="(" close=")" separator=",">
+               #{book_id.book_id}
+           </foreach>
         </if>
-        b.category_id=c.category_id
+
     </select>
 
     <!--搜索框多字段模糊查询-->
     <select id="bookByNameOrIdOrcategory" resultMap="BooksMap">
-        select category_id from books
+        select book_id from books
         where
         <if test="bookname!=null and bookname!=''">
             book_id like '%${bookname}%' or book_name like '%${bookname}%'
             or category_id in (select category_id from category where category_name like '%${bookname}%')
         </if>
     </select>
+
+    <!--新增一本书-->
+    <insert id="bookAdd" parameterType="Books">
+        insert into books values (0,#{book_name},#{book_author},#{category_id},#{book_price},#{book_counts},0,#{book_image},#{book_details},0)
+    </insert>
 
 </mapper>
