@@ -40,4 +40,10 @@ public interface BookMapper {
     int upBook(@Param("books_id") int books_id,@Param("sl")int sl);
 
     int bookAdd(Books books);
+
+    int bookDelete(int book_id);
+
+    String bookAllById(int book_id);
+
+    Books bookAllByBID(int book_id);
 }

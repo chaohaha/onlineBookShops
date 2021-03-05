@@ -39,4 +39,10 @@ public interface BookService {
     int upBook(int books_id,int sl);
 
     int bookAdd(Books books);
+
+    int bookDelete(int book_id);
+
+    String bookAllById(int book_id);
+
+    Books bookAllByBID(int book_id);
 }

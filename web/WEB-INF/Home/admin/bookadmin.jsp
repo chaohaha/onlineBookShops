@@ -31,6 +31,26 @@
             $('#myTabs a').click(function (e) {
                 $(this).tab('show')
             });
+
+            $('.bookDelete').each(function (i) {
+                $(this).click(function (){
+                    var book_id=$('.book_id').eq(i).text();
+                    if (confirm("你确定删除吗？")) {
+                        $.ajax({
+                            url: "${pageContext.request.contextPath}/bookDelete",
+                            type:"post",
+                            data:{book_id:book_id},
+                            success: function (data) {
+                                if(data.code == 200){
+                                    alert(data.msg);
+                                    location.href="${pageContext.request.contextPath}/bookAll";
+                                    return;
+                                }
+                            }
+                        })
+                    }
+                })
+            })
         })
     </script>
 </head>
@@ -67,21 +87,22 @@
                 <c:forEach var="b" items="${bookList}">
                     <div class="list-group">
                         <div class="col-sm-12  list-group-item" style="">
-                            <div class="col-sm-3 line-center" onclick="myClick(1)" style="width: 110px;margin-left: -10px;">${b.book_id}</div>
+                            <div class="col-sm-3 line-center book_id" onclick="myClick(1)" style="width: 110px;margin-left: -10px;">${b.book_id}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_name}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.category.category_name}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_price}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_counts}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_sales}</div>
-                            <div class="col-sm-2 line-center" style="width: 110px;"><img src="${pageContext.request.contextPath}/upload/book/${b.book_image}" width="20px" height="30px"/></div>
+                            <div class="col-sm-2 line-center" style="width: 110px;"><img src="${pageContext.request.contextPath}/upload/book/${b.book_image}" width="110px" height="80px"/></div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_type}</div>
                             <div class="col-sm-3 line-center" style="width: 125px;">
                                 <a href="${pageContext.request.contextPath}/bookAddOne">
                                     <button class="btn btn-danger" style="padding: 5px 5px;">增</button>
                                 </a>
-                                <button class="btn btn-danger" style="padding: 5px 5px;">删</button>
-                                <button class="btn btn-danger" style="padding: 5px 5px;">改</button>
-
+                                <button class="btn btn-danger bookDelete" style="padding: 5px 5px;">删</button>
+                                <a href="${pageContext.request.contextPath}/bookUpdateOne?book_id=${b.book_id}">
+                                    <button class="btn btn-danger" style="padding: 5px 5px;">改</button>
+                                </a>
                             </div>
                         </div>
                     </div>

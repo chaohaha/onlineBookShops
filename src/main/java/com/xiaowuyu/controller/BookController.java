@@ -211,4 +211,32 @@ public class BookController {
         return Results.setSuccess("","书籍新增失败");
     }
 
+    /**
+     * 书籍删除
+     */
+    @RequestMapping("bookDelete")
+    @ResponseBody
+    public Results bookDelete(int book_id,HttpServletRequest request){
+        String path = request.getSession().getServletContext().getRealPath("upload\\book");//获取路径
+        String fileName = bookService.bookAllById(book_id);//获取数据库文件的名字
+        File targetFile = new File(path,fileName);
+        if (targetFile.exists()){
+            targetFile.delete();//判断文件存不存，存在就删除
+        }
+       int i=bookService.bookDelete(book_id);
+       if (i>0){
+           return Results.setSuccess("","删除成功！");
+       }
+       return Results.setSuccess("","删除失败！");
+    }
+
+    @RequestMapping("bookUpdateOne")
+    public ModelAndView bookUpdateOne(int book_id){
+        ModelAndView mv = new ModelAndView();
+        Books books=bookService.bookAllByBID(book_id);
+        mv.addObject("books",books);
+        mv.setViewName("admin/bookadmin_update");
+        return mv;
+    }
+
 }
