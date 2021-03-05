@@ -19,7 +19,7 @@ public interface OrderMapper {
     int addOrder(Orders orders);
 
     //根据id删除一个Order
-    int deleteOrderByOrder_id(@Param("order_id") int order_id);
+    int deleteOrderByOrder_id(@Param("order_id") String order_id);
 
     //更新Order
     int updateOrder(Orders orders);
@@ -32,4 +32,6 @@ public interface OrderMapper {
 
     //查询一个userd的全部Order,返回list集合
     List<Orders> queryAllUserOrder(@Param("user_id") int user_id);
+
+    int updateOrderSend(Orders orders);
 }

@@ -9,7 +9,7 @@ public interface OrderService {
     int addOrder(Orders orders);
 
     //根据id删除一个Order
-    int deleteOrderByOrder_id(int order_id);
+    int deleteOrderByOrder_id(String order_id);
 
     //更新Order
     int updateOrder(Orders orders);
@@ -24,4 +24,6 @@ public interface OrderService {
     List<Orders> queryAllUserOrder(int user_id);
 
     int addOrders(Orders orders);
+
+    int updateOrderSend(Orders orders);
 }

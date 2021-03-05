@@ -113,12 +113,16 @@ public class OrderController {
     }
 
 
-    /*需要得到登陆完成的 session 来的到user的id*/
+    /*需要得到登陆完成的 session 得user的id*/
     @RequestMapping("/allUserOrder")
-    public String list(/*Model model, HttpSession session*/) {
-        /*Users users=(Users)session.getAttribute("user");
+    public String list(Model model, HttpSession session) {
+        Users users=(Users)session.getAttribute("user");
+        if (null==users){
+            return "redirect:/toLogin";
+        }
         List<Orders> list = orderService.queryAllUserOrder(users.getUser_id());
-        model.addAttribute("list", list);*/
+        model.addAttribute("list", list);
+        System.out.println(list);
         return "Order";
     }
 
@@ -134,26 +138,47 @@ public class OrderController {
         return "redirect:/order/allUserOrder";
     }
 
-    @RequestMapping("/toUpdateOrder")
-    public String toUpdateOrder(Model model, int order_id) {
-        Orders orders = orderService.queryOrderByOrder_id(order_id);
-        System.out.println(orders);
-        model.addAttribute("order",orders );
-        return "updateOrder";
+    /*删除订单*/
+    @RequestMapping("/deleteOrderByOrderId")
+    public String toUpdateOrder(String orderId) {
+        System.out.println(orderId);
+        int i = orderService.deleteOrderByOrder_id(orderId);
+        System.out.println(i);
+        return "redirect:/allUserOrder";
     }
 
-    /*@RequestMapping("/updateOrder")
+    /*更新订单*/
+
+    @RequestMapping("/updateOrderComplete")
+    @ResponseBody
+    public Results updateOrderComplete(String orderId) {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        System.out.println(dateFormat);
+        System.out.println("date=" + dateFormat.format(date.getTime()));
+        System.out.println(orderId);
+        Orders orders = new Orders();
+        orders.setOrder_complete_time(dateFormat.format(date.getTime()));
+        orders.setOrder_id(orderId);
+        orders.setOrder_status(2);
+        int i = orderService.updateOrderSend(orders);
+        System.out.println(i);
+        return Results.setSuccess("","收货成功！");
+    }
+
+
+   /* @RequestMapping("/updateOrder")
     public String updateOrder(Model model, Orders order) {
         System.out.println(order);
         orderService.updateOrder(order);
-        Orders orders = orderService.queryOrderByOrder_id(order.getOrder_id());
+        Orders orders = orderService.deleteOrderByOrder_id(order.getOrder_id());
         model.addAttribute("orders", orders);
         return "redirect:/order/allOrder";
     }*/
 
-    @RequestMapping("/del/{order_id}")
+    /*@RequestMapping("/del/{order_id}")
     public String deleteOrder(@PathVariable("order_id") int order_id) {
         orderService.deleteOrderByOrder_id(order_id);
         return "redirect:/order/allOrder";
-    }
+    }*/
 }

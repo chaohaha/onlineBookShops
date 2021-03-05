@@ -26,7 +26,7 @@
     </update>
 
     <!--根据id删除一个Order-->
-    <delete id="deleteOrderByOrder_id" parameterType="int">
+    <delete id="deleteOrderByOrder_id" parameterType="Orders">
         delete from graduation.orders
         where order_id=#{order_id}
     </delete>
