@@ -149,17 +149,17 @@ public class BookController {
     /**
      * 后台查询所以书籍
      */
-    @RequestMapping("bookAll")
+   /* @RequestMapping("bookAll")
     public ModelAndView bookAll(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
                                  @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize){
         ModelAndView mv = new ModelAndView();
-        List<Books> booksList = bookService.bookAll(null);
         PageHelper.startPage(page,pageSize);
-        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList);
+        List<Books> booksList = bookService.bookAll(null);
+        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList,pageSize);
         mv.addObject("pageInfo",pageInfo);
         mv.setViewName("admin/bookadmin");
         return mv;
-    }
+    }*/
 
     @RequestMapping("bookUpdateAll")
     public ModelAndView bookUpdateAll(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
@@ -168,9 +168,9 @@ public class BookController {
         ModelAndView mv = new ModelAndView();
         ArrayList<Books> books1 = new ArrayList<Books>();
         books1.add(books);
-        List<Books> booksList = bookService.bookAll(books1);
         PageHelper.startPage(page,pageSize);
-        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList);
+        List<Books> booksList = bookService.bookAll(books1);
+        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList,pageSize);
         mv.addObject("pageInfo",pageInfo);
         mv.setViewName("admin/bookadmin");
         return mv;
@@ -179,21 +179,26 @@ public class BookController {
     /**
      * 后台书籍搜索框模糊查询
      */
-    @RequestMapping("bookByNameOrIdOrcategory")
+    @RequestMapping("/bookAll")
     public ModelAndView bookByNameOrIdOrcategory(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
                                                  @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
                                                  String bookname){
         ModelAndView mv = new ModelAndView();
         if (bookname==null||bookname==""){
-            mv.setViewName("redirect:bookAll");
+            PageHelper.startPage(page,pageSize);
+            List<Books> booksList = bookService.bookAll(null);
+            PageInfo<Books> pageInfo = new PageInfo<Books>(booksList,pageSize);
+            mv.addObject("pageInfo",pageInfo);
+            mv.setViewName("admin/bookadmin");
             return mv;
         }
         List<Books> books=bookService.bookByNameOrIdOrcategory(bookname);
         System.out.println(books.size());
-        List<Books> booksList = bookService.bookAll(books);
         PageHelper.startPage(page,pageSize);
-        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList);
+        List<Books> booksList = bookService.bookAll(books);
+        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList,pageSize);
         mv.addObject("pageInfo",pageInfo);
+        mv.addObject("bookname",bookname);
         mv.setViewName("admin/bookadmin");
         return mv;
     }

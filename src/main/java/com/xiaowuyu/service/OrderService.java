@@ -26,4 +26,13 @@ public interface OrderService {
     int addOrders(Orders orders);
 
     int updateOrderSend(Orders orders);
+
+    List<Orders> orderAll();
+
+    List<Orders> orderByIdANdUserIDAndstatus(String orderSel);
+
+    Orders orderByIdAll(String order_id);
+
+    int orderUpdate(Orders orders);
+
 }
