@@ -25,4 +25,13 @@
         update category set category_name=#{category_name} where category_id=#{category_id}
     </update>
 
+    <select id="categoryAll" resultType="category">
+        select * from category
+        <where>
+            <if test="category_id != null and category_id != ''">
+                category_id = #{category_id}
+            </if>
+        </where>
+        order by category_id desc
+    </select>
 </mapper>

@@ -134,7 +134,7 @@
                     success:function (data) {
                         console.log(data)
                         if (data.code==200){
-                          
+
                             if (data.status==1){
                                 location.href="${pageContext.request.contextPath}/admin/index";
                             }else {

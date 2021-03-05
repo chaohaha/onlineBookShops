@@ -51,7 +51,7 @@
 
     <!--查询全部Book-->
     <select id="queryAllBook" resultType="Books">
-        SELECT * from graduation.books order by book_id desc;
+        SELECT * from graduation.books order by book_id desc
     </select>
 
     <select id="bookAll" resultMap="BooksMap">
@@ -63,6 +63,7 @@
                #{book_id.book_id}
            </foreach>
         </if>
+        order by book_id desc
     </select>
 
     <!--搜索框多字段模糊查询-->
