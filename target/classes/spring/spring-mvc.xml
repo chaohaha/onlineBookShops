@@ -50,4 +50,18 @@
     <!-- 4.扫描web相关的bean -->
     <context:component-scan base-package="com.xiaowuyu.controller" />
 
+
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+    <mvc:interceptor>
+        <!--不要拦截的方法  和上面一个只要配置一个就行-->
+        <mvc:mapping path="/admin/**"/>
+
+        <!--配置拦截器对象-->
+        <bean class="com.xiaowuyu.utils.Blocker"></bean>
+    </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

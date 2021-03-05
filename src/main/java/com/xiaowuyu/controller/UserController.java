@@ -75,7 +75,7 @@ public class UserController {
         }
 
         if(user!=null&&user.getUser_limit()==1){
-
+            session.setAttribute("role",1);
             return Results.returnState(200,"管理员","登陆成功",1);
         }
 
