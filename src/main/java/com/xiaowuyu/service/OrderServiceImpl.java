@@ -37,4 +37,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     public List<Orders> queryAllUserOrder(int user_id){return orderMapper.queryAllUserOrder(user_id);}
+
+    public int addOrders(Orders orders) {
+        return orderMapper.addOrders(orders);
+    }
 }

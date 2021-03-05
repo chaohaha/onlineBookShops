@@ -58,9 +58,11 @@
                 <h3>书名：${book.book_name}</h3>
 
                 <p>作者：${book.book_author}</p>
-                <p><a class="btn btn-primary btn-block" role="button" href="booksBuy?id=${book.book_id}">立即购买</a>
+                <p><a class="btn btn-primary btn-block" role="button" onclick="TAddCart(p=1)">
+                    立即购买
+                </a>
                     <input type="hidden" name="bookId"  value="${book.book_id}">
-                    <a class="btn btn-default btn-block" role="button" <%--href="TAddCart?book_id=${book.book_id}"--%> onclick="TAddCart()">加入购物车</a></p>
+                    <a class="btn btn-default btn-block" role="button"  onclick="TAddCart(p=0)">加入购物车</a></p>
             </div>
     </div>
     <div class="col-sm-8">
@@ -91,9 +93,13 @@
         $.ajax({
             type:"post",
             url:"${pageContext.request.contextPath}/TAddCart",
-            data:{id:id},
+            data:{"id":id,"p":p},
             success:function (data) {
                 console.log(data)
+                if (data.code==333){
+                    alert(data.msg)
+                    location.href="${pageContext.request.contextPath}/allCart";
+                }
                 if (data.code==200){
                     alert(data.msg)
                     location.reload();
@@ -109,5 +115,6 @@
             }
         });
     }
+
 </script>
 </html>
