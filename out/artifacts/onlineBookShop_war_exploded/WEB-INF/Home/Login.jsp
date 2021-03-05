@@ -92,25 +92,16 @@
                 </div>
 
 
-
-               <%-- <button type="button" id="check-btn" class="verify-btn">确定</button>--%>
-
                     <div class="col-sm-offset-4 col-sm-4">
                         <button type="button" id="check-btn" style="height: 50px" class="btn btn-success btn-block verify-btn" onclick="submitForm()">登录</button>
                     </div>
                 </div>
             </form>
         </div>
-        <%--  <div class="col-sm-6">
-              <div class="caption">
-                  <h3>免责声明</h3>
-                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 
-              </div>
-
-          </div>--%>
 
     </div>
+
 </div>
 <!--footer-->
 <%--<div class="navbar navbar-default navbar-static-bottom">
@@ -143,12 +134,23 @@
                     success:function (data) {
                         console.log(data)
                         if (data.code==200){
-                         location.href="${pageContext.request.contextPath}/index.jsp";
+                          
+                            if (data.status==1){
+                                location.href="${pageContext.request.contextPath}/admin/index";
+                            }else {
+                                location.href="${pageContext.request.contextPath}/index.jsp";
+                            }
+
+
                         }
                         if(data.code==500){
                             alert(data.msg)
                             location.reload();
                         }
+                       if ( $("#roleInput").val==0){
+
+                       }
+
                     },
                     error:function (data) {
                         alert("系统错误")

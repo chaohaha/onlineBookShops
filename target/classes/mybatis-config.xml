@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>
+        <package name="com.xiaowuyu.pojo"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="com/xiaowuyu/dao/BookMapper.xml"/>
+        <mapper resource="com/xiaowuyu/dao/UserMapper.xml"/>
+        <mapper resource="com/xiaowuyu/dao/OrderMapper.xml"/>
+        <mapper resource="com/xiaowuyu/dao/OrderItemMapper.xml"/>
+        <mapper resource="com/xiaowuyu/dao/CartMapper.xml"/>
+    </mappers>
+
+</configuration>

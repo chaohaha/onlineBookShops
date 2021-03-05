@@ -52,13 +52,25 @@ public class UserController {
     public Results login(Model model, Users users, HttpSession session){
 
         Users user = userService.login(users);
+        System.out.println(user);
+        if (user!=null&&user.getUser_status()==0){
+            return Results.setError("user","您的账户已被禁用");
+        }
+
         model.addAttribute("user",user);
        session.setAttribute("user",user);
-        if(user!=null){
-            System.out.println("成功");
+
+        if(user!=null&&user.getUser_limit()==0){
+            System.out.println(user.getUser_limit());
             session.setAttribute("user",user);
-            return Results.setSuccess("user","登录成功");
+            return Results.returnState(200,"用户","登陆成功",0);
         }
+
+        if(user!=null&&user.getUser_limit()==1){
+            System.out.println(user.getUser_limit());
+            return Results.returnState(200,"管理员","登陆成功",1);
+        }
+
         System.out.println("失败");
         return Results.setError("user","账号或密码错误");
 
