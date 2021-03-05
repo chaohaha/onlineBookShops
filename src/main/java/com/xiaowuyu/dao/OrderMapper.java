@@ -1,12 +1,21 @@
 package com.xiaowuyu.dao;
 
 import com.xiaowuyu.pojo.Orders;
+import com.xiaowuyu.pojo.Users;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface OrderMapper {
     //增加一个Order
+    @Insert("INSERT INTO orders VALUE(${order_id},${user_id},${order_create_time}," +
+            "${order_complete_time},${order_totalPrice},${order_status}," +
+            "${order_remark})")
+    int addOrders(Orders orders);
+
+
     int addOrder(Orders orders);
 
     //根据id删除一个Order

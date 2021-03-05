@@ -22,4 +22,6 @@ public interface OrderService {
 
     //查询一个userd的全部Order,返回list集合
     List<Orders> queryAllUserOrder(int user_id);
+
+    int addOrders(Orders orders);
 }

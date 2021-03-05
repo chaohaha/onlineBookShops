@@ -13,5 +13,5 @@ public class OrderItems {
     private int book_id;
     private String book_name;
     private double orderItem_price;
-    private int order_id;
+    private String order_id;
 }

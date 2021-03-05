@@ -52,7 +52,7 @@
 
                         <img src="../Flat-UI-master/dist/img/icons/png/Book.png" style="height: 100%;" alt=""/>
                     </div>
-                    <div class="col-sm-3 line-center"><input type="checkbox" name="${l.book_id}" class="tesi">  ${l.book_name}</div>
+                    <div class="col-sm-3 line-center"><input type="checkbox" name="${l.cart_id}" class="tesi">  ${l.book_name}</div>
                     <div class="col-sm-1 line-center">${l.cart_price}￥</div>
                     <div class="col-sm-4 line-center">
                         <a href="${pageContext.request.contextPath}/Decrease?books_id=${l.book_id}">
@@ -60,7 +60,8 @@
                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                         </button>
                         </a>
-                        <input type="text" class="small" value="${l.cart_counts}"/>
+                        <input style="text-align: center;font-size: 18px; border: none; outline: none;"
+                               type="text" class="small" value="${l.cart_counts}" disabled="disabled"/>
                         <a href="${pageContext.request.contextPath}/Increase?books_id=${l.book_id}">
                         <button type="button" class="btn btn-default">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -76,6 +77,8 @@
             </c:forEach>
         <div class="col-sm-offset-7 col-sm-5" style="padding: 30px;">
             <a href="${pageContext.request.contextPath}/Index"><div class="col-sm-6 btn btn-success btn-block">继续购物</div></a>
+            <br/>
+            <br/>
             <div class="col-sm-6  btn btn-success btn-block" onclick="booksBuy()"> 提交订单</div>
         </div>
     </div>
@@ -106,8 +109,7 @@
                 length++;
             }
         }
-        if (length>1){
-            alert(ids)
+        if (length>0){
             $.ajax({
                 type:"post",
                 url:"${pageContext.request.contextPath}/booksBuy",
@@ -122,12 +124,14 @@
                         alert(data.msg)
                         location.href="${pageContext.request.contextPath}/toLogin";
                     }
+                },error:function () {
+                    alert("您所选的某件商品库存不足！")
                 }
             })
+            ids=[];
         }else {
             alert("至少选择一个商品！")
         }
-
     }
 </script>
 </body>
