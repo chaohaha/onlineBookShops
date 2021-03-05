@@ -1,5 +1,7 @@
 package com.xiaowuyu.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Category;
@@ -19,8 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.print.Book;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -59,45 +63,53 @@ public class BookController {
 
     /*书分类*/
     @RequestMapping("/BookClass")
-    public String BookNmae(Model model,int category_id) {
+    public String BookNmae(Model model,
+                           @RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                           @RequestParam(name = "size",required = true,defaultValue = "8") Integer pageSize,
+                           int category_id) {
+        List<Category> categoriesList = categoryService.queryAllCartgory();
+        model.addAttribute("clist", categoriesList);
+        PageHelper.startPage(page,pageSize);
         System.out.println("我是："+category_id);
         List<Books> list = bookService.queryBookCategory_id(category_id);
-        model.addAttribute("list",list);
-        List<Category> categoriesList = categoryService.queryAllCartgory();
-        model.addAttribute("clist", categoriesList);
+        PageInfo<Book> lists = new PageInfo(list);
+        model.addAttribute("pageInfo",lists);
         return "index";
     }
 
-
-
-
-
-
-    @RequestMapping("/allBook")
-    public String list(Model model) {
-        List<Books> list = bookService.queryAllBook();
-        model.addAttribute("list", list);
-        System.out.println(list);
-        return "allBook";
-    }
-
-    /*查询所有书籍*/
-    /*首页跳转*/
     @RequestMapping("/Index")
-    public String allBooks(Model model) {
-        List<Books> list = bookService.queryAllBook();
+    public ModelAndView allBooks(
+               @RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+               @RequestParam(name = "size",required = true,defaultValue = "8") Integer pageSize){
+        ModelAndView modelAndView = new ModelAndView();
         List<Category> categoriesList = categoryService.queryAllCartgory();
-        model.addAttribute("list", list);
-        model.addAttribute("clist", categoriesList);
-        return "index";
+        modelAndView.addObject("clist",categoriesList);
+        PageHelper.startPage(page,pageSize);
+        List<Books> booksList = bookService.queryAllBook();
+        PageInfo<Book> pageInfo = new PageInfo(booksList);
+        System.out.println(pageInfo.getList().size());
+        modelAndView.addObject("pageInfo",pageInfo);
+        modelAndView.setViewName("index");
+        return modelAndView;
     }
 
-    @RequestMapping("/allGoods")
+    /*查询所有书籍*//*
+    *//*首页跳转*//*
+        @RequestMapping("/Index")
+        public String allBooks(Model model) {
+            List<Books> list = bookService.queryAllBook();
+            List<Category> categoriesList = categoryService.queryAllCartgory();
+            model.addAttribute("pageInfo", list);
+            model.addAttribute("clist", categoriesList);
+            return "index";
+        }*/
+
+    /*@RequestMapping("/allGoods")
     public String goodsList(Model model) {
-        List<Books> list = bookService.queryAllBook();
+        List<Books> list = bookService.queryAllBook(0,0);
         model.addAttribute("list", list);
         return "allGoods";
-    }
+    }*/
 
     @RequestMapping("/toAddBook")
     public String toAddPaper() {
@@ -138,10 +150,28 @@ public class BookController {
      * 后台查询所以书籍
      */
     @RequestMapping("bookAll")
-    public ModelAndView bookAll(){
+    public ModelAndView bookAll(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                 @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize){
         ModelAndView mv = new ModelAndView();
         List<Books> booksList = bookService.bookAll(null);
-        mv.addObject("bookList",booksList);
+        PageHelper.startPage(page,pageSize);
+        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList);
+        mv.addObject("pageInfo",pageInfo);
+        mv.setViewName("admin/bookadmin");
+        return mv;
+    }
+
+    @RequestMapping("bookUpdateAll")
+    public ModelAndView bookUpdateAll(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
+                                      Books books){
+        ModelAndView mv = new ModelAndView();
+        ArrayList<Books> books1 = new ArrayList<Books>();
+        books1.add(books);
+        List<Books> booksList = bookService.bookAll(books1);
+        PageHelper.startPage(page,pageSize);
+        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList);
+        mv.addObject("pageInfo",pageInfo);
         mv.setViewName("admin/bookadmin");
         return mv;
     }
@@ -150,7 +180,9 @@ public class BookController {
      * 后台书籍搜索框模糊查询
      */
     @RequestMapping("bookByNameOrIdOrcategory")
-    public ModelAndView bookByNameOrIdOrcategory(String bookname){
+    public ModelAndView bookByNameOrIdOrcategory(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                                 @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
+                                                 String bookname){
         ModelAndView mv = new ModelAndView();
         if (bookname==null||bookname==""){
             mv.setViewName("redirect:bookAll");
@@ -159,7 +191,9 @@ public class BookController {
         List<Books> books=bookService.bookByNameOrIdOrcategory(bookname);
         System.out.println(books.size());
         List<Books> booksList = bookService.bookAll(books);
-        mv.addObject("bookList",booksList);
+        PageHelper.startPage(page,pageSize);
+        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList);
+        mv.addObject("pageInfo",pageInfo);
         mv.setViewName("admin/bookadmin");
         return mv;
     }

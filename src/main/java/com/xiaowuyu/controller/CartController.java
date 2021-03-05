@@ -116,6 +116,8 @@ public class CartController {
             return Results.setError("","您还未登陆,跳转登陆页？");
         }else {
             Books books=bookService.queryBookByBook_id(id);
+            int book_counts = books.getBook_counts();
+            System.out.println("书籍库存");
             cart.setBook_id(id);
             cart.setBook_name(books.getBook_name());
             cart.setCart_price(books.getBook_price());
@@ -123,25 +125,25 @@ public class CartController {
             System.out.println(cart);
             System.out.println(users);
             Cart cart1 = cartService.userAndCart(cart);
+            if (book_counts==0){
+                System.out.println("我没有库存");
+                cart.setCart_counts(0);
+            }else {
+                System.out.println("我有库存");
+                cart.setCart_counts(1);
+                System.out.println(cart);
+            }
             if(null!=cart1){
-                cartService.plusCart(cart);
+                /*int i = cartService.plusCart(cart);*/
                 System.out.println("没有");
                 return Results.setSuccess(444,"","已有订单，前往购物车查看");
             }
-            /*if (null==cart1||null==cart1.getBook_name()){
-                System.out.println("已有订单，前往购物车查看");
-                return Results.setSuccess("","已有订单，前往购物车查看");
-            }*/
-            /*int j = bookService.upBook(books.getBook_id(),-1);
-            if (j>0){
-                System.out.println("增减成功");
-            }*/
             int i = cartService.addCart(cart);
-            if (p==1){
-                return Results.setSuccess(333,"","跳转购物车结算订单！");
-            }
             if (i>0){
                 System.out.println("添加陈功");
+            }
+            if (p==1){
+                return Results.setSuccess(333,"","跳转购物车结算订单！");
             }
 
         }
