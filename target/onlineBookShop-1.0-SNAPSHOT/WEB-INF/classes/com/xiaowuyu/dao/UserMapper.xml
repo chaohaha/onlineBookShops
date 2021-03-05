@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xiaowuyu.dao.UserMapper">
+
+    <!--注册一个User-->
+    <insert id="register" parameterType="Users">
+        insert into graduation.users(user_name, user_pwd, user_email , user_phone, user_address,user_limit,user_image)
+        values (#{user_name}, #{user_pwd}, #{user_email}, #{user_phone}, #{user_address}, 0,#{user_image})
+    </insert>
+
+    <!--登录-->
+    <select id="login" parameterType="Users" resultType="Users">
+        select * from graduation.users
+        where user_name = #{user_name} and user_pwd = #{user_pwd}
+    </select>
+
+    <!--更新User信息-->
+    <update id="updateUser" parameterType="Users">
+        update graduation.users
+        set user_pwd = #{user_pwd},user_email = #{email},user_phone = #{user_phone},user_address = #{user_address}
+        where user_id = #{user_id}
+    </update>
+
+  <!--  &lt;!&ndash;更新User状态&ndash;&gt;
+    <update id="userStatus" parameterType="Users">
+        update graduation.users
+        set user_status = #{user_status}
+        where user_id = #{user_id}
+    </update>-->
+
+    <!--修改User权限-->
+<!--    <update id="updateUserLimit" parameterType="Users">
+        update graduation.users
+        set user_limit = #{user_limit}
+        where user_id = #{user_id}
+    </update>-->
+
+    <!--根据uId查询,返回一个User-->
+    <select id="queryUserByUser_id" resultType="Users">
+        select * from graduation.users
+        where user_id = #{user_id}
+    </select>
+
+    <!--根据uName查询,返回一个User-->
+    <select id="queryUserByUser_name" resultType="Users">
+        select * from graduation.users
+        where user_name = #{user_name}
+    </select>
+
+    <!--查询全部管理员-->
+    <select id="queryAllManager" resultType="Users">
+        SELECT * from graduation.users
+        where user_limit = 1
+    </select>
+
+    <!--查询全部用户-->
+    <select id="queryAllUser" resultType="Users">
+        SELECT * from graduation.users
+        <if test="userSearch != null ">
+            where   user_id=#{userSearch} or user_name=#{userSearch}
+        </if>
+
+    </select>
+
+  <!--  <select id="bookAll" resultMap="BooksMap">
+        select b.*,c.* from books b,category c
+        where b.category_id=c.category_id
+        <if test="books != null and books.size() > 0">
+            and book_id in
+            <foreach collection="books" item="book_id" open="(" close=")" separator=",">
+                #{book_id.book_id}
+            </foreach>
+        </if>
+        order by book_id desc
+    </select>-->
+
+</mapper>

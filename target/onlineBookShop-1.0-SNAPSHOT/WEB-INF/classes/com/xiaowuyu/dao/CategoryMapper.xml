@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xiaowuyu.dao.CategoryMapper">
+
+    <select id="queryAllCartgory"  resultType="category">
+        select * from category
+    </select>
+
+    <insert id="categoryAdd" parameterType="Category">
+        insert into category(category_name) values (#{category_name})
+    </insert>
+
+    <delete id="categoryDelete" parameterType="Category">
+        delete from category where category_id=#{category_id}
+    </delete>
+
+    <select id="categoryById" resultType="Category" parameterType="Category">
+        select category_id,category_name from category where category_id=#{category_id}
+    </select>
+
+    <update id="categoryUpdate" parameterType="Category">
+        update category set category_name=#{category_name} where category_id=#{category_id}
+    </update>
+
+    <select id="categoryAll" resultType="category">
+        select * from category
+        <where>
+            <if test="category_id != null and category_id != ''">
+                category_id = #{category_id}
+            </if>
+        </where>
+        order by category_id desc
+    </select>
+</mapper>

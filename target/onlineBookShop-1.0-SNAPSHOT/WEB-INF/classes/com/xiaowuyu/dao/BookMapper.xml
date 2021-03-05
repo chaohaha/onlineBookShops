@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xiaowuyu.dao.BookMapper">
+    <!--多对多关系-->
+    <resultMap id="BooksMap" type="Books">
+        <id property="book_id" column="book_id"></id>
+        <result property="book_author" column="book_author"></result>
+        <result property="book_counts" column="book_counts"></result>
+        <result property="book_details" column="book_details"></result>
+        <result property="book_name" column="book_name"></result>
+        <result property="book_image" column="book_image"></result>
+        <result property="book_price" column="book_price"></result>
+        <result property="book_type" column="book_type"></result>
+        <result property="book_sales" column="book_sales"></result>
+        <result property="category_id" column="category_id"></result>
+        <association property="category" javaType="Category">
+            <id property="category_id" column="category_id"></id>
+            <result property="category_code" column="category_code"></result>
+            <result property="category_level" column="category_level"></result>
+            <result property="category_name" column="category_name"></result>
+            <result property="category_preid" column="category_preid"></result>
+        </association>
+    </resultMap>
+
+    <!--增加一个Book-->
+    <insert id="addBook" parameterType="Books">
+        insert into graduation.books(book_name,book_counts,book_details)
+        values (#{book_name}, #{book_counts}, #{book_details})
+    </insert>
+
+    <!--根据id删除一个Book-->
+    <delete id="deleteBookByBook_id" parameterType="int">
+        delete from graduation.books where book_id=#{book_id}
+    </delete>
+
+    <!--更新Book-->
+    <update id="updateBook" parameterType="Books">
+        update graduation.books
+        set book_name = #{book_name},book_counts = #{book_counts},book_details = #{book_details}
+        where book_id = #{book_id}
+    </update>
+
+    <!--根据id查询,返回一个Book-->
+    <select id="queryBookByBook_id" resultType="Books">
+        select * from graduation.books
+        where book_id = #{book_id}
+    </select>
+
+    <!--查询全部Book-->
+    <select id="queryAllBook" resultType="Books">
+        SELECT * from graduation.books order by book_id desc
+    </select>
+
+    <select id="bookAll" resultMap="BooksMap">
+        select b.*,c.* from books b,category c
+        where b.category_id=c.category_id
+        <if test="books != null and books.size() > 0">
+            and book_id in
+           <foreach collection="books" item="book_id" open="(" close=")" separator=",">
+               #{book_id.book_id}
+           </foreach>
+        </if>
+        order by book_id desc
+    </select>
+
+    <!--搜索框多字段模糊查询-->
+    <select id="bookByNameOrIdOrcategory" resultMap="BooksMap">
+        select book_id from books
+        where
+        <if test="bookname!=null and bookname!=''">
+            book_id like '%${bookname}%' or book_name like '%${bookname}%'
+            or category_id in (select category_id from category where category_name like '%${bookname}%')
+        </if>
+    </select>
+
+    <!--新增一本书-->
+    <insert id="bookAdd" parameterType="Books">
+        insert into books values (0,#{book_name},#{book_author},#{category_id},#{book_price},#{book_counts},0,#{book_image},#{book_details},0)
+    </insert>
+
+    <!--删除书籍-->
+    <delete id="bookDelete" parameterType="Books">
+        delete from books where book_id=#{book_id}
+    </delete>
+
+    <!--通过id查询图片地址-->
+    <select id="bookAllById" resultType="string">
+        select book_image from books where book_id=#{book_id}
+    </select>
+
+    <!--通过id查询书籍信息-->
+    <select id="bookAllByBID" resultMap="BooksMap">
+        select b.*,c.* from books b,category c
+        where b.category_id=c.category_id and book_id=#{book_id}
+    </select>
+
+    <update id="bookUpdate" parameterType="Books">
+        update books set book_name=#{book_name},book_author=#{book_author},category_id=#{category_id},
+                         book_price=#{book_price},book_counts=#{book_counts},book_image=#{book_image},
+                         book_details=#{book_details},book_type=#{book_type}
+        where book_id=#{book_id}
+    </update>
+</mapper>
