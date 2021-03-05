@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService{
         return orderMapper.addOrder(orders);
     }
 
-    public int deleteOrderByOrder_id(int order_id) {
+    public int deleteOrderByOrder_id(String order_id) {
         return orderMapper.deleteOrderByOrder_id(order_id);
     }
 
@@ -40,5 +40,10 @@ public class OrderServiceImpl implements OrderService{
 
     public int addOrders(Orders orders) {
         return orderMapper.addOrders(orders);
+    }
+
+    /*更新订单*/
+    public int updateOrderSend(Orders orders) {
+        return orderMapper.updateOrderSend(orders);
     }
 }

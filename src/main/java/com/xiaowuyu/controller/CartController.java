@@ -116,13 +116,19 @@ public class CartController {
             return Results.setError("","您还未登陆,跳转登陆页？");
         }else {
             Books books=bookService.queryBookByBook_id(id);
+            int book_counts = books.getBook_counts();
+            System.out.println("书籍库存");
             cart.setBook_id(id);
             cart.setBook_name(books.getBook_name());
             cart.setCart_price(books.getBook_price());
             cart.setUser_id(users.getUser_id());
+            cart.setCart_counts(1);
             System.out.println(cart);
             System.out.println(users);
             Cart cart1 = cartService.userAndCart(cart);
+            if (book_counts==0){
+                cart.setCart_counts(0);
+            }
             if(null!=cart1){
                 cartService.plusCart(cart);
                 System.out.println("没有");
@@ -136,6 +142,7 @@ public class CartController {
             if (j>0){
                 System.out.println("增减成功");
             }*/
+
             int i = cartService.addCart(cart);
             if (p==1){
                 return Results.setSuccess(333,"","跳转购物车结算订单！");

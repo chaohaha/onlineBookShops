@@ -55,18 +55,25 @@
                     <div class="col-sm-3 line-center"><input type="checkbox" name="${l.cart_id}" class="tesi">  ${l.book_name}</div>
                     <div class="col-sm-1 line-center">${l.cart_price}￥</div>
                     <div class="col-sm-4 line-center">
-                        <a href="${pageContext.request.contextPath}/Decrease?books_id=${l.book_id}">
-                        <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                        </button>
-                        </a>
-                        <input style="text-align: center;font-size: 18px; border: none; outline: none;"
-                               type="text" class="small" value="${l.cart_counts}" disabled="disabled"/>
-                        <a href="${pageContext.request.contextPath}/Increase?books_id=${l.book_id}">
-                        <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </button>
-                        </a>
+
+                        <c:if test="${l.cart_counts == 0}">
+                            <i style="color: red">暂时缺货</i>
+                        </c:if>
+                        <c:if test="${l.cart_counts > 0}">
+                            <a href="${pageContext.request.contextPath}/Decrease?books_id=${l.book_id}">
+                                <button type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </button>
+                            </a>
+                            <input style="text-align: center;font-size: 18px; border: none; outline: none;"
+                                   type="text" class="small" value="${l.cart_counts}" disabled="disabled"/>
+                            <a href="${pageContext.request.contextPath}/Increase?books_id=${l.book_id}">
+                                <button type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </a>
+                        </c:if>
+
                     </div>
                     <div class="col-sm-2 line-center">${l.cart_counts*l.cart_price}￥</div>
 
