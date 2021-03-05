@@ -96,4 +96,10 @@
         where b.category_id=c.category_id and book_id=#{book_id}
     </select>
 
+    <update id="bookUpdate" parameterType="Books">
+        update books set book_name=#{book_name},book_author=#{book_author},category_id=#{category_id},
+                         book_price=#{book_price},book_counts=#{book_counts},book_image=#{book_image},
+                         book_details=#{book_details},book_type=#{book_type}
+        where book_id=#{book_id}
+    </update>
 </mapper>

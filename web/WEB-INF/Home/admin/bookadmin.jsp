@@ -94,7 +94,14 @@
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_counts}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_sales}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;"><img src="${pageContext.request.contextPath}/upload/book/${b.book_image}" width="110px" height="80px"/></div>
-                            <div class="col-sm-2 line-center" style="width: 110px;">${b.book_type}</div>
+                            <div class="col-sm-2 line-center" style="width: 110px;">
+                                <c:if test="${b.book_type==0}">
+                                    <font color="green"><i>上架</i></font>
+                                </c:if>
+                                <c:if test="${b.book_type==1}">
+                                    <font color="red"><i>下架</i></font>
+                                </c:if>
+                            </div>
                             <div class="col-sm-3 line-center" style="width: 125px;">
                                 <a href="${pageContext.request.contextPath}/bookAddOne">
                                     <button class="btn btn-danger" style="padding: 5px 5px;">增</button>
@@ -125,25 +132,25 @@
                         </div>
                     </div>
                 </div>--%>
-                <nav class="center">
-                    <ul class="pagination  pagination-lg">
-                        <li>
-                            <a href="#" aria-label="Previous">
-                                <span aria-hidden="true">首页</span>
-                            </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                                <span aria-hidden="true">末页</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+<%--                <nav class="center">--%>
+<%--                    <ul class="pagination  pagination-lg">--%>
+<%--                        <li>--%>
+<%--                            <a href="#" aria-label="Previous">--%>
+<%--                                <span aria-hidden="true">首页</span>--%>
+<%--                            </a>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="#">1</a></li>--%>
+<%--                        <li><a href="#">2</a></li>--%>
+<%--                        <li><a href="#">3</a></li>--%>
+<%--                        <li><a href="#">4</a></li>--%>
+<%--                        <li><a href="#">5</a></li>--%>
+<%--                        <li>--%>
+<%--                            <a href="#" aria-label="Next">--%>
+<%--                                <span aria-hidden="true">末页</span>--%>
+<%--                            </a>--%>
+<%--                        </li>--%>
+<%--                    </ul>--%>
+<%--                </nav>--%>
             </div>
         </div>
     </div>

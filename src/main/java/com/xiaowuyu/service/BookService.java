@@ -45,4 +45,6 @@ public interface BookService {
     String bookAllById(int book_id);
 
     Books bookAllByBID(int book_id);
+
+    int bookUpdate(Books books);
 }
