@@ -22,7 +22,7 @@
 
     <insert id="addCart" parameterType="Cart">
         insert into graduation.cart(book_id,book_name,user_id,cart_counts,cart_price)
-        values (#{book_id}, #{book_name}, #{user_id}, 1, #{cart_price})
+        values (#{book_id}, #{book_name}, #{user_id}, #{cart_counts}, #{cart_price})
     </insert>
 
     <update id="plusCart" parameterType="cart">
