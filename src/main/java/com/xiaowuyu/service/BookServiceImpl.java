@@ -71,4 +71,8 @@ public class BookServiceImpl implements BookService {
         return bookMapper.bookAllByBID(book_id);
 
     }
+
+    public int bookUpdate(Books books) {
+        return bookMapper.bookUpdate(books);
+    }
 }

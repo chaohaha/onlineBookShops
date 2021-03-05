@@ -230,13 +230,66 @@ public class BookController {
        return Results.setSuccess("","删除失败！");
     }
 
+
+    /**
+     *通过id查询书本信息
+     */
     @RequestMapping("bookUpdateOne")
-    public ModelAndView bookUpdateOne(int book_id){
-        ModelAndView mv = new ModelAndView();
+    public String bookUpdateOne(int book_id,Model model){
         Books books=bookService.bookAllByBID(book_id);
-        mv.addObject("books",books);
-        mv.setViewName("admin/bookadmin_update");
-        return mv;
+        List<Category> categoryList = categoryService.queryAllCartgory();
+        model.addAttribute("books",books);
+        model.addAttribute("categoryList",categoryList);
+        return "admin/bookadmin_update";
+    }
+
+    @RequestMapping("bookUpdate")
+    @ResponseBody
+    public Results bookUpdate(@RequestParam("book_image")MultipartFile uploadFile, String book_name, String book_author,
+                              String category_id, double book_price, int book_counts, String book_details,int book_id,
+                              int book_type,HttpServletRequest request){
+        String path = request.getSession().getServletContext().getRealPath("upload\\book");//获取路径
+        String fileName1 = bookService.bookAllById(book_id);//获取数据库文件的名字
+        System.out.println(fileName1);
+        if (fileName1!=null){
+            File targetFile1 = new File(path,fileName1);
+            if (targetFile1.exists()){
+                targetFile1.delete();//判断文件存不存，存在就删除
+            }
+            if(!targetFile1.exists()){
+                targetFile1.mkdirs();//是否存在目录，不存在就创建
+            }
+            try {
+                uploadFile.transferTo(targetFile1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            String fileName2 = uploadFile.getOriginalFilename();
+            Date d = new Date();
+            long time=d.getTime();
+            //取文件扩展名
+            String ddname=fileName2.substring(fileName2.lastIndexOf("."));
+            //得到文件名
+            fileName2=time+ddname;
+            File targetFile2 = new File(path,fileName2);
+            fileName1=fileName2;
+            if(!targetFile2.exists()){
+                targetFile2.mkdirs();//是否存在目录，不存在就创建
+            }
+            try {
+                uploadFile.transferTo(targetFile2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Books books = new Books(book_id,book_name,book_author,category_id,book_price,book_counts,0,fileName1,book_details,book_type,null);
+        int i=bookService.bookUpdate(books);
+        if(i>0){
+            return Results.setSuccess("","书籍修改成功");
+        }
+        return Results.setSuccess("","书籍修改失败");
     }
 
 }

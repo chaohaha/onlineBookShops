@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>书籍修改</title>
@@ -56,6 +57,9 @@
                     <div class="col-sm-8">
                         <select class="form-control" name="category_id" id="sel" >
                             <option value="${books.category_id}">${books.category.category_name}</option>
+                            <c:forEach items="${categoryList}" var="c">
+                                <option value="${c.category_id}">${c.category_name}</option>
+                            </c:forEach>
                         </select>
                     </div>
                 </div>
@@ -76,6 +80,15 @@
                     <label for="book_image" class="col-sm-3 control-label">图片</label>
                     <div class="col-sm-8">
                         <input type="file" class="form-control" id="book_image" name="book_image" placeholder="上传图片">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="book_type" class="col-sm-3 control-label">状态</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" name="book_type">
+                            <option value="0">上架</option>
+                            <option value="1">下架</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -101,16 +114,36 @@
             $(this).tab('show')
         })
 
-        $('#sel').change(function () {
+        $('[type="button"]').click(function () {
+            var book_name=$('[name="book_name"]').val();
+            var book_author=$('[name="book_author"]').val();
+            var category_id=$('[name="category_id"]').val();
+            var book_price=$('[name="book_price"]').val();
+            var book_counts=$('[name="book_counts"]').val();
+            var book_details=$('[name="book_details"]').val();
+            var book_image=$('[name="book_image"]').val();
+            if(book_name==' '||book_author==''||book_counts==''||category_id==''||book_price==''||book_details==''||book_image==''){
+                alert("请完善信息！");
+                return false;
+            }
+            var form=document.getElementById("fromOne");
+            console.log(form)
+            var formdata = new FormData(form);//表单id
             $.ajax({
-                url: "${pageContext.request.contextPath}/category/categoryAllAjax",
-                success:function (data) {
-                    $('#sel').empty();
-                    var str='';
-                    for(var i=0;i<data.length;i++){
-                        str+="<option value="+data[i].category_id+">"+data[i].category_name+"</option>";
+                url: "${pageContext.request.contextPath}/bookUpdate",
+                type:"post",
+                data:formdata,
+                cache: false,
+                dataType:'json',
+                contentType: false, //不设置内容类型
+                processData: false, //不处理数据
+                async : false,
+                success: function (data) {
+                    if(data.code == 200){
+                        alert(data.msg);
+                        location.href="${pageContext.request.contextPath}/bookAll";
+                        return;
                     }
-                    $('#sel').append(str);
                 }
             })
         })
