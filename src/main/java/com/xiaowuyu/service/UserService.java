@@ -35,4 +35,9 @@ public interface UserService {
     Integer retrievePassword(String mobile, String password);
 
     Users QueryUserName(String mobile);
+
+    // 修改用户信息
+    Integer modification(Users user);
+
+    Integer changePassword(String user_name,String user_pwd , String newuser_pwd);
 }

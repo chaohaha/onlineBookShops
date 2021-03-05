@@ -25,7 +25,13 @@
             <ul class="nav navbar-nav">
                 <li><a href="Index">首页</a></li>
                 <li><a href="allUserOrder">我的订单</a></li>
-                <li><a href="UserInfo">个人中心</a></li>
+                <c:if test="${empty user}">
+                    <li><a href="toLogin">个人中心</a></li>
+                </c:if>
+                <c:if test="${!empty user}">
+                    <li><a href="userInfo">个人中心</a></li>
+                </c:if>
+
             </ul>
             <ul class="nav navbar-nav navbar-right hidden-sm">
                 <c:if test="${empty user}">

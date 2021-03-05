@@ -7,8 +7,8 @@
 
     <!--注册一个User-->
     <insert id="register" parameterType="Users">
-        insert into graduation.users(user_name, user_pwd, user_email , user_phone, user_address,user_limit)
-        values (#{user_name}, #{user_pwd}, #{user_email}, #{user_phone}, #{user_address}, 0)
+        insert into graduation.users(user_name, user_pwd, user_email , user_phone, user_address,user_limit,user_image)
+        values (#{user_name}, #{user_pwd}, #{user_email}, #{user_phone}, #{user_address}, 0,#{user_image})
     </insert>
 
     <!--登录-->
