@@ -154,11 +154,12 @@ public class OrderController {
     public Results updateOrderComplete(String orderId) {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        System.out.println(dateFormat);
-        System.out.println("date=" + dateFormat.format(date.getTime()));
+        String format1 = dateFormat.format(date.getTime());
         System.out.println(orderId);
         Orders orders = new Orders();
-        orders.setOrder_complete_time(dateFormat.format(date.getTime()));
+        String format = dateFormat.format(date.getTime());
+        System.out.println(format);
+        orders.setOrder_complete_time(format1);
         orders.setOrder_id(orderId);
         orders.setOrder_status(2);
         int i = orderService.updateOrderSend(orders);

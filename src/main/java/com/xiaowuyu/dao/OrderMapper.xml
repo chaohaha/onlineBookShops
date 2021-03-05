@@ -18,7 +18,7 @@
         where order_id = #{order_id}
     </update>
 
-    <!--更新Order信息-->
+    <!--更新Order信息 -->
     <update id="updateOrderComplete" parameterType="Orders">
         update graduation.orders
         set order_status = #{order_status},order_complete_time = #{order_complete_time}
