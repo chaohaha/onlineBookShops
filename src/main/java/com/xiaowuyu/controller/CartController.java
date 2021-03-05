@@ -96,7 +96,6 @@ public class CartController {
         if (cart1.getCart_counts()>1){
             int i = cartService.minusCart(cart);
             if (i>0) {
-
                 System.out.println("修改成功！");
             }
         }else {
@@ -108,8 +107,9 @@ public class CartController {
     /*加入购物车*/
     @RequestMapping("/TAddCart")
     @ResponseBody
-    public Results toAddPaper(Cart cart, int id,HttpSession session) {
+    public Results toAddPaper(Cart cart, int id,int p, HttpSession session) {
         System.out.println(id);
+        System.out.println(p);
         Users users=(Users) session.getAttribute("user");
         if (null==users||null==users.getUser_pwd()){
             System.out.println("没登录");
@@ -137,6 +137,9 @@ public class CartController {
                 System.out.println("增减成功");
             }*/
             int i = cartService.addCart(cart);
+            if (p==1){
+                return Results.setSuccess(333,"","跳转购物车结算订单！");
+            }
             if (i>0){
                 System.out.println("添加陈功");
             }
