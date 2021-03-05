@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>订单详情</title>
@@ -73,58 +74,44 @@
         </div>
 
         <div class="col-sm-12 ">
+            <div class="col-sm-3"></div>
             <table>
                 <tr>
-                    <th>订单编号：</th><td>123-131-4234-1314-131</td>
+                    <th>订单编号：</th><td>${orders.order_id}</td>
                 </tr>
                 <tr>
-                    <th>订单状态：</th><td>未付款</td>
+                    <th>订单状态：</th><td>
+                    <c:if test="${orders.order_status==0}">
+                        未发货
+                    </c:if>
+                    <c:if test="${orders.order_status==1}">
+                        已发货
+                    </c:if>
+                    <c:if test="${orders.order_status==2}">
+                        已确认收货
+                    </c:if>
+                </td>
                 </tr>
                 <tr>
-                    <th>收货人姓名：</th><td>侯龙超</td>
+                    <th>收货人姓名：</th><td>${orders.users.user_name}</td>
                 </tr>
                 <tr>
-                    <th>收货人地址：</th><td>内蒙古科技大学</td>
+                    <th>收货人地址：</th><td>${orders.users.user_address}</td>
                 </tr>
                 <tr>
-                    <th>收货人电话：</th><td>12345678901</td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-sm-12">
-            <table class="table table-striped table-condensed">
-                <tr>
-                    <th>书名</th>
-                    <th>单价</th>
-                    <th>数量</th>
-                    <th>小计</th>
+                    <th>收货人电话：</th><td>${orders.users.user_phone}</td>
                 </tr>
                 <tr>
-                    <td>书名</td>
-                    <td>单价</td>
-                    <td>数量</td>
-                    <td>小计</td>
+                    <th>书名：</th><td>${orders.orderItems.book_name}</td>
                 </tr>
                 <tr>
-                    <td>书名</td>
-                    <td>单价</td>
-                    <td>数量</td>
-                    <td>小计</td>
+                    <th>数量：</th><td>${orders.orderItems.orderItem_num}</td>
                 </tr>
                 <tr>
-                    <td>书名</td>
-                    <td>单价</td>
-                    <td>数量</td>
-                    <td>小计</td>
+                    <th>小计：</th><td>${orders.orderItems.orderItem_price}</td>
                 </tr>
-                <tr></tr>
-            </table>
-        </div>
-
-        <div class="col-sm-12 ">
-            <table>
                 <tr>
-                    <th> </th><th></th> <th>商品总数：</th><td>12</td> <th>订单总价：</th><td><label><span class="text-danger">123.0元</span></label></td>
+                    <th></th><td></td>
                 </tr>
             </table>
         </div>

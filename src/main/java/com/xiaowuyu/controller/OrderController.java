@@ -1,5 +1,7 @@
 package com.xiaowuyu.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xiaowuyu.pojo.*;
 import com.xiaowuyu.service.*;
 import com.xiaowuyu.utils.Results;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -82,7 +86,7 @@ public class OrderController {
             System.out.println("书"+books);
             /*添加订单表*/
             Orders orders = new Orders(s,users.getUser_id(),dateFormat.format(date.getTime()),
-                    null,jia,0,"",users);
+                    null,jia,0,"",users,null);
             System.out.println("用户"+users);
             int i = orderService.addOrder(orders);
             System.out.println("订单表"+i);
@@ -182,4 +186,117 @@ public class OrderController {
         orderService.deleteOrderByOrder_id(order_id);
         return "redirect:/order/allOrder";
     }*/
+
+    /**
+     * 后台查询所以订单
+     * @param page
+     * @param pageSize
+     * @return
+     */
+  /*  @RequestMapping("orderAll")
+    public ModelAndView orderAll(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                 @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize){
+        ModelAndView mv = new ModelAndView();
+        PageHelper.startPage(page,pageSize);
+        List<Orders> ordersList=orderService.orderAll();
+        PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
+        mv.addObject("pageInfo",pageInfo);
+        mv.setViewName("admin/orderadmin");
+        return mv;
+    }*/
+
+    /**
+     * 通过订单id和用户id和状态查询
+     */
+    @RequestMapping("/orderAll")
+    public ModelAndView orderByIdANdUserIDAndstatus(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                                    @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
+                                                    String orderSel){
+        ModelAndView mv=new ModelAndView();
+        if (orderSel==null||orderSel.length()==0){
+            PageHelper.startPage(page,pageSize);
+            List<Orders> ordersList=orderService.orderAll();
+            PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
+            mv.addObject("pageInfo",pageInfo);
+            mv.setViewName("admin/orderadmin");
+            return mv;
+        }
+        mv.addObject("orderSel",orderSel);
+        if (orderSel.equals("未发货")){
+            orderSel="0";
+        }else if (orderSel.equals("已发货")){
+            orderSel="1";
+        }else if (orderSel.equals("已确认收货")){
+            orderSel="2";
+        }
+        System.out.println(orderSel);
+        PageHelper.startPage(page,pageSize);
+        List<Orders> ordersList=orderService.orderByIdANdUserIDAndstatus(orderSel);
+        PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
+        mv.addObject("pageInfo",pageInfo);
+        mv.setViewName("admin/orderadmin");
+        return mv;
+    }
+
+    /**
+     * 订单详情
+     */
+    @RequestMapping("/orderByIdAll")
+    public ModelAndView orderByIdAll(String order_id){
+        ModelAndView mv = new ModelAndView();
+        Orders orders=orderService.orderByIdAll(order_id);
+        mv.addObject("orders",orders);
+        mv.setViewName("admin/orderadmin_all");
+        return mv;
+    }
+
+    /**
+     * 修改查询
+     */
+    @RequestMapping("/orderByIdUpdate")
+    public ModelAndView orderByIdUpdate(String order_id){
+        ModelAndView mv = new ModelAndView();
+        Orders orders=orderService.orderByIdAll(order_id);
+        mv.addObject("orders",orders);
+        mv.setViewName("admin/orderadmin_update");
+        return mv;
+    }
+
+    /**
+     * 后台订单删除传ajax
+     * @param order_id
+     * @return
+     */
+    @RequestMapping("/orderDelete")
+    @ResponseBody
+    public Results orderDelete(String order_id) {
+        System.out.println(order_id);
+        int i = orderService.deleteOrderByOrder_id(order_id);
+        if (i>0){
+            return Results.setSuccess("","删除成功！");
+        }
+        return Results.setSuccess("","删除失败");
+    }
+
+    /**
+     * 订单修改
+     */
+    @RequestMapping("/orderUpdate")
+    public ModelAndView orderUpdate(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                    @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
+                                    Orders orders){
+        ModelAndView mv = new ModelAndView();
+        int i=orderService.orderUpdate(orders);
+        if (i>0){
+            PageHelper.startPage(page,pageSize);
+            Orders orders1 = orderService.orderByIdAll(orders.getOrder_id());
+            ArrayList<Orders> ordersList = new ArrayList<Orders>();
+            ordersList.add(orders1);
+            PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
+            mv.addObject("pageInfo",pageInfo);
+            mv.setViewName("admin/orderadmin");
+        }
+        return mv;
+    }
+
 }

@@ -64,9 +64,9 @@
                     <h3 class="text-center" style="margin-bottom: 30px">书籍管理</h3>
                 </div>
                 <div class="col-sm-12" style="margin-bottom: 10px">
-                    <form action="${pageContext.request.contextPath}/bookByNameOrIdOrcategory" method="post">
+                    <form action="${pageContext.request.contextPath}/bookAll" method="post">
                         <div class="col-lg-6">
-                            <input type="text" class="form-control"  name="bookname" placeholder="书名、分类、编号其中一个来查询">
+                            <input type="text" class="form-control" value="${bookname}" name="bookname" placeholder="书名、分类、编号其中一个来查询">
                         </div>
                         <div class="col-lg-1">
                             <button class="btn btn-success">查询</button>
@@ -135,15 +135,15 @@
                 <nav class="center">
                     <ul class="pagination  pagination-lg">
                         <li>
-                            <a href="${pageContext.request.contextPath}/bookAll" aria-label="Previous">
+                            <a href="${pageContext.request.contextPath}/bookAll?bookname=${bookname}" aria-label="Previous">
                                 <span aria-hidden="true">首页</span>
                             </a>
                         </li>
                         <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
-                            <li><a href="${pageContext.request.contextPath}/bookAll?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/bookAll?page=${pageNum}&size=${pageInfo.pageSize}&bookname=${bookname}">${pageNum}</a></li>
                         </c:forEach>
                         <li>
-                            <a href="${pageContext.request.contextPath}/bookAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">
+                            <a href="${pageContext.request.contextPath}/bookAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}&bookname=${bookname}" aria-label="Next">
                                 <span aria-hidden="true">末页</span>
                             </a>
                         </li>

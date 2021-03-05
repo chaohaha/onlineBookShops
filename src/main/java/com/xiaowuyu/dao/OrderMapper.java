@@ -34,4 +34,12 @@ public interface OrderMapper {
     List<Orders> queryAllUserOrder(@Param("user_id") int user_id);
 
     int updateOrderSend(Orders orders);
+
+    List<Orders> orderAll();
+
+    List<Orders> orderByIdANdUserIDAndstatus(String orderSel);
+
+    Orders orderByIdAll(String order_id);
+
+    int orderUpdate(Orders orders);
 }

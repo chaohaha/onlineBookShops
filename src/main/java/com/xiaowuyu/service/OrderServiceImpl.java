@@ -46,4 +46,20 @@ public class OrderServiceImpl implements OrderService{
     public int updateOrderSend(Orders orders) {
         return orderMapper.updateOrderSend(orders);
     }
+
+    public List<Orders> orderAll() {
+        return orderMapper.orderAll();
+    }
+
+    public List<Orders> orderByIdANdUserIDAndstatus(String orderSel) {
+        return orderMapper.orderByIdANdUserIDAndstatus(orderSel);
+    }
+
+    public Orders orderByIdAll(String order_id) {
+        return orderMapper.orderByIdAll(order_id);
+    }
+
+    public int orderUpdate(Orders orders) {
+        return orderMapper.orderUpdate(orders);
+    }
 }

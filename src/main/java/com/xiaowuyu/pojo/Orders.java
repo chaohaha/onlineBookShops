@@ -20,6 +20,6 @@ public class Orders {
     private int order_status;
     private String order_remark;
     private Users users;
-
+    private OrderItems orderItems;
 
 }

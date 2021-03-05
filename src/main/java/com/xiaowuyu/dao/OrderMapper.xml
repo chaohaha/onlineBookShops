@@ -4,6 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.xiaowuyu.dao.OrderMapper">
+    <resultMap id="orderMap" type="Orders">
+        <id property="order_id" column="order_id"></id>
+        <result property="user_id" column="user_id"></result>
+        <result property="order_create_time" column="order_create_time"></result>
+        <result property="order_complete_time" column="order_complete_time"></result>
+        <result property="order_totalPrice" column="order_totalPrice"></result>
+        <result property="order_status" column="order_status"></result>
+        <result property="order_remark" column="order_remark"></result>
+        <association property="users" javaType="Users">
+            <id property="user_id" column="user_id"></id>
+            <result property="user_name" column="user_name"></result>
+            <result property="user_pwd" column="user_pwd"></result>
+            <result property="user_email" column="user_email"></result>
+            <result property="user_phone" column="user_phone"></result>
+            <result property="user_address" column="user_address"></result>
+            <result property="user_status" column="user_status"></result>
+            <result property="user_limit" column="user_limit"></result>
+        </association>
+        <association property="orderItems" javaType="OrderItems">
+            <id property="orderItem_id" column="orderItem_id"></id>
+            <result property="orderItem_num" column="orderItem_num"></result>
+            <result property="book_id" column="book_id"></result>
+            <result property="book_name" column="book_name"></result>
+            <result property="orderItem_price" column="orderItem_price"></result>
+            <result property="order_id" column="order_id"></result>
+        </association>
+    </resultMap>
 
     <!--新增一个Order-->
     <insert id="addOrder" parameterType="Orders">
@@ -47,5 +74,27 @@
         SELECT * from graduation.orders
         where user_id=#{user_id}
     </select>
+
+    <!--查询订单表所以-->
+    <select id="orderAll" resultType="Orders">
+        select * from orders
+    </select>
+
+    <!--通过订单id和用户id和状态查询-->
+    <select id="orderByIdANdUserIDAndstatus" resultType="Orders">
+        select * from orders where order_id=#{orderSel} or user_id=#{orderSel} or order_status=#{orderSel}
+    </select>
+
+    <!--查询订单详情-->
+    <select id="orderByIdAll" resultMap="orderMap">
+        select * from orders o,users u,orderitems ts where o.order_id = #{order_id}
+        and o.order_id=ts.order_id and u.user_id = o.user_id
+    </select>
+
+    <!--修改订单状态-->
+    <update id="orderUpdate" parameterType="Orders">
+        update orders set order_status=#{order_status}
+        where order_id=#{order_id}
+    </update>
 
 </mapper>
