@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.print.Book;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,45 +63,53 @@ public class BookController {
 
     /*书分类*/
     @RequestMapping("/BookClass")
-    public String BookNmae(Model model,int category_id) {
+    public String BookNmae(Model model,
+                           @RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                           @RequestParam(name = "size",required = true,defaultValue = "8") Integer pageSize,
+                           int category_id) {
+        List<Category> categoriesList = categoryService.queryAllCartgory();
+        model.addAttribute("clist", categoriesList);
+        PageHelper.startPage(page,pageSize);
         System.out.println("我是："+category_id);
         List<Books> list = bookService.queryBookCategory_id(category_id);
-        model.addAttribute("list",list);
-        List<Category> categoriesList = categoryService.queryAllCartgory();
-        model.addAttribute("clist", categoriesList);
+        PageInfo<Book> lists = new PageInfo(list);
+        model.addAttribute("pageInfo",lists);
         return "index";
     }
 
-
-
-
-
-
-    @RequestMapping("/allBook")
-    public String list(Model model) {
-        List<Books> list = bookService.queryAllBook();
-        model.addAttribute("list", list);
-        System.out.println(list);
-        return "allBook";
-    }
-
-    /*查询所有书籍*/
-    /*首页跳转*/
     @RequestMapping("/Index")
-    public String allBooks(Model model) {
-        List<Books> list = bookService.queryAllBook();
+    public ModelAndView allBooks(
+               @RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+               @RequestParam(name = "size",required = true,defaultValue = "8") Integer pageSize){
+        ModelAndView modelAndView = new ModelAndView();
         List<Category> categoriesList = categoryService.queryAllCartgory();
-        model.addAttribute("list", list);
-        model.addAttribute("clist", categoriesList);
-        return "index";
+        modelAndView.addObject("clist",categoriesList);
+        PageHelper.startPage(page,pageSize);
+        List<Books> booksList = bookService.queryAllBook();
+        PageInfo<Book> pageInfo = new PageInfo(booksList);
+        System.out.println(pageInfo.getList().size());
+        modelAndView.addObject("pageInfo",pageInfo);
+        modelAndView.setViewName("index");
+        return modelAndView;
     }
 
-    @RequestMapping("/allGoods")
+    /*查询所有书籍*//*
+    *//*首页跳转*//*
+        @RequestMapping("/Index")
+        public String allBooks(Model model) {
+            List<Books> list = bookService.queryAllBook();
+            List<Category> categoriesList = categoryService.queryAllCartgory();
+            model.addAttribute("pageInfo", list);
+            model.addAttribute("clist", categoriesList);
+            return "index";
+        }*/
+
+    /*@RequestMapping("/allGoods")
     public String goodsList(Model model) {
-        List<Books> list = bookService.queryAllBook();
+        List<Books> list = bookService.queryAllBook(0,0);
         model.addAttribute("list", list);
         return "allGoods";
-    }
+    }*/
 
     @RequestMapping("/toAddBook")
     public String toAddPaper() {
