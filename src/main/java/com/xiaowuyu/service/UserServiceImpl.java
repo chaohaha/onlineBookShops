@@ -36,17 +36,26 @@ public class UserServiceImpl implements UserService{
         return userMapper.QueryUserName(mobile);
     }
 
+    public Integer userStatus(Integer user_id,Integer status) {
+        Integer i = userMapper.updateUserStatus(user_id,status);
+        System.out.println(i);
+        return i;
+    }
+
     public Integer retrievePassword(String mobile, String password) {
 
         return userMapper.retrievePassword(mobile,password);
     }
 
-    public int updateUserStatus(Users users) {
+    /*public int updateUserStatus(Users users) {
         return userMapper.updateUserStatus(users);
-    }
+    }*/
 
-    public int updateUserLimit(Users users) {
-        return userMapper.updateUserLimit(users);
+    public Integer updateUserLimit(Integer user_id, Integer limit) {
+       Integer i = userMapper.updateUserLimit(user_id,limit);
+
+
+        return i  ;
     }
 
     public Users queryUserByUser_id(int user_id) {
@@ -55,7 +64,7 @@ public class UserServiceImpl implements UserService{
 
     public Integer changePassword(String user_name, String user_pwd ,  String newuser_pwd) {
         Integer integer = userMapper.changePassword(user_name, user_pwd, newuser_pwd);
-        System.out.println(integer);
+
         return integer;
     }
 
@@ -67,7 +76,8 @@ public class UserServiceImpl implements UserService{
         return userMapper.queryAllManager();
     }
 
-    public List<Users> queryAllUser() {
-        return userMapper.queryAllUser();
+    public List<Users> queryAllUser(String userSearch) {
+        List<Users> users = userMapper.queryAllUser(userSearch);
+        return users;
     }
 }

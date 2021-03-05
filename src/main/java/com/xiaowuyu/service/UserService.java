@@ -15,10 +15,10 @@ public interface UserService {
     int updateUser(Users users);
 
     //更新User状态
-    int updateUserStatus(Users users);
+    Integer userStatus(Integer user_id,Integer status);
 
     //更改用户权限
-    int updateUserLimit(Users users);
+    Integer updateUserLimit(Integer user_id,Integer limit);
 
     //根据id查询,返回一个User
     Users queryUserByUser_id(int user_id);
@@ -30,7 +30,7 @@ public interface UserService {
     List<Users> queryAllManager();
 
     //查询全部用户,返回list集合
-    List<Users> queryAllUser();
+    List<Users> queryAllUser(String userSearch);
 
     Integer retrievePassword(String mobile, String password);
 
@@ -40,4 +40,6 @@ public interface UserService {
     Integer modification(Users user);
 
     Integer changePassword(String user_name,String user_pwd , String newuser_pwd);
+
+
 }

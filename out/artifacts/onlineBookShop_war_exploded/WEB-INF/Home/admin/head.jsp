@@ -25,7 +25,7 @@
                 <li><a href="${pageContext.request.contextPath}/bookAll">书籍管理</a></li>
                 <li><a href="UserInfo.jsp">订单管理</a></li>
                 <li><a href="${pageContext.request.contextPath}/category/categoryAll">书籍分类管理</a></li>
-                <li><a href="#">管理用户</a></li>
+                <li><a href="${pageContext.request.contextPath}/userAdmin">管理用户</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right hidden-sm">
                 <li><a href="Login.jsp">账号显示</a></li>

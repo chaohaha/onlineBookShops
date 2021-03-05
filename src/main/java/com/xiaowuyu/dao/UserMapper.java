@@ -19,10 +19,12 @@ public interface UserMapper {
     int updateUser(Users users);
 
     //更新User状态
-    int updateUserStatus(Users users);
+    @Update("update users set user_status = #{status} where user_id=#{user_id}")
+    Integer updateUserStatus(@Param("user_id") Integer user_id ,@Param("status") Integer status);
 
     //更改用户权限
-    int updateUserLimit(Users users);
+    @Update("update users set user_limit = #{user_limit} where user_id=#{user_id}")
+    Integer updateUserLimit( @Param("user_id") Integer user_id,@Param("user_limit") Integer user_limit);
 
     //根据uId查询,返回一个User
     Users queryUserByUser_id(@Param("user_id") int user_id);
@@ -34,7 +36,8 @@ public interface UserMapper {
     List<Users> queryAllManager();
 
     //查询全部用户,返回list集合
-    List<Users> queryAllUser();
+    List<Users> queryAllUser(@Param("userSearch") String userSearch);
+
     // 找回密码
     @Update("update users set user_pwd=#{user_pwd} where user_phone=#{user_phone}  ")
     Integer retrievePassword(@Param("user_phone") String user_phone, @Param("user_pwd")  String user_pwd);

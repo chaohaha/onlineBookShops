@@ -24,19 +24,19 @@
         where user_id = #{user_id}
     </update>
 
-    <!--更新User状态-->
-    <update id="updateUserStatus" parameterType="Users">
+  <!--  &lt;!&ndash;更新User状态&ndash;&gt;
+    <update id="userStatus" parameterType="Users">
         update graduation.users
         set user_status = #{user_status}
         where user_id = #{user_id}
-    </update>
+    </update>-->
 
     <!--修改User权限-->
-    <update id="updateUserLimit" parameterType="Users">
+<!--    <update id="updateUserLimit" parameterType="Users">
         update graduation.users
         set user_limit = #{user_limit}
         where user_id = #{user_id}
-    </update>
+    </update>-->
 
     <!--根据uId查询,返回一个User-->
     <select id="queryUserByUser_id" resultType="Users">
@@ -59,6 +59,22 @@
     <!--查询全部用户-->
     <select id="queryAllUser" resultType="Users">
         SELECT * from graduation.users
+        <if test="userSearch != null ">
+            where   user_id=#{userSearch} or user_name=#{userSearch}
+        </if>
+
     </select>
+
+  <!--  <select id="bookAll" resultMap="BooksMap">
+        select b.*,c.* from books b,category c
+        where b.category_id=c.category_id
+        <if test="books != null and books.size() > 0">
+            and book_id in
+            <foreach collection="books" item="book_id" open="(" close=")" separator=",">
+                #{book_id.book_id}
+            </foreach>
+        </if>
+        order by book_id desc
+    </select>-->
 
 </mapper>

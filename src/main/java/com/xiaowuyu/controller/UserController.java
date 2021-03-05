@@ -1,7 +1,10 @@
 package com.xiaowuyu.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.UserService;
 import com.xiaowuyu.utils.CodeConfig;
@@ -21,10 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.transform.Result;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 @Controller
 /*@RequestMapping("/user")*/
@@ -34,12 +40,12 @@ public class UserController {
     @Qualifier("UserServiceImpl")
     private UserService userService;
 
-    @RequestMapping("/allUser")
+    /*@RequestMapping("/allUser")
     public String list(Model model) {
         List<Users> list = userService.queryAllUser();
         model.addAttribute("list", list);
         return "allUser";
-    }
+    }*/
 
     /*跳转登陆页面*/
     @RequestMapping("/toLogin")
@@ -123,14 +129,6 @@ public class UserController {
         return "updateUserStatus";
     }
 
-    @RequestMapping("/updateUserStatus")
-    public String updateUserStatus(Model model,Users user){
-        System.out.println(user);
-        userService.updateUserStatus(user);
-        Users users=userService.queryUserByUser_id(user.getUser_id());
-        model.addAttribute("users",users);
-        return "redirect:/user/allUser";
-    }
 
     @RequestMapping("/toUpdateUserLimit")
     public String toUpdateUserLimit(Model model,int user_id){
@@ -140,14 +138,7 @@ public class UserController {
         return "updateUserLimit";
     }
 
-    @RequestMapping("/updateUserLimit")
-    public String updateUserLimit(Model model,Users user){
-        System.out.println(user);
-        userService.updateUserLimit(user);
-        Users users=userService.queryUserByUser_id(user.getUser_id());
-        model.addAttribute("users",users);
-        return "redirect:/user/allUser";
-    }
+
     // 跳转找回密码页面
     @RequestMapping("/toRetrieve")
     public String forgetPassword(){
@@ -396,5 +387,54 @@ public class UserController {
         }
         return Results.setError("","原密码错误");
     }
+
+    // 后台用户管理
+     @RequestMapping("userAdmin")
+    public ModelAndView userAdmin(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                  @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
+                                  String userSearch){
+
+         PageHelper.startPage(page,pageSize);
+         if ("".equals(userSearch)){
+             userSearch=null;
+         }
+         List<Users> users = userService.queryAllUser( userSearch);
+         PageInfo<Users> pageInfo = new PageInfo<Users>(users);
+         ModelAndView mv = new ModelAndView();
+
+         mv.addObject("pageInfo",pageInfo);
+         mv.setViewName("admin/useradmin");
+
+         return mv;
+     }
+
+     @RequestMapping("/userStatus")
+     @ResponseBody
+    public Results userStatus(Integer user_id,Integer status){
+
+     Integer i =   userService.userStatus(user_id,status);
+     if (i>0){
+         return Results.setSuccess("","操作成功");
+     }
+
+     return Results.setError("","操作失败");
+     }
+
+    @RequestMapping("/empower")
+    @ResponseBody
+    public Results empower(Integer user_id,Integer limit){
+        System.out.println(user_id);
+        System.out.println(limit);
+        Integer i =   userService.updateUserLimit(user_id,limit);
+        System.out.println(i);
+        if (i>0){
+            return Results.setSuccess("","操作成功");
+        }
+
+        return Results.setError("","操作失败");
+    }
+
+
+    
 
 }
