@@ -1,5 +1,7 @@
 package com.xiaowuyu.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xiaowuyu.pojo.Category;
 import com.xiaowuyu.service.CategoryService;
 import com.xiaowuyu.utils.Results;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,10 +26,14 @@ public class CategoryController {
      * @return categoryList集合到前台页面
      */
     @RequestMapping("categoryAll")
-    public ModelAndView categoryAll(){
+    public ModelAndView categoryAll(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                    @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize
+                                    ,Integer category_id){
         ModelAndView mv = new ModelAndView();
-        List<Category> categoryList = categoryService.queryAllCartgory();
-        mv.addObject("categoryList",categoryList);
+        PageHelper.startPage(page,pageSize);
+        List<Category> categoryList = categoryService.categoryAll(category_id);
+        PageInfo<Category> pageInfo = new PageInfo<Category>(categoryList);
+        mv.addObject("pageInfo",pageInfo);
         mv.setViewName("admin/categoryadmin");
         return mv;
     }
@@ -88,12 +95,20 @@ public class CategoryController {
      * 分类修改
      */
     @RequestMapping("categoryUpdate")
-    public String categoryUpdate(Category category){
+    public ModelAndView categoryUpdate(Category category,@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                 @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize
+                                ,Integer category_id){
         int i=categoryService.categoryUpdate(category);
+        ModelAndView mv = new ModelAndView();
         if (i>0){
-            return "redirect:categoryAll";
+            PageHelper.startPage(page,pageSize);
+            List<Category> categoryList = categoryService.categoryAll(category_id);
+            PageInfo<Category> pageInfo = new PageInfo<Category>(categoryList);
+            mv.addObject("pageInfo",pageInfo);
+            mv.setViewName("admin/categoryadmin");
+            return mv;
         }
-        return "";
+        return mv;
     }
 
 }

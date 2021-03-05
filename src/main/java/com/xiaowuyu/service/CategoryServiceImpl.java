@@ -32,6 +32,10 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryMapper.categoryUpdate(category);
     }
 
+    public List<Category> categoryAll(Integer category_id) {
+        return categoryMapper.categoryAll(category_id);
+    }
+
     public void setCategoryMapper(CategoryMapper categoryMapper) {
         this.categoryMapper=categoryMapper;
     }

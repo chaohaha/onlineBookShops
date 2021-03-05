@@ -16,4 +16,7 @@ public interface CategoryMapper {
     Category categoryById(Category category);
 
     int categoryUpdate(Category category);
+
+    List<Category> categoryAll(Integer category_id);
+
 }

@@ -63,6 +63,7 @@
                #{book_id.book_id}
            </foreach>
         </if>
+        order by book_id desc
     </select>
 
     <!--搜索框多字段模糊查询-->

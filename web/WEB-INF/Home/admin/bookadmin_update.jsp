@@ -141,7 +141,7 @@
                 success: function (data) {
                     if(data.code == 200){
                         alert(data.msg);
-                        location.href="${pageContext.request.contextPath}/bookAll";
+                        location.href="${pageContext.request.contextPath}/bookUpdateAll?book_id="+$('[name="book_id"]').val();
                         return;
                     }
                 }

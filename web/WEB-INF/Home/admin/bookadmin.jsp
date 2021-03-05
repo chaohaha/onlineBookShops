@@ -84,7 +84,7 @@
                     <div class="col-sm-2 line-center" style="width: 110px;">状态</div>
                     <div class="col-sm-3 line-center" style="width: 125px;">操作</div>
                 </div>
-                <c:forEach var="b" items="${bookList}">
+                <c:forEach var="b" items="${pageInfo.list}">
                     <div class="list-group">
                         <div class="col-sm-12  list-group-item" style="">
                             <div class="col-sm-3 line-center book_id" onclick="myClick(1)" style="width: 110px;margin-left: -10px;">${b.book_id}</div>
@@ -132,25 +132,23 @@
                         </div>
                     </div>
                 </div>--%>
-<%--                <nav class="center">--%>
-<%--                    <ul class="pagination  pagination-lg">--%>
-<%--                        <li>--%>
-<%--                            <a href="#" aria-label="Previous">--%>
-<%--                                <span aria-hidden="true">首页</span>--%>
-<%--                            </a>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="#">1</a></li>--%>
-<%--                        <li><a href="#">2</a></li>--%>
-<%--                        <li><a href="#">3</a></li>--%>
-<%--                        <li><a href="#">4</a></li>--%>
-<%--                        <li><a href="#">5</a></li>--%>
-<%--                        <li>--%>
-<%--                            <a href="#" aria-label="Next">--%>
-<%--                                <span aria-hidden="true">末页</span>--%>
-<%--                            </a>--%>
-<%--                        </li>--%>
-<%--                    </ul>--%>
-<%--                </nav>--%>
+                <nav class="center">
+                    <ul class="pagination  pagination-lg">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/bookAll" aria-label="Previous">
+                                <span aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+                        <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+                            <li><a href="${pageContext.request.contextPath}/bookAll?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+                        </c:forEach>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/bookAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">
+                                <span aria-hidden="true">末页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

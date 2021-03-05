@@ -1,5 +1,7 @@
 package com.xiaowuyu.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Category;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -138,10 +141,28 @@ public class BookController {
      * 后台查询所以书籍
      */
     @RequestMapping("bookAll")
-    public ModelAndView bookAll(){
+    public ModelAndView bookAll(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                 @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize){
         ModelAndView mv = new ModelAndView();
         List<Books> booksList = bookService.bookAll(null);
-        mv.addObject("bookList",booksList);
+        PageHelper.startPage(page,pageSize);
+        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList);
+        mv.addObject("pageInfo",pageInfo);
+        mv.setViewName("admin/bookadmin");
+        return mv;
+    }
+
+    @RequestMapping("bookUpdateAll")
+    public ModelAndView bookUpdateAll(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
+                                      Books books){
+        ModelAndView mv = new ModelAndView();
+        ArrayList<Books> books1 = new ArrayList<Books>();
+        books1.add(books);
+        List<Books> booksList = bookService.bookAll(books1);
+        PageHelper.startPage(page,pageSize);
+        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList);
+        mv.addObject("pageInfo",pageInfo);
         mv.setViewName("admin/bookadmin");
         return mv;
     }
@@ -150,7 +171,9 @@ public class BookController {
      * 后台书籍搜索框模糊查询
      */
     @RequestMapping("bookByNameOrIdOrcategory")
-    public ModelAndView bookByNameOrIdOrcategory(String bookname){
+    public ModelAndView bookByNameOrIdOrcategory(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                                                 @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
+                                                 String bookname){
         ModelAndView mv = new ModelAndView();
         if (bookname==null||bookname==""){
             mv.setViewName("redirect:bookAll");
@@ -159,7 +182,9 @@ public class BookController {
         List<Books> books=bookService.bookByNameOrIdOrcategory(bookname);
         System.out.println(books.size());
         List<Books> booksList = bookService.bookAll(books);
-        mv.addObject("bookList",booksList);
+        PageHelper.startPage(page,pageSize);
+        PageInfo<Books> pageInfo = new PageInfo<Books>(booksList);
+        mv.addObject("pageInfo",pageInfo);
         mv.setViewName("admin/bookadmin");
         return mv;
     }
