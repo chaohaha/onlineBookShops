@@ -1,6 +1,7 @@
 package com.xiaowuyu.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.UserService;
 import com.xiaowuyu.utils.CodeConfig;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -50,16 +52,34 @@ public class UserController {
     @RequestMapping("/login")
     @ResponseBody
     public Results login(Model model, Users users, HttpSession session){
-
+        System.out.println(users);
         Users user = userService.login(users);
-        model.addAttribute("user",user);
-       session.setAttribute("user",user);
-        if(user!=null){
-            System.out.println("成功");
-            session.setAttribute("user",user);
-            return Results.setSuccess("user","登录成功");
+
+        if (user!=null&&user.getUser_status()==0){
+            return Results.setError("user","您的账户已被禁用");
         }
-        System.out.println("失败");
+        System.out.println(user);
+        if (user!=null&&user.getUser_image()!=null){
+            session.setAttribute("photo", user.getUser_image());
+        }
+        if (user != null){
+            model.addAttribute("user",user);
+            session.setAttribute("userName",user.getUser_name());
+
+        }
+
+        if(user!=null&&user.getUser_limit()==0){
+
+            session.setAttribute("user",user);
+            return Results.returnState(200,"用户","登陆成功",0);
+        }
+
+        if(user!=null&&user.getUser_limit()==1){
+            session.setAttribute("role",1);
+            return Results.returnState(200,"管理员","登陆成功",1);
+        }
+
+
         return Results.setError("user","账号或密码错误");
 
     }
@@ -264,7 +284,7 @@ public class UserController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Users users = new Users(0,userName,password,user_email,user_phone,user_address,1,0);
+        Users users = new Users(0,userName,password,user_email,user_phone,user_address,1,0,fileName);
         String verifyCodes =(String) request.getSession().getAttribute("verifyCodes");
         int verifyCode1 = Integer.parseInt(verifyCodes);
         int verifyCode2 = Integer.parseInt(verifyCode);
@@ -281,6 +301,100 @@ public class UserController {
 
 
         return Results.setError("","验证码错误");
+    }
+    // 个人信息查询
+    @RequestMapping("userInfo")
+    public String userInfo(HttpSession httpSession, Model model){
+        String username = (String) httpSession.getAttribute("userName");
+        System.out.println(username);
+        Users users   = userService.queryUserByUser_name(username);
+        model.addAttribute(users);
+        System.out.println(users);
+        return "UserInfo";
+    }
+
+    // 信息修改
+    @RequestMapping("modification")
+    @ResponseBody
+    public Results modification(@RequestParam("user_name") String user_name,
+                                @RequestParam("user_address")String user_address,
+                                @RequestParam("user_email")String user_email,
+                                @RequestParam("user_phone")String user_phone,
+                               @RequestParam("user_image") MultipartFile user_image,
+                               HttpSession httpSession,
+                               HttpServletRequest request){
+        System.out.println(user_name);
+        Users users   = userService.queryUserByUser_name(user_name);
+        System.out.println(users);
+
+
+        if (user_address==null||user_address.equals("")){
+            user_address =users.getUser_address();
+        }
+        if (user_email==null||user_email.equals("")){
+            user_email =users.getUser_email();
+        }
+        if (user_phone==null||user_phone.equals("")){
+            user_phone =users.getUser_phone();
+        }
+        System.out.println(user_address);
+        System.out.println(user_image);
+
+
+        // 是否上传文件 上传则把原来的文件删除
+        Integer i = null;
+        System.out.println(user_image.getSize());
+        if (user_image.getSize()!=0){
+            String path = request.getSession().getServletContext().getRealPath("upload");//获取路径
+            String fileName = user_image.getOriginalFilename();//获取上传文件的名字
+
+            File targetFile = new File(path,users.getUser_image());
+            if (targetFile.exists()){
+                targetFile.delete();//判断文件存不存，存在就删除
+            }
+            // 有新文件上传则开始上传
+            File targetFile1 = new File(path,fileName);
+            if (!targetFile.exists()){
+                targetFile.mkdirs();//判断文件存不存，存在就删除
+            }
+
+            try {
+                user_image.transferTo(targetFile1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+          Users  user= new Users(user_name,user_email,user_phone,user_address,fileName);
+            i =  userService.modification(user);
+            if (i!=null){
+                httpSession.setAttribute("photo",fileName);
+                return Results.setSuccess("","修改成功");
+            }
+
+        }
+        // 文件未上传则使用原头像
+
+        Users   user= new Users(user_name,user_email,user_phone,user_address,users.getUser_image());
+        // 提交到数据库
+         i =  userService.modification(user);
+
+        if (i!=null){
+            // 更新后的头像传给头部显示头像
+            httpSession.setAttribute("photo",users.getUser_image());
+            return Results.setSuccess("","修改成功");
+        }
+       return Results.setError("","修改失败");
+    }
+
+    @RequestMapping("/changePassword")
+    @ResponseBody
+    public Results changePassword(String user_name ,String user_pwd,String newuser_pwd ){
+
+       Integer i = userService.changePassword(user_name,user_pwd,newuser_pwd);
+        if (i>0){
+            return Results.setSuccess("","修改成功");
+        }
+        return Results.setError("","原密码错误");
     }
 
 }

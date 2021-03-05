@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 扫描service相关的bean -->
+    <context:component-scan base-package="com.xiaowuyu.service" />
+
+    <!--BookServiceImpl注入到IOC容器中-->
+    <bean id="BookServiceImpl" class="com.xiaowuyu.service.BookServiceImpl">
+        <property name="bookMapper" ref="bookMapper"/>
+    </bean>
+    <bean id="UserServiceImpl" class="com.xiaowuyu.service.UserServiceImpl">
+        <property name="userMapper" ref="userMapper"/>
+    </bean>
+    <bean id="OrderServiceImpl" class="com.xiaowuyu.service.OrderServiceImpl">
+        <property name="orderMapper" ref="orderMapper"/>
+    </bean>
+    <bean id="OrderItemServiceImpl" class="com.xiaowuyu.service.OrderItemServiceImpl">
+        <property name="orderItemMapper" ref="orderItemMapper"/>
+    </bean>
+    <bean id="CartServiceImpl" class="com.xiaowuyu.service.CartServiceImpl">
+        <property name="cartMapper" ref="cartMapper"/>
+    </bean>
+    <bean id="CateSoryServiceImpl" class="com.xiaowuyu.service.CategoryServiceImpl">
+        <property name="categoryMapper" ref="categoryMapper"/>
+    </bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource" />
+
+    </bean>
+
+</beans>

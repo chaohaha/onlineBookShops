@@ -62,7 +62,7 @@
                 <div class="form-group">
                     <label for="password" class="col-sm-4 control-label">密码</label>
                     <div class="col-sm-4">
-                        <input type="password" name="user_pwd" class="form-control" id="password" placeholder="密码">
+                        <input type="password" name="user_pwds" class="form-control" id="password" placeholder="密码">
                     </div>
                 </div>
                 <div class="form-group">
@@ -125,9 +125,9 @@
 
 
 <!--footer-->
-<div class="navbar navbar-default navbar-static-bottom">
+<%--<div class="navbar navbar-default navbar-static-bottom">
     版权声明区
-</div>
+</div>--%>
 </body>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script type="text/javascript">

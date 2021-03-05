@@ -17,6 +17,12 @@ public class UserServiceImpl implements UserService{
         return userMapper.register(users);
     }
 
+    // 修改用户信息
+    public Integer modification(Users user) {
+
+        return  userMapper.modification(user);
+    }
+
     public Users login(Users users){
         Users user = userMapper.login(users);
         return user;
@@ -45,6 +51,12 @@ public class UserServiceImpl implements UserService{
 
     public Users queryUserByUser_id(int user_id) {
         return userMapper.queryUserByUser_id(user_id);
+    }
+
+    public Integer changePassword(String user_name, String user_pwd ,  String newuser_pwd) {
+        Integer integer = userMapper.changePassword(user_name, user_pwd, newuser_pwd);
+        System.out.println(integer);
+        return integer;
     }
 
     public Users queryUserByUser_name(String user_name) {

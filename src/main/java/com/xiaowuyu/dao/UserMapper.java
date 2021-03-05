@@ -41,4 +41,11 @@ public interface UserMapper {
     // 根据手机号查用户名
     @Select("select * from users where user_phone=#{user_phone} ")
     Users QueryUserName(String user_phone);
+
+    @Update("update users set user_phone=#{user_phone},user_email=#{user_email}," +
+            "user_address=#{user_address},user_image=#{user_image} where user_name=#{user_name}")
+    Integer modification(Users user);
+
+    @Update("update users set user_pwd = #{newuser_pwd} where user_name=#{user_name} and user_pwd=#{user_pwd}")
+    Integer changePassword(@Param("user_name") String user_name,@Param("user_pwd") String user_pwd , @Param("newuser_pwd") String newuser_pwd);
 }

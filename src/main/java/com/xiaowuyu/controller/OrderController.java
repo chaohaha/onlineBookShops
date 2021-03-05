@@ -99,8 +99,12 @@ public class OrderController {
             System.out.println("订单详情表"+i1);
             int i2 = cartService.deleteByCart_id(cart.getCart_id());
             System.out.println("购物车删除"+i2);
+            if (cart.getCart_counts()==0){
+                int k=1/0;
+            }
             int i3 = bookService.upBook(book_id, cart.getCart_counts());
-            System.out.println("减库存"+(-i3));
+            System.out.println("减库存"+i3+",cart.getCart_counts()");
+
 
 
         }

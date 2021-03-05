@@ -58,7 +58,7 @@
                 <div class="col-sm-4 line-center">分类名</div>
                 <div class="col-sm-4 line-center">操作</div>
             </div>
-            <c:forEach items="${categoryList}" var="c">
+            <c:forEach items="${pageInfo.list}" var="c">
                 <div class="list-group">
                     <div class="col-sm-12  list-group-item" >
                         <div class="col-sm-4 line-center category_id" onclick="myClick(1)">${c.category_id}</div>
@@ -78,17 +78,15 @@
             <nav class="center">
                 <ul class="pagination  pagination-lg">
                     <li>
-                        <a href="#" aria-label="Previous">
+                        <a href="${pageContext.request.contextPath}/category/categoryAll" aria-label="Previous">
                             <span aria-hidden="true">首页</span>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+                        <li><a href="${pageContext.request.contextPath}/category/categoryAll?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+                    </c:forEach>
                     <li>
-                        <a href="#" aria-label="Next">
+                        <a href="${pageContext.request.contextPath}/category/categoryAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">
                             <span aria-hidden="true">末页</span>
                         </a>
                     </li>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -32,7 +33,7 @@
             cursor: pointer;
         }
     </style>
-    <script>
+    <%--<script>
         function myClick(n){
            location.href = "OrderInfo.jsp";
         }
@@ -43,34 +44,11 @@
         $(function(){
 
         })
-    </script>
+    </script>--%>
 </head>
 <body>
 <!-- Static navbar -->
-<%--<div class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">这什么东西</span>
-            </button>
-            <a class="navbar-brand" href="Index.jsp">图书商城</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="Index.jsp">首页</a></li>
-                <li><a href="Order.jsp">我的订单</a></li>
-                <li><a href="UserInfo.jsp">个人中心</a></li>
-                <li><a href="FriendLink.jsp">友情链接</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right hidden-sm">
-                <li><a href="Login.jsp">登录</a></li>
-                <li><a href="Register.jsp">注册</a></li>
-                <li>
-                    <a href="Cart.jsp"><span class="glyphicon glyphicon-shopping-cart">购物车</span></a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</div>--%>
+
 <jsp:include page="head.jsp"></jsp:include>
 <!--content-->
 <div class="container">
@@ -81,58 +59,52 @@
         <div class="col-sm-12 thumbnail">
             <div class="col-sm-3 line-center">订单编号</div>
             <div class="col-sm-2 line-center">订单状态</div>
-            <div class="col-sm-2 line-center">商品数量 </div>
+            <div class="col-sm-2 line-center">商品创建时间 </div>
             <div class="col-sm-2 line-center">订单总价</div>
             <div class="col-sm-3 line-center">操作</div>
         </div>
-        <%--<c:forEach items="${list}" var="l">
+
         <div class="list-group">
-            <div class="col-sm-12  list-group-item" >
-                <div class="col-sm-3 line-center" onclick="myClick(1)">ahiudsfhjk-23423-23asd-12</div>
-                <div class="col-sm-2 line-center">未付款</div>
-                <div class="col-sm-2 line-center">12 </div>
-                <div class="col-sm-2 line-center">1231.00元</div>
-                <div class="col-sm-3 line-center">
-                    <button class="btn btn-danger">删除订单</button>
-                    <button class="btn btn-success">提交订单</button>
 
+        <c:forEach items="${list}" var="l">
+            <div class="col-sm-12  list-group-item" >
+                <div class="col-sm-3 line-center" onclick="myClick(2)">${l.order_id}</div>
+                <c:if test="${l.order_status == 0}">
+                    <div class="col-sm-2 line-center">未发货</div>
+                </c:if>
+                <c:if test="${l.order_status == 1}">
+                    <div class="col-sm-2 line-center">已发货</div>
+                </c:if>
+                <c:if test="${l.order_status == 2}">
+                    <div class="col-sm-2 line-center">用户已确认收货</div>
+                </c:if>
+                <div class="col-sm-2 line-center">${l.order_create_time} </div>
+                <div class="col-sm-2 line-center">${l.order_totalPrice}</div>
+                <div class="col-sm-3 line-center">
+
+                    <c:if test="${l.order_status == 2}">
+                        <a href="${pageContext.request.contextPath}/deleteOrderByOrderId?orderId=${l.order_id}">
+                            <button class="btn btn-danger" onclick="return confirm('确定删除?');">删除订单</button>
+                        </a>
+                    </c:if>
+                    <c:if test="${l.order_status != 2}">
+                        <button class="btn btn-danger" onclick="deleteOrder(p=3)">
+                            删除订单
+                        </button>
+                    </c:if>
+                    <c:if test="${l.order_status == 0 }" >
+                        <button class="btn btn-success" onclick="deleteOrder(p=0)">提醒发货</button>
+                    </c:if>
+                    <c:if test="${l.order_status == 1 }" >
+                        <input type="hidden" value="${l.order_id}" id="orderIds">
+                        <button class="btn btn-success" onclick="deleteOrder(p=2)">确认收货</button>
+                    </c:if>
+                    <c:if test="${l.order_status == 2}">
+                        <button class="btn btn-success">交易已完成</button>
+                    </c:if>
                 </div>
             </div>
-        </c:forEach>--%>
-
-            <div class="col-sm-12  list-group-item" >
-                <div class="col-sm-3 line-center" onclick="myClick(2)">ahiudsfhjk-23423-23asd-12</div>
-                <div class="col-sm-2 line-center">未付款</div>
-                <div class="col-sm-2 line-center">12 </div>
-                <div class="col-sm-2 line-center">1231.00元</div>
-                <div class="col-sm-3 line-center">
-                    <button class="btn btn-danger">删除订单</button>
-                    <button class="btn btn-success">提交订单</button>
-
-                </div>
-            </div>
-            <div class="col-sm-12  list-group-item" >
-                <div class="col-sm-3 line-center" onclick="myClick(3)">ahiudsfhjk-23423-23asd-12</div>
-                <div class="col-sm-2 line-center">未付款</div>
-                <div class="col-sm-2 line-center">12 </div>
-                <div class="col-sm-2 line-center">1231.00元</div>
-                <div class="col-sm-3 line-center">
-                    <button class="btn btn-danger">删除订单</button>
-                    <button class="btn btn-success">提交订单</button>
-
-                </div>
-            </div>
-            <div class="col-sm-12  list-group-item" >
-                <div class="col-sm-3 line-center" onclick="myClick(4)">ahiudsfhjk-23423-23asd-12</div>
-                <div class="col-sm-2 line-center">未付款</div>
-                <div class="col-sm-2 line-center">12 </div>
-                <div class="col-sm-2 line-center">1231.00元</div>
-                <div class="col-sm-3 line-center">
-                    <button class="btn btn-danger">删除订单</button>
-                    <button class="btn btn-success">提交订单</button>
-                </div>
-            </div>
-
+        </c:forEach>
     </div>
 </div>
 
@@ -142,4 +114,31 @@
     版权声明区
 </div>
 </body>
+<script>
+    function deleteOrder() {
+        if (p==3){
+            alert("用户未确认收货，该订单不可删除！")
+        }
+        if (p==0){
+            alert("提醒发货成功！")
+        }
+        if (p==2){
+            var orderId = $('#orderIds').val()
+            $.ajax({
+                type:"post",
+                url:"${pageContext.request.contextPath}/updateOrderComplete",
+                data:{"orderId":orderId},
+                success:function (data) {
+                    alert("收货成功！");
+                    location.reload();
+                },error:function () {
+                    alert("凑了")
+                }
+
+            })
+        }
+
+
+    }
+</script>
 </html>

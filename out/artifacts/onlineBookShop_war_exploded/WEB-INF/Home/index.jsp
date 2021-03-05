@@ -53,12 +53,9 @@
             </a>
         </li>
 
-
-
-
     </ul>
     <div class="row">
-        <c:forEach  items="${list}" var="l">
+        <c:forEach  items="${pageInfo.list}" var="l">
         <div class="col-sm-4 col-md-3">
             <div class="thumbnail" >
                 <a href="BookInfo?book_id=${l.book_id}">
@@ -67,29 +64,28 @@
                 </a>
                 <div class="caption center">
                     <h3>${l.book_name}</h3>
-                    <p><span>价格:</span><span>${l.book_price}</span></p>
+                    <p><span>价格:</span><span style="color: red"><i>${l.book_price}</i></span>￥</p>
                     <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/BookInfo?book_id=${l.book_id}">查看详情</a></p>
                 </div>
             </div>
         </div>
         </c:forEach>
+
     </div>
 
 
     <nav class="center">
         <ul class="pagination  pagination-lg">
             <li>
-                <a href="#" aria-label="Previous">
+                <a href="${pageContext.request.contextPath}/Index" aria-label="Previous">
                     <span aria-hidden="true">首页</span>
                 </a>
             </li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
+            <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+                <li><a href="${pageContext.request.contextPath}/Index?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+            </c:forEach>
             <li>
-                <a href="#" aria-label="Next">
+                <a href="${pageContext.request.contextPath}/Index?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">
                     <span aria-hidden="true">末页</span>
                 </a>
             </li>
