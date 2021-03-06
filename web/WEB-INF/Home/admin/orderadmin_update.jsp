@@ -48,7 +48,7 @@
            <form action="${pageContext.request.contextPath}/orderUpdate" method="post">
                <table  border="0px">
                    <tr style="height: 50px">
-                       <th>订单编号：</th><td style="width: 250px;text-align: center" >
+                       <th>订单编号：</th><td style="width: 350px;text-align: center" >
                        <input type="hidden" name="order_id" value="${orders.order_id}">
                        ${orders.order_id}</td>
                    </tr>

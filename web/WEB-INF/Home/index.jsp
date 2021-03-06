@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <!DOCTYPE html>
 <html>
@@ -57,19 +58,22 @@
     </ul>
     <div class="row">
         <c:forEach  items="${pageInfo.list}" var="l">
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail" >
-                <a href="BookInfo?book_id=${l.book_id}">
+            <C:if test="${l.book_type == 0}">
+                <div class="col-sm-4 col-md-3">
+                    <div class="thumbnail" >
+                        <a href="BookInfo?book_id=${l.book_id}">
 
-                    <img style="width: 100%; height: 200px; display: block;" alt="100%x200" src="${pageContext.request.contextPath}/upload/${l.book_image}" data-holder-rendered="true">
-                </a>
-                <div class="caption center">
-                    <h3>${l.book_name}</h3>
-                    <p><span>价格:</span><span style="color: red"><i>${l.book_price}</i></span>￥</p>
-                    <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/BookInfo?book_id=${l.book_id}">查看详情</a></p>
+                            <img style="width: 100%; height: 200px; display: block;" alt="100%x200" src="${pageContext.request.contextPath}/upload/${l.book_image}" data-holder-rendered="true">
+                        </a>
+                        <div class="caption center">
+                            <h3>${l.book_name}</h3>
+                            <p><span>价格:</span><span style="color: red"><i>${l.book_price}</i></span>￥</p>
+                            <p><a class="btn btn-primary btn-block" role="button" href="${pageContext.request.contextPath}/BookInfo?book_id=${l.book_id}">查看详情</a></p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </C:if>
+
         </c:forEach>
 
     </div>

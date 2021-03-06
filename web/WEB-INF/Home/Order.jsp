@@ -85,12 +85,12 @@
                 <div class="col-sm-2 line-center">${l.order_totalPrice}</div>
                 <div class="col-sm-3 line-center">
 
-                    <c:if test="${l.order_status == 2}">
+                    <c:if test="${l.order_status == 2 || l.order_status == 4}">
                         <a href="${pageContext.request.contextPath}/deleteOrderByOrderId?orderId=${l.order_id}">
                             <button class="btn btn-danger" onclick="return confirm('确定删除?');">删除订单</button>
                         </a>
                     </c:if>
-                    <c:if test="${l.order_status != 2}">
+                    <c:if test="${l.order_status != 2 && l.order_status != 4}">
                         <button class="btn btn-danger" onclick="deleteOrder(p=3)">
                             删除订单
                         </button>

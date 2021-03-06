@@ -75,4 +75,8 @@ public class BookServiceImpl implements BookService {
     public int bookUpdate(Books books) {
         return bookMapper.bookUpdate(books);
     }
+
+    public int updateBookSales(Books books) {
+        return bookMapper.updateBookSales(books);
+    }
 }

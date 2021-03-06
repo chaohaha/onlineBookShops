@@ -17,7 +17,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">这什么东西</span>
             </button>
-            <a class="navbar-brand" href="Index.jsp">图书商城管理</a>
+            <a class="navbar-brand">图书商城管理</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">

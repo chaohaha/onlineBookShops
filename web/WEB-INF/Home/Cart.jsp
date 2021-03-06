@@ -91,6 +91,7 @@
             <div class="col-sm-6  btn btn-success btn-block" onclick="booksBuy()"> 提交订单</div>
         </div>
     </div>
+    <a href="${pageContext.request.contextPath}/PaymentCompleted">测试接口</a>
 </div>
 
 

@@ -89,7 +89,9 @@ public class OrderController {
             System.out.println("书"+books);
             /*添加订单表*/
             Orders orders = new Orders(s,users.getUser_id(),dateFormat.format(date.getTime()),
-                    null,jia,0,"",users,null);
+                    null,jia,4,"",users,null);
+           /* Orders orders = new Orders(s,users.getUser_id(),null,
+                    null,jia,0,"",users,null);*/
             System.out.println("用户"+users);
             int i = orderService.addOrder(orders);
             System.out.println("订单表"+i);
@@ -147,6 +149,7 @@ public class OrderController {
     public String toUpdateOrder(String orderId) {
         System.out.println(orderId);
         int i = orderService.deleteOrderByOrder_id(orderId);
+        int i1 = orderItemService.deleteorderItemByOrder_id(orderId);
         System.out.println(i);
         return "redirect:/allUserOrder";
     }
@@ -167,6 +170,7 @@ public class OrderController {
         orders.setOrder_id(orderId);
         orders.setOrder_status(2);
         int i = orderService.updateOrderSend(orders);
+        orderService.orderUpdateByID(orderId);
         System.out.println(i);
         return Results.setSuccess("","收货成功！");
     }
@@ -211,27 +215,47 @@ public class OrderController {
     @RequestMapping("/orderAll")
     public ModelAndView orderByIdANdUserIDAndstatus(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
                                                     @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
-                                                    String orderSel){
+                                                    String orderSel,String order_create_time){
         ModelAndView mv=new ModelAndView();
-        if (orderSel==null||orderSel.length()==0){
+        System.out.println("1"+orderSel);
+        System.out.println("2"+order_create_time);
+        if (orderSel==""){
+            orderSel=null;
+        }
+        if (orderSel != null){
+            mv.addObject("orderSel",orderSel);
+            if ("未发货".equals(orderSel)){
+                orderSel="0";
+            }else if ("已发货".equals(orderSel)){
+                orderSel="1";
+            }else if ("已确认收货".equals(orderSel)){
+                orderSel="2";
+            }else if ("未付款".equals(orderSel)){
+                orderSel="4";
+            }
+            System.out.println("几个查"+orderSel);
             PageHelper.startPage(page,pageSize);
-            List<Orders> ordersList=orderService.orderAll();
+            List<Orders> ordersList=orderService.orderByIdANdUserIDAndstatus(orderSel);
             PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
             mv.addObject("pageInfo",pageInfo);
             mv.setViewName("admin/orderadmin");
             return mv;
         }
-        mv.addObject("orderSel",orderSel);
-        if (orderSel.equals("未发货")){
-            orderSel="0";
-        }else if (orderSel.equals("已发货")){
-            orderSel="1";
-        }else if (orderSel.equals("已确认收货")){
-            orderSel="2";
+        if (order_create_time !=null){
+            System.out.println("日期查");
+            System.out.println(order_create_time);
+            PageHelper.startPage(page,pageSize);
+            List<Orders> ordersList=orderService.orderByDate(order_create_time);
+            System.out.println(ordersList.size());
+            PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
+            mv.addObject("pageInfo",pageInfo);
+            mv.addObject("order_create_time",order_create_time);
+            mv.setViewName("admin/orderadmin");
+            return mv;
         }
-        System.out.println(orderSel);
+        System.out.println("查所以");
         PageHelper.startPage(page,pageSize);
-        List<Orders> ordersList=orderService.orderByIdANdUserIDAndstatus(orderSel);
+        List<Orders> ordersList=orderService.orderAll();
         PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
         mv.addObject("pageInfo",pageInfo);
         mv.setViewName("admin/orderadmin");
@@ -244,6 +268,7 @@ public class OrderController {
     @RequestMapping("/orderByIdAll")
     public ModelAndView orderByIdAll(String order_id){
         ModelAndView mv = new ModelAndView();
+        System.out.println(order_id);
         Orders orders=orderService.orderByIdAll(order_id);
         mv.addObject("orders",orders);
         mv.setViewName("admin/orderadmin_all");
@@ -256,6 +281,7 @@ public class OrderController {
     @RequestMapping("/orderByIdUpdate")
     public ModelAndView orderByIdUpdate(String order_id){
         ModelAndView mv = new ModelAndView();
+        System.out.println(order_id);
         Orders orders=orderService.orderByIdAll(order_id);
         mv.addObject("orders",orders);
         mv.setViewName("admin/orderadmin_update");
@@ -288,15 +314,47 @@ public class OrderController {
         ModelAndView mv = new ModelAndView();
         int i=orderService.orderUpdate(orders);
         if (i>0){
-            PageHelper.startPage(page,pageSize);
-            Orders orders1 = orderService.orderByIdAll(orders.getOrder_id());
-            ArrayList<Orders> ordersList = new ArrayList<Orders>();
-            ordersList.add(orders1);
-            PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
-            mv.addObject("pageInfo",pageInfo);
-            mv.setViewName("admin/orderadmin");
+            if (orders.getOrder_status()==2){
+                 i = orderService.orderUpdateByID(orders.getOrder_id());
+            }
+            if (i>0){
+                PageHelper.startPage(page,pageSize);
+                Orders orders1 = orderService.orderByIdAll(orders.getOrder_id());
+                ArrayList<Orders> ordersList = new ArrayList<Orders>();
+                ordersList.add(orders1);
+                PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
+                mv.addObject("pageInfo",pageInfo);
+                mv.setViewName("admin/orderadmin");
+            }
         }
         return mv;
     }
+
+//    @RequestMapping("/orderByDate")
+//    public ModelAndView orderByDate(@RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+//                                    @RequestParam(name = "size",required = true,defaultValue = "5") Integer pageSize,
+//                                    String order_create_time,String order_create_time1){
+//        ModelAndView mv =new ModelAndView();
+//        if (order_create_time.length()==0 && order_create_time1.length()==0){
+//            PageHelper.startPage(page,pageSize);
+//            List<Orders> ordersList=orderService.orderAll();
+//            PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
+//            mv.addObject("pageInfo",pageInfo);
+//            mv.setViewName("admin/orderadmin");
+//            return mv;
+//        }
+//        if (order_create_time.length()==0){
+//            order_create_time=order_create_time1;
+//        }
+//        System.out.println(order_create_time);
+//        PageHelper.startPage(page,pageSize);
+//        List<Orders> ordersList=orderService.orderByDate(order_create_time);
+//        System.out.println(ordersList.size());
+//        PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
+//        mv.addObject("pageInfo",pageInfo);
+//        mv.addObject("order_create_time",order_create_time);
+//        mv.setViewName("admin/orderadmin");
+//        return mv;
+//    }
 
 }

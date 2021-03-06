@@ -14,4 +14,9 @@ public interface OrderItemService {
 
     //查询全部Order,返回list集合
     List<OrderItems> queryAllOrderItem(int order_id);
+
+
+    OrderItems orderItemById(String s);
+
+    int deleteorderItemByOrder_id(String orderId);
 }
