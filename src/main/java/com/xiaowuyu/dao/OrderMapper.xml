@@ -101,4 +101,8 @@
         update orders set order_complete_time=default
         where order_id=#{order_id}
     </update>
+
+    <select id="orderByDate" resultType="Orders">
+        select * from orders where order_create_time like '%${order_create_time}%'
+    </select>
 </mapper>
