@@ -119,6 +119,9 @@
                             <c:if test="${o.order_status==2}">
                                 已确认收货
                             </c:if>
+                            <c:if test="${o.order_status==4}">
+                                未付款
+                            </c:if>
                         </div>
                         <div class="col-sm-2 line-center" style="width: 125px;">${o.order_remark}</div>
                         <div class="col-sm-3 line-center" style="width: 140px;">

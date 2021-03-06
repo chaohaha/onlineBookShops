@@ -50,7 +50,7 @@
                 <div class="col-sm-12  list-group-item">
                     <div class="col-sm-1 line-center" style="width: 50px;height: 50px;">
 
-                        <img src="../Flat-UI-master/dist/img/icons/png/Book.png" style="height: 100%;" alt=""/>
+                        <%--<img src="../Flat-UI-master/dist/img/icons/png/Book.png" style="height: 100%;" alt=""/>--%>
                     </div>
                     <div class="col-sm-3 line-center"><input type="checkbox" name="${l.cart_id}" class="tesi">  ${l.book_name}</div>
                     <div class="col-sm-1 line-center">${l.cart_price}￥</div>

@@ -8,6 +8,7 @@ import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.UserService;
 import com.xiaowuyu.utils.CodeConfig;
+import com.xiaowuyu.utils.MD5;
 import com.xiaowuyu.utils.Results;
 import com.zhenzi.sms.ZhenziSmsClient;
 import org.apache.commons.io.FileUtils;
@@ -28,6 +29,8 @@ import javax.xml.transform.Result;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -259,12 +262,17 @@ public class UserController {
                                @RequestParam("user_email")String user_email,
                                @RequestParam("user_address")String user_address,
                                @RequestParam("user_image") MultipartFile uploadFile,
-                               HttpServletRequest request){
+                               HttpServletRequest request) throws NoSuchAlgorithmException {
         String path = request.getSession().getServletContext().getRealPath("upload");//获取路径
         String fileName = uploadFile.getOriginalFilename();//获取上传文件的名字
         File targetFile = new File(path,fileName);
 
+        // 密码加密
+        if (password!=null){
+            password = MD5.stringToMD5(password);
+        }
 
+        System.out.println(password);
         System.out.println(fileName);
         if(!targetFile.exists()){
             targetFile.mkdirs();//是否存在目录，不存在就创建
@@ -279,6 +287,9 @@ public class UserController {
         String verifyCodes =(String) request.getSession().getAttribute("verifyCodes");
         int verifyCode1 = Integer.parseInt(verifyCodes);
         int verifyCode2 = Integer.parseInt(verifyCode);
+
+
+
         // 验证码正确则添加到数据库
         if (verifyCode1==verifyCode2){
         int i = userService.register(users);

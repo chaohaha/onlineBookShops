@@ -67,6 +67,10 @@
                                    <c:if test="${orders.order_status==2}">
                                        <option value="2">确认收货</option>
                                    </c:if>
+                                   <c:if test="${orders.order_status==4}">
+                                       未付款
+                                   </c:if>
+                                   <option value="4">未付款</option>
                                    <option value="0">未发货</option>
                                    <option value="1">已发货</option>
                                    <option value="2">确认收货</option>

@@ -21,14 +21,13 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="Index.jsp">返回首页</a></li>
                 <li><a href="${pageContext.request.contextPath}/bookAll">书籍管理</a></li>
                 <li><a href="${pageContext.request.contextPath}/orderAll">订单管理</a></li>
                 <li><a href="${pageContext.request.contextPath}/category/categoryAll">书籍分类管理</a></li>
                 <li><a href="${pageContext.request.contextPath}/userAdmin">管理用户</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right hidden-sm">
-                <li><a href="Login.jsp">账号显示</a></li>
+                <li><a href="${pageContext.request.contextPath}/logout">注销</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
