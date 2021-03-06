@@ -93,7 +93,7 @@
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_price}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_counts}</div>
                             <div class="col-sm-2 line-center" style="width: 110px;">${b.book_sales}</div>
-                            <div class="col-sm-2 line-center" style="width: 110px;"><img src="${pageContext.request.contextPath}/upload/book/${b.book_image}" width="110px" height="80px"/></div>
+                            <div class="col-sm-2 line-center" style="width: 110px;"><img src="${pageContext.request.contextPath}/upload/${b.book_image}" width="80px" height="60px"/></div>
                             <div class="col-sm-2 line-center" style="width: 110px;">
                                 <c:if test="${b.book_type==0}">
                                     <font color="green"><i>上架</i></font>

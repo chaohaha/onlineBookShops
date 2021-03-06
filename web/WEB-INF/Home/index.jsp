@@ -60,7 +60,7 @@
             <div class="thumbnail" >
                 <a href="BookInfo?book_id=${l.book_id}">
 
-                    <img style="width: 100%; height: 200px; display: block;" alt="100%x200" src="data:image/${l.book_image}" data-src="holder.js/100%x200" data-holder-rendered="true">
+                    <img style="width: 100%; height: 200px; display: block;" alt="100%x200" src="${pageContext.request.contextPath}/upload/${l.book_image}" data-holder-rendered="true">
                 </a>
                 <div class="caption center">
                     <h3>${l.book_name}</h3>

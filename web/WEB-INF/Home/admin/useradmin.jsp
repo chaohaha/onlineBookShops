@@ -41,7 +41,7 @@
     <div class="jumbotron" style=" text-align: center;">
         <div class="row thumbnail center">
             <div class="col-sm-12">
-                <h3 class="text-center" style="margin-bottom: 30px">书籍管理</h3>
+                <h3 class="text-center" style="margin-bottom: 30px">用户管理</h3>
             </div>
             <div class="col-sm-12" style="margin-bottom: 10px">
                 <form action="${pageContext.request.contextPath}/userAdmin" method="post">

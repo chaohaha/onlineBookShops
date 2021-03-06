@@ -53,7 +53,7 @@
 <!--content-->
 <div class="row thumbnail">
     <div class="col-sm-4">
-            <img style="width: 100%; height: 500px; display: block;" src=""  data-holder-rendered="true">
+            <img style="width: 100%; height: 500px; display: block;" src="${pageContext.request.contextPath}/upload/${book.book_image}"  data-holder-rendered="true">
             <div class="caption center">
                 <h3>书名：${book.book_name}</h3>
 
