@@ -35,4 +35,5 @@ public interface OrderService {
 
     int orderUpdate(Orders orders);
 
+    int orderUpdateByID(String orderId);
 }
