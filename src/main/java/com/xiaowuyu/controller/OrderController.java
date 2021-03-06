@@ -89,7 +89,7 @@ public class OrderController {
             System.out.println("书"+books);
             /*添加订单表*/
             Orders orders = new Orders(s,users.getUser_id(),dateFormat.format(date.getTime()),
-                    null,jia,0,"",users,null);
+                    null,jia,4,"",users,null);
             System.out.println("用户"+users);
             int i = orderService.addOrder(orders);
             System.out.println("订单表"+i);
@@ -147,6 +147,7 @@ public class OrderController {
     public String toUpdateOrder(String orderId) {
         System.out.println(orderId);
         int i = orderService.deleteOrderByOrder_id(orderId);
+        int i1 = orderItemService.deleteorderItemByOrder_id(orderId);
         System.out.println(i);
         return "redirect:/allUserOrder";
     }

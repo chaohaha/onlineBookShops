@@ -48,4 +48,9 @@ public interface BookMapper {
     Books bookAllByBID(int book_id);
 
     int bookUpdate(Books books);
+
+    /*修改书销量*/
+    @Update("update books set book_sales = book_sales + #{book_sales} where book_id = ${book_id}")
+    int updateBookSales(Books books);
+
 }

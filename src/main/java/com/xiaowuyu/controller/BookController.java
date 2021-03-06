@@ -51,12 +51,17 @@ public class BookController {
 
     /*模糊搜索*/
     @RequestMapping("/BookS")
-    public String BookNmae(Model model,String BookName) {
+    public String BookNmae(Model model,
+                           @RequestParam(name = "page",required = true,defaultValue = "1") Integer page,
+                           @RequestParam(name = "size",required = true,defaultValue = "8") Integer pageSize,
+                           String BookName) {
         System.out.println("我是："+BookName);
-        List<Books> list = bookService.queryBookNmae(BookName);
-        model.addAttribute("list",list);
         List<Category> categoriesList = categoryService.queryAllCartgory();
         model.addAttribute("clist", categoriesList);
+        PageHelper.startPage(page,pageSize);
+        List<Books> list = bookService.queryBookNmae(BookName);
+        PageInfo<Book> lists = new PageInfo(list);
+        model.addAttribute("pageInfo",lists);
         return "index";
     }
 

@@ -4,7 +4,11 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.xiaowuyu.pojo.AlipayConfig;
+import com.xiaowuyu.pojo.Books;
+import com.xiaowuyu.pojo.OrderItems;
 import com.xiaowuyu.pojo.Orders;
+import com.xiaowuyu.service.BookService;
+import com.xiaowuyu.service.OrderItemService;
 import com.xiaowuyu.service.OrderService;
 import jdk.nashorn.internal.ir.RuntimeNode;
 import org.junit.runner.Result;
@@ -27,6 +31,14 @@ public class PaymentController {
     @Autowired
     @Qualifier("OrderServiceImpl")
     private OrderService orderService;
+
+    @Autowired
+    @Qualifier("OrderItemServiceImpl")
+    private OrderItemService orderItemService;
+
+    @Autowired
+    @Qualifier("BookServiceImpl")
+    private BookService bookService;
 
     @RequestMapping("/toPay")//设置请求的路径
     @ResponseBody//记得加上,否则无法正常调用
@@ -78,10 +90,16 @@ public class PaymentController {
             orders.setOrder_id(s);
             orders.setOrder_status(0);
             int i = orderService.updateOrderSend(orders);
+            OrderItems orderItems = orderItemService.orderItemById(s);
+            Books books = new Books();
+            books.setBook_id(orderItems.getBook_id());
+            books.setBook_sales(orderItems.getOrderItem_num());
+            int i1 = bookService.updateBookSales(books);
+
             System.out.println("订单更新"+i);
             System.out.println("我转成了list"+s);
         }
-
+        session.removeAttribute("ordid");
         return "redirect:allUserOrder";
     }
 
@@ -89,6 +107,7 @@ public class PaymentController {
     @RequestMapping("/toPay1")//设置请求的路径
     @ResponseBody//记得加上,否则无法正常调用
     public String toPay1(String sumMoney,String id,HttpSession session) throws Exception{
+        session.removeAttribute("ordid");
         ArrayList<String> strings = new ArrayList<String>();
         strings.add(id);
         session.setAttribute("ordid",strings);
