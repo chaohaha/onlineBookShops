@@ -223,7 +223,7 @@ public class BookController {
     public Results bookAdd(@RequestParam("book_image")MultipartFile uploadFile, String book_name, String book_author,
                         String category_id, double book_price, int book_counts, String book_details,
                         HttpServletRequest request){
-        String path = request.getSession().getServletContext().getRealPath("upload\\book");//获取路径
+        String path = request.getSession().getServletContext().getRealPath("upload");//获取路径
         String fileName = uploadFile.getOriginalFilename();//获取上传文件的名字
         Date d = new Date();
         long time=d.getTime();
@@ -256,7 +256,7 @@ public class BookController {
     @RequestMapping("bookDelete")
     @ResponseBody
     public Results bookDelete(int book_id,HttpServletRequest request){
-        String path = request.getSession().getServletContext().getRealPath("upload\\book");//获取路径
+        String path = request.getSession().getServletContext().getRealPath("upload");//获取路径
         String fileName = bookService.bookAllById(book_id);//获取数据库文件的名字
         File targetFile = new File(path,fileName);
         if (targetFile.exists()){
@@ -287,13 +287,16 @@ public class BookController {
     public Results bookUpdate(@RequestParam("book_image")MultipartFile uploadFile, String book_name, String book_author,
                               String category_id, double book_price, int book_counts, String book_details,int book_id,
                               int book_type,HttpServletRequest request){
-        String path = request.getSession().getServletContext().getRealPath("upload\\book");//获取路径
+        String path = request.getSession().getServletContext().getRealPath("upload");//获取路径
         String fileName1 = bookService.bookAllById(book_id);//获取数据库文件的名字
         System.out.println(fileName1);
         if (fileName1!=null){
             File targetFile1 = new File(path,fileName1);
             if (targetFile1.exists()){
                 targetFile1.delete();//判断文件存不存，存在就删除
+            }
+            if(!targetFile1.exists()){
+                targetFile1.mkdirs();//是否存在目录，不存在就创建
             }
             if(!targetFile1.exists()){
                 targetFile1.mkdirs();//是否存在目录，不存在就创建
