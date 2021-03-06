@@ -72,6 +72,9 @@
                 <c:if test="${l.order_status == 0}">
                     <div class="col-sm-2 line-center">未发货</div>
                 </c:if>
+                <c:if test="${l.order_status == 4}">
+                    <div class="col-sm-2 line-center">未付款</div>
+                </c:if>
                 <c:if test="${l.order_status == 1}">
                     <div class="col-sm-2 line-center">已发货</div>
                 </c:if>
@@ -95,8 +98,15 @@
                     <c:if test="${l.order_status == 0 }" >
                         <button class="btn btn-success" onclick="deleteOrder(p=0)">提醒发货</button>
                     </c:if>
+                    <c:if test="${l.order_status == 4 }" >
+                        <input type="hidden" value="${l.order_totalPrice}" id="orderTotalPrice">
+                        <a href="${pageContext.request.contextPath}/toPay1?sumMoney=${l.order_totalPrice}&id=${l.order_id}" onclick="return confirm('确定支付?')">
+                            <button class="btn btn-success" >立即支付</button>
+                        </a>
+                    </c:if>
                     <c:if test="${l.order_status == 1 }" >
                         <input type="hidden" value="${l.order_id}" id="orderIds">
+
                         <button class="btn btn-success" onclick="deleteOrder(p=2)">确认收货</button>
                     </c:if>
                     <c:if test="${l.order_status == 2}">
@@ -134,9 +144,16 @@
                 },error:function () {
                     alert("凑了")
                 }
-
             })
         }
+        /*if (p==4){
+            var orderId = $('#orderIds').val()
+            var orderTotalPrice  = $('#orderTotalPrice').val();
+            alert(orderTotalPrice)
+            location.href="${pageContext.request.contextPath}/toPay1?sumMoney="+orderTotalPrice+"&id="+orderId;
+
+        }*/
+
 
 
     }
