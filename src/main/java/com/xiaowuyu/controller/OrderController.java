@@ -64,7 +64,9 @@ public class OrderController {
     @Transactional
     @RequestMapping("/booksBuy")
     @ResponseBody
-    public Results deleteProduct(@RequestParam("ids[]") String[] ids){
+    public Results deleteProduct(@RequestParam("ids[]") String[] ids,HttpSession session){
+        ArrayList<String> strings = new ArrayList<String>();
+        Double sumMoney=0.0;
         for (String id : ids) {
             Date date = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -78,6 +80,7 @@ public class OrderController {
             int user_id = cart.getUser_id();
             UUID uuid = UUID.randomUUID();
             String s = uuid.toString();
+            strings.add(s);
             System.out.println(uuid);
             System.out.println("购物车"+cart);
             Double jia=cart.getCart_price()*cart.getCart_counts();
@@ -100,23 +103,16 @@ public class OrderController {
             int i2 = cartService.deleteByCart_id(cart.getCart_id());
             System.out.println("购物车删除"+i2);
             if (cart.getCart_counts()==0){
+                strings=null;
                 int k=1/0;
             }
             int i3 = bookService.upBook(book_id, cart.getCart_counts());
             System.out.println("减库存"+i3+",cart.getCart_counts()");
-
-
-
+            sumMoney+=jia;
         }
 
-        /*Arrays.stream(ids).forEach((id)-> System.out.println(id));
-        for (String id : ids) {
-            System.out.println(id);
-            Integer integer = iProductService.deleteProduct(id);
-            System.out.println(integer);
-        }
-        System.out.println(ids);*/
-        return Results.setSuccess("","提交成功！");
+        session.setAttribute("ordid",strings);
+        return Results.setSuccess(sumMoney,"跳转支付页面！");
         /*return "redirect:/allCart";*/
     }
 

@@ -10,6 +10,13 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-easysdk -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.7.4.ALL</version>
+        </dependency>
+
 
         <!--Junit-->
         <dependency>

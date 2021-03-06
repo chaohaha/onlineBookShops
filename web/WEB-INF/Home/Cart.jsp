@@ -52,7 +52,9 @@
 
                         <%--<img src="../Flat-UI-master/dist/img/icons/png/Book.png" style="height: 100%;" alt=""/>--%>
                     </div>
-                    <div class="col-sm-3 line-center"><input type="checkbox" name="${l.cart_id}" class="tesi">  ${l.book_name}</div>
+                    <div class="col-sm-3 line-center">
+                        <input type="checkbox" name="${l.cart_id}" class="tesi" value="${l.cart_counts*l.cart_price}"> ${l.book_name}
+                    </div>
                     <div class="col-sm-1 line-center">${l.cart_price}￥</div>
                     <div class="col-sm-4 line-center">
 
@@ -107,37 +109,41 @@
         $(this).data("clicks", !clicks);
     });
     var ids=[];
+    var sumMoney=[];
     function booksBuy(){
-        var length=0;
-        var inputs = $("input:checked");
-        for (var i = 0; i <inputs.length; i++) {
-            if ("selall"!=inputs[i].id){
-                ids.push(inputs[i].name);
-                length++;
-            }
-        }
-        if (length>0){
-            $.ajax({
-                type:"post",
-                url:"${pageContext.request.contextPath}/booksBuy",
-                data:{"ids":ids},
-                success:function (data) {
-                    console.log(data)
-                    if (data.code==200){
-                        alert(data.msg)
-                        location.reload();
-                    }
-                    if(data.code==500){
-                        alert(data.msg)
-                        location.href="${pageContext.request.contextPath}/toLogin";
-                    }
-                },error:function () {
-                    alert("您所选的某件商品库存不足！")
+        var b = confirm('确定支付订单?');
+        if (b==true){
+            var length=0;
+            var inputs = $("input:checked");
+            for (var i = 0; i <inputs.length; i++) {
+                if ("selall"!=inputs[i].id){
+                    ids.push(inputs[i].name);
+                    sumMoney.push(inputs[i].value);
+                    length++;
                 }
-            })
-            ids=[];
-        }else {
-            alert("至少选择一个商品！")
+            }
+            if (length>0){
+                $.ajax({
+                    type:"post",
+                    url:"${pageContext.request.contextPath}/booksBuy", /*booksBuy toPay*/
+                    data:{/*"id":"33","sumMoney":"555",*/"ids":ids},
+                    success:function (data) {
+                        if (data.code==200){
+                            location.href="${pageContext.request.contextPath}/toPay?sumMoney="+data.data;
+                        }
+                        if(data.code==500){
+                            alert(data.msg)
+                            location.href="${pageContext.request.contextPath}/toLogin";
+                        }
+                    },error:function () {
+                        alert("您所选的某件商品库存不足！")
+                    }
+                })
+                ids=[];
+                sumMoney=0;
+            }else {
+                alert("至少选择一个商品！")
+            }
         }
     }
 </script>
