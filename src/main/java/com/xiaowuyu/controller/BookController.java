@@ -289,8 +289,8 @@ public class BookController {
                               int book_type,HttpServletRequest request){
         String path = request.getSession().getServletContext().getRealPath("upload");//获取路径
         String fileName1 = bookService.bookAllById(book_id);//获取数据库文件的名字
-        System.out.println(fileName1);
-        if (fileName1!=null){
+        System.out.println("有无编号："+fileName1);
+        if (fileName1.length()>0){
             File targetFile1 = new File(path,fileName1);
             if (targetFile1.exists()){
                 targetFile1.delete();//判断文件存不存，存在就删除
@@ -316,6 +316,7 @@ public class BookController {
             fileName2=time+ddname;
             File targetFile2 = new File(path,fileName2);
             fileName1=fileName2;
+            System.out.println("空图片的编号"+fileName1);
             if(!targetFile2.exists()){
                 targetFile2.mkdirs();//是否存在目录，不存在就创建
             }
