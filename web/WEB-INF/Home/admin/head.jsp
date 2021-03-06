@@ -27,7 +27,7 @@
                 <li><a href="${pageContext.request.contextPath}/userAdmin">管理用户</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right hidden-sm">
-                <li><a href="${pageContext.request.contextPath}/logout">注销</a></li>
+                <li><a href="${pageContext.request.contextPath}/adminLogout">注销</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

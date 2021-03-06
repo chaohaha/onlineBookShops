@@ -34,13 +34,14 @@
 </head>
 <body>
 <jsp:include page="head.jsp"></jsp:include>
-<!--content-->
+<!--content--><%--C:\Users\Admin\Desktop\onlineBookShop\onlineBookShop\web\images\lbt.jpg--%>
 
 <div class="container">
-    <div class="jumbotron">
-        <h1>图书商城</h1>
+    <div class="jumbotron" style="height: 300px; background-image:url('${pageContext.request.contextPath}/images/lbt.jpg')">
+        <h1></h1>
+     <%--   <img src="${pageContext.request.contextPath}/images/1.jpg">--%>
         <p>...</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a></p>
+       <%-- <p><a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a></p>--%>
     </div>
     <ul class="nav nav-tabs" id="myTabs">
         <c:forEach items="${clist}" var="c">
@@ -98,9 +99,6 @@
 
 </div>
 
-<!--footer-->
-<div class="navbar navbar-default navbar-static-bottom">
-版权声明区
-</div>
+
 </body>
 </html>

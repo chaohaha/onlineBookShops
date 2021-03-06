@@ -144,9 +144,6 @@
     </div>
 </div>
 
-<!--footer-->
-<div class="navbar navbar-default navbar-static-bottom">
-    版权声明区
-</div>
+
 </body>
 </html>

@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import com.xiaowuyu.pojo.Admin;
 import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.UserService;
 import com.xiaowuyu.utils.CodeConfig;
+import com.xiaowuyu.utils.MD5;
 import com.xiaowuyu.utils.Results;
 import com.zhenzi.sms.ZhenziSmsClient;
 import org.apache.commons.io.FileUtils;
@@ -28,6 +30,8 @@ import javax.xml.transform.Result;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -55,10 +59,44 @@ public class UserController {
         return "Login";
     }
 
+    @RequestMapping("adminLogin")
+    @ResponseBody
+    public Results adminLogin(String user_name,String user_pwd, HttpSession session){
+
+        System.out.println(user_name);
+        System.out.println(user_pwd);
+        Admin admin = new Admin();
+       /* admin.setAdmin_name();*/
+        admin.setAdmin_name(user_name);
+        admin.setAdmin_pwd(user_pwd);
+        System.out.println(admin);
+
+     /*   String pwd = MD5.stringToMD5(admin.getAdmin_pwd());
+        admin.setAdmin_pwd(pwd);*/
+        Admin admins = userService.adminLogin(admin);
+
+        System.out.println(admins);
+ /*     if (user != null){
+            model.addAttribute("user",user);
+            session.setAttribute("userName",user.getUser_name());
+        }*/
+        if(admins!=null){
+            session.setAttribute("role",1);
+            return Results.returnState(200,"管理员","登陆成功",1);
+        }
+        return Results.setError("user","账号或密码错误");
+
+    }
+
+
+
     @RequestMapping("/login")
     @ResponseBody
     public Results login(Model model, Users users, HttpSession session){
-        System.out.println(users);
+
+        String pwd = MD5.stringToMD5(users.getUser_pwd());
+        users.setUser_pwd(pwd);
+
         Users user = userService.login(users);
 
         if (user!=null&&user.getUser_status()==0){
@@ -71,7 +109,6 @@ public class UserController {
         if (user != null){
             model.addAttribute("user",user);
             session.setAttribute("userName",user.getUser_name());
-
         }
 
         if(user!=null&&user.getUser_limit()==0){
@@ -89,13 +126,21 @@ public class UserController {
         return Results.setError("user","账号或密码错误");
 
     }
-    // 注销
+    // 注销adminLogout
     @RequestMapping("/logout")
     public String logout(HttpSession httpSession){
+
         httpSession.removeAttribute("user");
         return "Login";
     }
 
+    @RequestMapping("/adminLogout")
+    public String adminLogout(HttpSession httpSession){
+        Integer role =(Integer) httpSession.getAttribute("role");
+        System.out.println(role);
+        httpSession.removeAttribute("role");
+        return "Login";
+    }
     /*跳转注册页面*/
     @RequestMapping("/toRegister")
     public String toRegister(){
@@ -196,7 +241,8 @@ public class UserController {
         int verifyCodes2 = Integer.parseInt(verifyCode);
         System.out.println(verifyCodes2);
         if (verifyCodes==verifyCodes2){
-            Integer integer = userService.retrievePassword(mobile,password);
+            String pwd = MD5.stringToMD5(password);
+            Integer integer = userService.retrievePassword(mobile,pwd);
 
             if (integer!=null){
                 System.out.println("找回成功");
@@ -259,12 +305,17 @@ public class UserController {
                                @RequestParam("user_email")String user_email,
                                @RequestParam("user_address")String user_address,
                                @RequestParam("user_image") MultipartFile uploadFile,
-                               HttpServletRequest request){
+                               HttpServletRequest request) throws NoSuchAlgorithmException {
         String path = request.getSession().getServletContext().getRealPath("upload");//获取路径
         String fileName = uploadFile.getOriginalFilename();//获取上传文件的名字
         File targetFile = new File(path,fileName);
 
+        // 密码加密
+        if (password!=null){
+            password = MD5.stringToMD5(password);
+        }
 
+        System.out.println(password);
         System.out.println(fileName);
         if(!targetFile.exists()){
             targetFile.mkdirs();//是否存在目录，不存在就创建
@@ -279,6 +330,9 @@ public class UserController {
         String verifyCodes =(String) request.getSession().getAttribute("verifyCodes");
         int verifyCode1 = Integer.parseInt(verifyCodes);
         int verifyCode2 = Integer.parseInt(verifyCode);
+
+
+
         // 验证码正确则添加到数据库
         if (verifyCode1==verifyCode2){
         int i = userService.register(users);
@@ -381,7 +435,10 @@ public class UserController {
     @ResponseBody
     public Results changePassword(String user_name ,String user_pwd,String newuser_pwd ){
 
-       Integer i = userService.changePassword(user_name,user_pwd,newuser_pwd);
+        String pwd = MD5.stringToMD5(user_pwd);
+        String newPwd = MD5.stringToMD5(newuser_pwd);
+
+        Integer i = userService.changePassword(user_name,pwd,newPwd);
         if (i>0){
             return Results.setSuccess("","修改成功");
         }

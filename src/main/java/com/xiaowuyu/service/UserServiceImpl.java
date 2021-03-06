@@ -1,6 +1,7 @@
 package com.xiaowuyu.service;
 
 import com.xiaowuyu.dao.UserMapper;
+import com.xiaowuyu.pojo.Admin;
 import com.xiaowuyu.pojo.Users;
 
 import java.util.List;
@@ -42,6 +43,10 @@ public class UserServiceImpl implements UserService{
         return i;
     }
 
+    public Admin adminLogin(Admin admin) {
+        return userMapper.adminLogin(admin);
+    }
+
     public Integer retrievePassword(String mobile, String password) {
 
         return userMapper.retrievePassword(mobile,password);
@@ -53,7 +58,6 @@ public class UserServiceImpl implements UserService{
 
     public Integer updateUserLimit(Integer user_id, Integer limit) {
        Integer i = userMapper.updateUserLimit(user_id,limit);
-
 
         return i  ;
     }

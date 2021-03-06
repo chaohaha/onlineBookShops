@@ -83,10 +83,18 @@
             </div>
             <div class="col-sm-12" style="margin-bottom: 10px">
                 <form action="${pageContext.request.contextPath}/orderAll" method="post">
-                    <div class="col-lg-6">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="" value="${orderSel}" name="orderSel" placeholder="订单编号、用户编号、订单状态其中一个来查询">
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-sm-1">
+                        <button class="btn btn-success">查询</button>
+                    </div>
+                </form>
+                <form action="${pageContext.request.contextPath}/orderAll" method="post" style="margin-top: -30px">
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control"  name="order_create_time" placeholder="时间查询">
+                    </div>
+                    <div class="col-sm-1">
                         <button class="btn btn-success">查询</button>
                     </div>
                 </form>
@@ -132,23 +140,63 @@
                     </div>
                 </div>
             </c:forEach>
-            <nav class="center">
-                <ul class="pagination  pagination-lg">
-                    <li>
-                        <a href="${pageContext.request.contextPath}/orderAll?orderSel=${orderSel}" aria-label="Previous">
-                            <span aria-hidden="true">首页</span>
-                        </a>
-                    </li>
-                    <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
-                        <li><a href="${pageContext.request.contextPath}/orderAll?page=${pageNum}&size=${pageInfo.pageSize}&orderSel=${orderSel}">${pageNum}</a></li>
-                    </c:forEach>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/orderAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}&orderSel=${orderSel}" aria-label="Next">
-                            <span aria-hidden="true">末页</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <c:if test="${orderSel != null}">
+                <nav class="center">
+                    <ul class="pagination  pagination-lg">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/orderAll?&orderSel=${orderSel}" aria-label="Previous">
+                                <span aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+                        <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+                            <li><a href="${pageContext.request.contextPath}/orderAll?page=${pageNum}&size=${pageInfo.pageSize}&orderSel=${orderSel}">${pageNum}</a></li>
+                        </c:forEach>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/orderAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}&orderSel=${orderSel}" aria-label="Next">
+                                <span aria-hidden="true">末页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </c:if>
+            <c:if test="${order_create_time != null}">
+                <nav class="center">
+                    <ul class="pagination  pagination-lg">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/orderAll?&order_create_time=${order_create_time}" aria-label="Previous">
+                                <span aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+                        <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+                            <li><a href="${pageContext.request.contextPath}/orderAll?page=${pageNum}&size=${pageInfo.pageSize}&order_create_time=${order_create_time}">${pageNum}</a></li>
+                        </c:forEach>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/orderAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}&order_create_time=${order_create_time}" aria-label="Next">
+                                <span aria-hidden="true">末页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </c:if>
+            <c:if test="${orderSel == null and order_create_time == null}">
+                <nav class="center">
+                    <ul class="pagination  pagination-lg">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/orderAll" aria-label="Previous">
+                                <span aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+                        <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+                            <li><a href="${pageContext.request.contextPath}/orderAll?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+                        </c:forEach>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/orderAll?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">
+                                <span aria-hidden="true">末页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </c:if>
         </div>
     </div>
 </div>

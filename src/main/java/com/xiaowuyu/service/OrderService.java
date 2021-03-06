@@ -36,4 +36,7 @@ public interface OrderService {
     int orderUpdate(Orders orders);
 
     int orderUpdateByID(String orderId);
+
+    List<Orders> orderByDate(String order_create_time);
+
 }

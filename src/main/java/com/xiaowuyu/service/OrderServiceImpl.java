@@ -66,4 +66,8 @@ public class OrderServiceImpl implements OrderService{
     public int orderUpdateByID(String orderId) {
         return orderMapper.orderUpdateByID(orderId);
     }
+
+    public List<Orders> orderByDate(String order_create_time) {
+        return orderMapper.orderByDate(order_create_time);
+    }
 }

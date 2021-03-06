@@ -85,15 +85,24 @@
                     <div class="col-sm-offset-3 col-sm-9">
                         <div class="checkbox">
                             <label>
+                                &nbsp&nbsp&nbsp  &nbsp&nbsp&nbsp  &nbsp &nbsp &nbsp&nbsp&nbsp
+                                <input type="checkbox" id="admin" style="margin-top: 10px" name="" >管理员
+                                &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp  &nbsp&nbsp&nbsp
                                 <a href="${pageContext.request.contextPath}/toRetrieve">忘记密码？</a>
+
                             </label>
                         </div>
                     </div>
                 </div>
 
 
+
+
+
+
+
                     <div class="col-sm-offset-4 col-sm-4">
-                        <button type="button" id="check-btn" style="height: 50px" class="btn btn-success btn-block verify-btn" onclick="submitForm()">登录</button>
+                        <button type="button" id="check-btn" style="height: 50px" class="btn btn-success btn-block verify-btn">登录</button>
                     </div>
                 </div>
             </form>
@@ -114,6 +123,7 @@
 
 
     <script type="text/javascript">
+
         var code;
 
         $('#mpanel2').codeVerify({
@@ -126,41 +136,61 @@
             ready : function() {
             },
             success : function() {
-                $.ajax({
-                    type:"post",
-                    url:"${pageContext.request.contextPath}/login",
-                    data:$('#loginForm').serialize(),
-                    datatype:"json",
-                    success:function (data) {
-                        console.log(data)
-                        if (data.code==200){
-
-                            if (data.status==1){
-                                location.href="${pageContext.request.contextPath}/admin/index";
-                            }else {
-                                location.href="${pageContext.request.contextPath}/index.jsp";
+            /*    $("#check-btn").click(function(){*/
+                    var flage = $("#admin").is(":checked");
+                    if(flage){
+                        alert(2)
+                        $.ajax({
+                            type:"post",
+                            url:"${pageContext.request.contextPath}/adminLogin",
+                            data:$('#loginForm').serialize(),
+                            datatype:"json",
+                            success:function (data) {
+                                console.log(data)
+                                if (data.code==200){
+                                      location.href="${pageContext.request.contextPath}/admin/index";
+                                }
+                                if(data.code==500){
+                                    alert(data.msg)
+                                    location.reload();
+                                }
+                            },
+                            error:function (data) {
+                                alert("系统错误")
                             }
+                        })
+                    }else{
+                        $.ajax({
+                            type:"post",
+                            url:"${pageContext.request.contextPath}/login",
+                            data:$('#loginForm').serialize(),
+                            datatype:"json",
+                            success:function (data) {
+                                console.log(data)
+                                if (data.code==200){
+                                      //  location.href="${pageContext.request.contextPath}/admin/index";
+                                    location.href="${pageContext.request.contextPath}/index.jsp";
+                                }
+                                if(data.code==500){
+                                    alert(data.msg)
+                                    location.reload();
+                                }
 
-
-                        }
-                        if(data.code==500){
-                            alert(data.msg)
-                            location.reload();
-                        }
-                       if ( $("#roleInput").val==0){
-
-                       }
-
-                    },
-                    error:function (data) {
-                        alert("系统错误")
+                            },
+                            error:function (data) {
+                                alert("系统错误")
+                            }
+                        })
                     }
-                })
+               /* })*/
             },
             error : function() {
-               alert("验证码错误")
+                alert("验证码错误")
             }
-        });
+
+                })
+
+
 
 
 
