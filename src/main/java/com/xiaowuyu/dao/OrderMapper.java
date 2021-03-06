@@ -42,4 +42,7 @@ public interface OrderMapper {
     Orders orderByIdAll(String order_id);
 
     int orderUpdate(Orders orders);
+
+    int orderUpdateByID(String order_id);
+
 }

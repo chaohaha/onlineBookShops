@@ -34,8 +34,8 @@
 
     <!--新增一个Order-->
     <insert id="addOrder" parameterType="Orders">
-        insert into graduation.orders(order_id,user_id,order_create_time,order_totalPrice,order_status,order_remark)
-        values (#{order_id},#{user_id},#{order_create_time}, #{order_totalPrice},#{order_status},#{order_remark})
+        insert into graduation.orders(order_id,user_id,order_complete_time,order_totalPrice,order_status,order_remark)
+        values (#{order_id},#{user_id},null, #{order_totalPrice},#{order_status},#{order_remark})
     </insert>
 
     <!--更新Order信息-->
@@ -97,4 +97,8 @@
         where order_id=#{order_id}
     </update>
 
+    <update id="orderUpdateByID" parameterType="Orders">
+        update orders set order_complete_time=default
+        where order_id=#{order_id}
+    </update>
 </mapper>

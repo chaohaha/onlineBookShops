@@ -90,6 +90,8 @@ public class OrderController {
             /*添加订单表*/
             Orders orders = new Orders(s,users.getUser_id(),dateFormat.format(date.getTime()),
                     null,jia,4,"",users,null);
+           /* Orders orders = new Orders(s,users.getUser_id(),null,
+                    null,jia,0,"",users,null);*/
             System.out.println("用户"+users);
             int i = orderService.addOrder(orders);
             System.out.println("订单表"+i);
@@ -168,6 +170,7 @@ public class OrderController {
         orders.setOrder_id(orderId);
         orders.setOrder_status(2);
         int i = orderService.updateOrderSend(orders);
+        orderService.orderUpdateByID(orderId);
         System.out.println(i);
         return Results.setSuccess("","收货成功！");
     }
@@ -289,13 +292,18 @@ public class OrderController {
         ModelAndView mv = new ModelAndView();
         int i=orderService.orderUpdate(orders);
         if (i>0){
-            PageHelper.startPage(page,pageSize);
-            Orders orders1 = orderService.orderByIdAll(orders.getOrder_id());
-            ArrayList<Orders> ordersList = new ArrayList<Orders>();
-            ordersList.add(orders1);
-            PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
-            mv.addObject("pageInfo",pageInfo);
-            mv.setViewName("admin/orderadmin");
+            if (orders.getOrder_status()==2){
+                 i = orderService.orderUpdateByID(orders.getOrder_id());
+            }
+            if (i>0){
+                PageHelper.startPage(page,pageSize);
+                Orders orders1 = orderService.orderByIdAll(orders.getOrder_id());
+                ArrayList<Orders> ordersList = new ArrayList<Orders>();
+                ordersList.add(orders1);
+                PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList,pageSize);
+                mv.addObject("pageInfo",pageInfo);
+                mv.setViewName("admin/orderadmin");
+            }
         }
         return mv;
     }

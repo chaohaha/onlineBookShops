@@ -92,23 +92,22 @@
                 </form>
             </div>
             <div class="col-sm-12 thumbnail">
-                <div class="col-sm-3 line-center" style="width: 125px;">订单编号</div>
-                <div class="col-sm-2 line-center" style="width: 125px;">用户编号</div>
-                <div class="col-sm-2 line-center" style="width: 125px;">生成时间</div>
-                <div class="col-sm-2 line-center" style="width: 125px;">收货时间</div>
-                <div class="col-sm-2 line-center" style="width: 125px;">总价</div>
+                <div class="col-sm-3 line-center" style="width: 225px;">订单编号</div>
+                <div class="col-sm-2 line-center" style="width: 110px;">用户编号</div>
+                <div class="col-sm-2 line-center" style="width: 135px;">生成时间</div>
+                <div class="col-sm-2 line-center" style="width: 150px;">收货时间</div>
+                <div class="col-sm-2 line-center" style="width: 100px;">总价</div>
                 <div class="col-sm-2 line-center" style="width: 125px;">状态</div>
-                <div class="col-sm-2 line-center" style="width: 125px;">备注</div>
                 <div class="col-sm-3 line-center" style="width: 125px;">操作</div>
             </div>
             <c:forEach items="${pageInfo.list}" var="o" >
                 <div class="list-group">
                     <div class="col-sm-12  list-group-item" style="">
-                        <div class="col-sm-3 line-center order_id" onclick="myClick(1)" style="width: 125px;margin-left: -10px;">${o.order_id}</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">${o.user_id}</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">${o.order_create_time}</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">${o.order_complete_time}</div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">${o.order_totalPrice}</div>
+                        <div class="col-sm-3 line-center order_id" onclick="myClick(1)" style="width: 225px;margin-left: -10px;">${o.order_id}</div>
+                        <div class="col-sm-2 line-center" style="width: 110px;">${o.user_id}</div>
+                        <div class="col-sm-2 line-center" style="width: 135px;">${o.order_create_time}</div>
+                        <div class="col-sm-2 line-center" style="width: 150px;">${o.order_complete_time}</div>
+                        <div class="col-sm-2 line-center" style="width: 100px;">${o.order_totalPrice}</div>
                         <div class="col-sm-2 line-center order_status" style="width: 125px;">
                             <c:if test="${o.order_status==0}">
                                 未发货
@@ -123,7 +122,6 @@
                                 未付款
                             </c:if>
                         </div>
-                        <div class="col-sm-2 line-center" style="width: 125px;">${o.order_remark}</div>
                         <div class="col-sm-3 line-center" style="width: 140px;">
                             <a href="${pageContext.request.contextPath}/orderByIdAll?order_id=${o.order_id}">
                                 <button class="btn btn-danger" style="padding: 5px 5px;">详情</button>
