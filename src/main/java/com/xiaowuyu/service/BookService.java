@@ -47,4 +47,6 @@ public interface BookService {
     Books bookAllByBID(int book_id);
 
     int bookUpdate(Books books);
+
+    int updateBookSales(Books books);
 }

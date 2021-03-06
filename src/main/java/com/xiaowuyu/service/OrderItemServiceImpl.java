@@ -18,5 +18,15 @@ public class OrderItemServiceImpl implements OrderItemService{
 
     public List<OrderItems> queryOrderByBook_name(String book_name){return orderItemMapper.queryOrderByBook_name(book_name);}
 
-    public List<OrderItems> queryAllOrderItem(int order_id){return orderItemMapper.queryAllOrderItem(order_id);};
+    public List<OrderItems> queryAllOrderItem(int order_id){return orderItemMapper.queryAllOrderItem(order_id);}
+
+    public OrderItems orderItemById(String s) {
+        return orderItemMapper.orderItemById(s);
+    }
+
+    public int deleteorderItemByOrder_id(String orderId) {
+        return orderItemMapper.deleteorderItemByOrder_id(orderId);
+    }
+
+    ;
 }
