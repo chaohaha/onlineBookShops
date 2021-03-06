@@ -90,6 +90,9 @@
                     <c:if test="${orders.order_status==2}">
                         已确认收货
                     </c:if>
+                    <c:if test="${orders.order_status==4}">
+                        未付款
+                    </c:if>
                 </td>
                 </tr>
                 <tr>
