@@ -1,5 +1,6 @@
 package com.xiaowuyu.dao;
 
+import com.xiaowuyu.pojo.Admin;
 import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Users;
 import org.apache.ibatis.annotations.Param;
@@ -13,6 +14,7 @@ public interface UserMapper {
     int register(Users users);
 
     //用户登录
+
     Users login(Users users);
 
     //更新User信息
@@ -51,4 +53,10 @@ public interface UserMapper {
 
     @Update("update users set user_pwd = #{newuser_pwd} where user_name=#{user_name} and user_pwd=#{user_pwd}")
     Integer changePassword(@Param("user_name") String user_name,@Param("user_pwd") String user_pwd , @Param("newuser_pwd") String newuser_pwd);
+
+
+    // 管理员登录
+    @Select(" select * from graduation.admins" +
+            " where admin_name = #{admin_name} and admin_pwd = #{admin_pwd}")
+    Admin adminLogin(Admin admin);
 }

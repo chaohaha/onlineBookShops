@@ -1,5 +1,6 @@
 package com.xiaowuyu.service;
 
+import com.xiaowuyu.pojo.Admin;
 import com.xiaowuyu.pojo.Users;
 
 import java.util.List;
@@ -42,4 +43,5 @@ public interface UserService {
     Integer changePassword(String user_name,String user_pwd , String newuser_pwd);
 
 
+    Admin adminLogin(Admin admin);
 }

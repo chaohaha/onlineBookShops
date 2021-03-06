@@ -55,13 +55,13 @@
             </div>
             <div class="col-sm-12 thumbnail">
                 <div class="col-sm-3 line-center" style="width: 80px;">编号</div>
-                <div class="col-sm-2 line-center" style="width: 100px;">用户名</div>
+                <div class="col-sm-3 line-center" style="width: 130px;">用户名</div>
                 <div class="col-sm-4 line-center" style="width: 200px;">邮箱</div>
-                <div class="col-sm-3 line-center" style="width: 125px;">手机号码</div>
+                <div class="col-sm-4 line-center" style="width: 160px;">手机号码</div>
                 <div class="col-sm-2 line-center" style="width: 125px;">头像</div>
                 <div class="col-sm-2 line-center" style="width: 125px;">状态</div>
                 <div class="col-sm-2 line-center" style="width: 125px;">权限</div>
-                <div class="col-sm-2 line-center" style="width: 125px;">操作</div>
+              <%--  <div class="col-sm-2 line-center" style="width: 125px;">操作</div>--%>
 
             </div>
             <div class="list-group">
@@ -69,9 +69,9 @@
                 <div class="col-sm-12  list-group-item" style="">
 
                     <div class="col-sm-3 line-center" onclick="myClick(1)" style="width: 80px;margin-left: -10px;">${user.user_id}</div>
-                    <div class="col-sm-2 line-center" style="width: 100px;">${user.user_name}</div>
-                    <div class="col-sm-2 line-center" style="width: 200px;">${user.user_email}</div>
-                    <div class="col-sm-2 line-center" style="width: 125px;">${user.user_phone}</div>
+                    <div class="col-sm-3 line-center" style="width: 130px;">${user.user_name}</div>
+                    <div class="col-sm-4 line-center" style="width: 200px;">${user.user_email}</div>
+                    <div class="col-sm-4 line-center" style="width: 160px;">${user.user_phone}</div>
                     <div class="col-sm-2 line-center" style="width: 125px;"><img style="width: 50px;height: 45px;" src="${pageContext.request.contextPath}/upload/${user.user_image}"></div>
                     <c:if test="${user.user_status==1}">
                         <div class="col-sm-2 line-center" style="width: 125px;">
@@ -89,21 +89,21 @@
                             </div>
                         </c:if>
 
-                        <c:if test="${user.user_limit==1}">
+                       <%-- <c:if test="${user.user_limit==1}">
                             <div class="col-sm-2 line-center" style="width: 125px;">
                                 <button type="button" class="btn btn-success ">管理员</button>
                             </div>
-                        </c:if>
-                       <c:if test="${user.user_limit==0}">
+                        </c:if>--%>
+                    <%--   <c:if test="${user.user_limit==0}">
                            <div class="col-sm-2 line-center" style="width: 125px;">
                                <button type="button" onclick="empower(${user.user_id})" class="btn btn-success ">赋权</button>
                            </div>
-                       </c:if>
-                    <c:if test="${user.user_limit==1}">
+                       </c:if>--%>
+                   <%-- <c:if test="${user.user_limit==1}">
                         <div class="col-sm-2 line-center" style="width: 125px;">
                             <button type="button" style="background-color: red"  class="btn btn-success ">赋权</button>
                         </div>
-                    </c:if>
+                    </c:if>--%>
 
 
                 </div>

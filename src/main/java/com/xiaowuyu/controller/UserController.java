@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import com.xiaowuyu.pojo.Admin;
 import com.xiaowuyu.pojo.Books;
 import com.xiaowuyu.pojo.Users;
 import com.xiaowuyu.service.UserService;
@@ -58,10 +59,44 @@ public class UserController {
         return "Login";
     }
 
+    @RequestMapping("adminLogin")
+    @ResponseBody
+    public Results adminLogin(String user_name,String user_pwd, HttpSession session){
+
+        System.out.println(user_name);
+        System.out.println(user_pwd);
+        Admin admin = new Admin();
+       /* admin.setAdmin_name();*/
+        admin.setAdmin_name(user_name);
+        admin.setAdmin_pwd(user_pwd);
+        System.out.println(admin);
+
+     /*   String pwd = MD5.stringToMD5(admin.getAdmin_pwd());
+        admin.setAdmin_pwd(pwd);*/
+        Admin admins = userService.adminLogin(admin);
+
+        System.out.println(admins);
+ /*     if (user != null){
+            model.addAttribute("user",user);
+            session.setAttribute("userName",user.getUser_name());
+        }*/
+        if(admins!=null){
+            session.setAttribute("role",1);
+            return Results.returnState(200,"管理员","登陆成功",1);
+        }
+        return Results.setError("user","账号或密码错误");
+
+    }
+
+
+
     @RequestMapping("/login")
     @ResponseBody
     public Results login(Model model, Users users, HttpSession session){
-        System.out.println(users);
+
+        String pwd = MD5.stringToMD5(users.getUser_pwd());
+        users.setUser_pwd(pwd);
+
         Users user = userService.login(users);
 
         if (user!=null&&user.getUser_status()==0){
@@ -74,7 +109,6 @@ public class UserController {
         if (user != null){
             model.addAttribute("user",user);
             session.setAttribute("userName",user.getUser_name());
-
         }
 
         if(user!=null&&user.getUser_limit()==0){
@@ -92,13 +126,21 @@ public class UserController {
         return Results.setError("user","账号或密码错误");
 
     }
-    // 注销
+    // 注销adminLogout
     @RequestMapping("/logout")
     public String logout(HttpSession httpSession){
+
         httpSession.removeAttribute("user");
         return "Login";
     }
 
+    @RequestMapping("/adminLogout")
+    public String adminLogout(HttpSession httpSession){
+        Integer role =(Integer) httpSession.getAttribute("role");
+        System.out.println(role);
+        httpSession.removeAttribute("role");
+        return "Login";
+    }
     /*跳转注册页面*/
     @RequestMapping("/toRegister")
     public String toRegister(){
@@ -199,7 +241,8 @@ public class UserController {
         int verifyCodes2 = Integer.parseInt(verifyCode);
         System.out.println(verifyCodes2);
         if (verifyCodes==verifyCodes2){
-            Integer integer = userService.retrievePassword(mobile,password);
+            String pwd = MD5.stringToMD5(password);
+            Integer integer = userService.retrievePassword(mobile,pwd);
 
             if (integer!=null){
                 System.out.println("找回成功");
@@ -392,7 +435,10 @@ public class UserController {
     @ResponseBody
     public Results changePassword(String user_name ,String user_pwd,String newuser_pwd ){
 
-       Integer i = userService.changePassword(user_name,user_pwd,newuser_pwd);
+        String pwd = MD5.stringToMD5(user_pwd);
+        String newPwd = MD5.stringToMD5(newuser_pwd);
+
+        Integer i = userService.changePassword(user_name,pwd,newPwd);
         if (i>0){
             return Results.setSuccess("","修改成功");
         }
